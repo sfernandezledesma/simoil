@@ -1,24 +1,24 @@
 class Pozo(object):
 
     def __init__(self, presion_inicial):
-        self.presion_inicial = presion_inicial
-        self.presion = presion_inicial
-        self.esta_abierto = False
+        self._presion_inicial = presion_inicial
+        self._presion = presion_inicial
+        self._esta_abierto = False
 
     def abrir(self):
-        self.esta_abierto = True
+        self._esta_abierto = True
 
     def cerrar(self):
-        self.esta_abierto = False
+        self._esta_abierto = False
 
     def esta_abierto(self):
-        return self.esta_abierto
+        return self._esta_abierto
 
     def presion_inicial(self):
-        return self.presion_inicial
+        return self._presion_inicial
 
     def presion(self):
-        return self.presion
+        return self._presion
 
     def actualizar_presion(self, nueva_presion):
-        self.presion = nueva_presion
+        self._presion = nueva_presion
