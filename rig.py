@@ -1,8 +1,7 @@
 class Rig(object):
 
-    def __init__(self, poder_excavacion, costo_alquiler_diario, consumo_combustible_diario):
+    def __init__(self, poder_excavacion, consumo_combustible_diario):
         self._poder_excavacion = poder_excavacion
-        self._costo_alquiler_diario = costo_alquiler_diario
         self._consumo_combustible_diario = consumo_combustible_diario
         self._esta_excavando = False
 

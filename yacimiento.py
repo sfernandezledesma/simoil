@@ -25,8 +25,9 @@ class Yacimiento(object):
             self._volumen_agua += volumen_agua
             self._volumen_gas += volumen_gas
             self._global_reinyectado += total_reinyeccion
-            return True
-        return False
+            return total_reinyeccion
+        else:
+            return 0
 
     def extraer_producto(self, cantidad_de_producto):
         if cantidad_de_producto < self.volumen_total():
@@ -37,8 +38,9 @@ class Yacimiento(object):
             self._volumen_gas -= volumen_gas_extraido
             self._volumen_petroleo -= volumen_petroleo_extraido
             self._global_extraido += cantidad_de_producto
-            return True
-        return False
+            return cantidad_de_producto
+        else:
+            return 0
 
 
 
