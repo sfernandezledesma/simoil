@@ -16,7 +16,7 @@ class Tanque(Estructura, ABC):
         return self._capacidad_disponible
 
     def cargar(self, volumen_a_cargar):
-        volumen_cargado = max([volumen_a_cargar, self.capacidad_disponible()])
+        volumen_cargado = min([volumen_a_cargar, self.capacidad_disponible()])
         self._capacidad_disponible -= volumen_cargado
         return volumen_cargado
 
