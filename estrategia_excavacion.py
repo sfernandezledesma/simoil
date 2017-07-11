@@ -2,9 +2,17 @@ from abc import ABC, abstractmethod
 
 
 class EstrategiaExcavacion(ABC):
-    def __init__(self, empresa_petrolifera):
-        self._empresa_petrolifera = empresa_petrolifera
+    def __init__(self, emprendimiento):
+        self._emprendimiento = emprendimiento
 
     @abstractmethod
-    def resultado(self):
+    def comienzo_de_excavacion_de_pozos(self):
+        pass
+
+    @abstractmethod
+    def cuantos_rigs_alquilar_simultaneamente(self):
+        pass
+
+    @abstractmethod
+    def que_rig_alquilar(self):
         pass
