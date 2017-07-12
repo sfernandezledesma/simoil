@@ -15,6 +15,7 @@ public class EmprendimientoPetrolifero {
     private ArrayList<ProyectoConstruccion> proyectosDeTanquesDeAgua;
     private ArrayList<ProyectoConstruccion> proyectosDeTanquesDeGas;
     private ArrayList<ProyectoConstruccion> proyectosDePlantasProcesadoras;
+    private ArrayList<PlanDeExcavacion> planesDeExcavacion;
     private float ingresos;
     private float gastos;
 
@@ -28,6 +29,7 @@ public class EmprendimientoPetrolifero {
         this.proyectosDeTanquesDeAgua = new ArrayList<>();
         this.proyectosDeTanquesDeGas = new ArrayList<>();
         this.proyectosDePlantasProcesadoras = new ArrayList<>();
+        this.planesDeExcavacion = new ArrayList<>();
         this.ingresos = 0;
         this.gastos = 0;
     }
@@ -66,6 +68,10 @@ public class EmprendimientoPetrolifero {
 
     public ArrayList<ProyectoConstruccion> proyectosDePlantasProcesadoras() {
         return proyectosDePlantasProcesadoras;
+    }
+
+    public ArrayList<PlanDeExcavacion> planesDeExcavacion() {
+        return planesDeExcavacion;
     }
 
     public float ingresos() {
