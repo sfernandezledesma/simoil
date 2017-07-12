@@ -28,7 +28,12 @@ public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
 
     @Override
     public AlquilerRig queRigAlquilar(ArrayList<AlquilerRig> catalogoAlquilerRigs, Parcela parcelaDondeExcavar) {
-        return null;
+        AlquilerRig alquilerSeleccionado = catalogoAlquilerRigs.get(0);
+        for (AlquilerRig alquiler : catalogoAlquilerRigs) {
+            if (alquiler.rig().poderExcavacion() > alquilerSeleccionado.rig().poderExcavacion())
+                alquilerSeleccionado = alquiler;
+        }
+        return alquilerSeleccionado;
     }
 
 }

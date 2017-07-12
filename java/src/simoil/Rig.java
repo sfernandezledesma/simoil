@@ -26,6 +26,14 @@ public class Rig {
         return metrosExcavados;
     }
 
+    public float poderExcavacion() {
+        return poderExcavacion;
+    }
+
+    public boolean estaExcavando() {
+        return estaExcavando;
+    }
+
     public float consumoCombustibleDiarioEnLitros() {
         return consumoCombustibleDiarioEnLitros;
     }
