@@ -15,6 +15,10 @@ public class AlquilerRig {
         this.rig = rig;
     }
 
+    public AlquilerRig(AlquilerRig otroAlquiler) {
+        this(otroAlquiler.costoDiario(), otroAlquiler.minimoDias(), new Rig(otroAlquiler.rig()));
+    }
+
     public float costoDiario() {
         return costoDiario;
     }

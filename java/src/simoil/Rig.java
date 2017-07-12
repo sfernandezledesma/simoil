@@ -14,6 +14,10 @@ public class Rig {
         this.consumoCombustibleDiarioEnLitros = consumoCombustibleDiarioEnLitros;
     }
 
+    public Rig(Rig otroRig) {
+        this(otroRig.poderExcavacion(), otroRig.consumoCombustibleDiarioEnLitros());
+    }
+
     public float excavarParcela(Parcela parcela) {
         float metrosExcavados = 0;
         if (!estaExcavando) {
