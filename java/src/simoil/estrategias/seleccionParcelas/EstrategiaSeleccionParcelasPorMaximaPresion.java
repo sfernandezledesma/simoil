@@ -5,9 +5,7 @@ import simoil.TipoTerreno;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sebastian on 11/07/2017.
- */
+
 public class EstrategiaSeleccionParcelasPorMaximaPresion extends EstrategiaSeleccionParcelas {
 
     public EstrategiaSeleccionParcelasPorMaximaPresion(ArrayList<Parcela> parcelas, int cantidadPozosDeseados) {

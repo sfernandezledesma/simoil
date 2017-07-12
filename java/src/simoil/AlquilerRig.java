@@ -1,8 +1,6 @@
 package simoil;
 
-/**
- * Created by Sebastian on 11/07/2017.
- */
+
 public class AlquilerRig {
     private float costoDiario;
     private int minimoDias;

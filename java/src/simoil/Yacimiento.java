@@ -2,9 +2,7 @@ package simoil;
 
 import java.util.List;
 
-/**
- * Created by Sebastian on 11/07/2017.
- */
+
 public class Yacimiento {
     private float volumenAgua;
     private float volumenGas;

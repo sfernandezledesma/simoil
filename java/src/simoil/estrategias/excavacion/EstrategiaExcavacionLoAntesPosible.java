@@ -7,9 +7,7 @@ import simoil.PlanDeExcavacion;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sebastian on 11/07/2017.
- */
+
 public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
 
     @Override

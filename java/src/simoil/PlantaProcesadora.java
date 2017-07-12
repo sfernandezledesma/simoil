@@ -2,9 +2,7 @@ package simoil;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sebastian on 11/07/2017.
- */
+
 public class PlantaProcesadora extends Estructura {
     private float capacidadProcesamiento;
     private boolean estaHabilitada;

@@ -2,9 +2,7 @@ package simoil;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sebastian on 11/07/2017.
- */
+
 public class EmprendimientoPetrolifero {
     private Yacimiento yacimiento;
     private EquipoDeIngenieria equipoDeIngenieria;
