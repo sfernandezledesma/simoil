@@ -4,14 +4,21 @@ package simoil;
 public class ProyectoConstruccion {
     private Estructura estructuraAConstruir;
     private float costo;
+    private int diaComienzoConstruccion;
     private int tiempoConstruccionTotalEnDias;
     private int diasParaFinalizar;
 
     public ProyectoConstruccion(Estructura estructuraAConstruir, float costo, int tiempoConstruccionTotalEnDias) {
-        this.estructuraAConstruir = estructuraAConstruir;
+        this.estructuraAConstruir = estructuraAConstruir.clonar();
         this.costo = costo;
         this.tiempoConstruccionTotalEnDias = tiempoConstruccionTotalEnDias;
         this.diasParaFinalizar = tiempoConstruccionTotalEnDias;
+        this.diaComienzoConstruccion = 0;
+    }
+
+    public ProyectoConstruccion(ProyectoConstruccion otroProyecto, int diaComienzoConstruccion) {
+        this(otroProyecto.estructura(), otroProyecto.costo(), otroProyecto.tiempoConstruccionTotalEnDias());
+        this.diaComienzoConstruccion = diaComienzoConstruccion;
     }
 
     public boolean avanzarUnDia() {
@@ -36,5 +43,9 @@ public class ProyectoConstruccion {
 
     public int diasParaFinalizar() {
         return diasParaFinalizar;
+    }
+
+    public int diaComienzoConstruccion() {
+        return diaComienzoConstruccion;
     }
 }

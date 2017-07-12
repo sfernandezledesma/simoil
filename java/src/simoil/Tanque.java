@@ -41,4 +41,9 @@ public class Tanque extends Estructura {
         capacidadDisponible = capacidadTotal;
         return volumenDescargado;
     }
+
+    @Override
+    public Estructura clonar() {
+        return new Tanque(capacidadTotal);
+    }
 }
