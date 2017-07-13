@@ -1,5 +1,6 @@
 package simoil.estrategias.seleccionParcelas;
 
+import simoil.EmprendimientoPetrolifero;
 import simoil.Parcela;
 import simoil.TipoTerreno;
 
@@ -8,13 +9,9 @@ import java.util.ArrayList;
 
 public class EstrategiaSeleccionParcelasPorMaximaPresion extends EstrategiaSeleccionParcelas {
 
-    public EstrategiaSeleccionParcelasPorMaximaPresion(ArrayList<Parcela> parcelas, int cantidadPozosDeseados) {
-        super(parcelas, cantidadPozosDeseados);
-    }
-
     @Override
-    public ArrayList<Parcela> seleccionarParcelasParaExcavar() {
-        ArrayList<Parcela> parcelasSeleccionadas = new ArrayList<>(parcelas);
+    public ArrayList<Parcela> seleccionarParcelasParaExcavar(EmprendimientoPetrolifero emprendimientoPetrolifero, int cantidadPozosDeseados) {
+        ArrayList<Parcela> parcelasSeleccionadas = new ArrayList<>(emprendimientoPetrolifero.yacimiento().parcelas());
 
         parcelasSeleccionadas.sort((p1, p2) -> Float.compare(p2.presionInicial(), p1.presionInicial()));
 
@@ -24,7 +21,7 @@ public class EstrategiaSeleccionParcelasPorMaximaPresion extends EstrategiaSelec
         return parcelasSeleccionadas;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Parcela par1 = new Parcela(new TipoTerreno("asd", 10), 10, 1);
         Parcela par2 = new Parcela(new TipoTerreno("asd", 10), 10, 2);
         Parcela par3 = new Parcela(new TipoTerreno("asd", 10), 10, 3);
@@ -43,5 +40,5 @@ public class EstrategiaSeleccionParcelasPorMaximaPresion extends EstrategiaSelec
 
         for (Parcela p : listaSeleccion)
             System.out.println(p.presionInicial());
-    }
+    }*/
 }

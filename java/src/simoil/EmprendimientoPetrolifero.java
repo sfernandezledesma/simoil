@@ -10,9 +10,42 @@ public class EmprendimientoPetrolifero {
     private ArrayList<Tanque> tanquesDeAgua;
     private ArrayList<Tanque> tanquesDeGas;
     private ArrayList<AlquilerRig> alquileresDeRigs;
-    private ArrayList<ProyectoConstruccion> proyectosDeTanquesDeAgua;
-    private ArrayList<ProyectoConstruccion> proyectosDeTanquesDeGas;
-    private ArrayList<ProyectoConstruccion> proyectosDePlantasProcesadoras;
+
+    public void agregarPlantaProcesadora(PlantaProcesadora plantaProcesadora) {
+        this.plantasProcesadoras.add(plantaProcesadora);
+    }
+
+    public void agregarTanqueDeAgua(Tanque tanqueDeAgua) {
+        this.tanquesDeAgua.add(tanqueDeAgua);
+    }
+
+    public void agregarTanqueDeGas(Tanque tanqueDeGas) {
+        this.tanquesDeGas.add(tanqueDeGas);
+    }
+
+    public void agregarAlquilerDeRig(AlquilerRig alquilerDeRig) {
+        this.alquileresDeRigs.add(alquilerDeRig);
+    }
+
+    public void definirProyectosDeTanquesDeAgua(ArrayList<ProyectoConstruccionPlanta> proyectosDeTanquesDeAgua) {
+        this.proyectosDeTanquesDeAgua = proyectosDeTanquesDeAgua;
+    }
+
+    public void definirProyectosDeTanquesDeGas(ArrayList<ProyectoConstruccionPlanta> proyectosDeTanquesDeGas) {
+        this.proyectosDeTanquesDeGas = proyectosDeTanquesDeGas;
+    }
+
+    public void definirProyectosDePlantasProcesadoras(ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras) {
+        this.proyectosDePlantasProcesadoras = proyectosDePlantasProcesadoras;
+    }
+
+    public void definirPlanesDeExcavacion(ArrayList<PlanDeExcavacion> planesDeExcavacion) {
+        this.planesDeExcavacion = planesDeExcavacion;
+    }
+
+    private ArrayList<ProyectoConstruccionPlanta> proyectosDeTanquesDeAgua;
+    private ArrayList<ProyectoConstruccionPlanta> proyectosDeTanquesDeGas;
+    private ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras;
     private ArrayList<PlanDeExcavacion> planesDeExcavacion;
     private float ingresos;
     private float gastos;
@@ -56,15 +89,15 @@ public class EmprendimientoPetrolifero {
         return alquileresDeRigs;
     }
 
-    public ArrayList<ProyectoConstruccion> proyectosDeTanquesDeAgua() {
+    public ArrayList<ProyectoConstruccionPlanta> proyectosDeTanquesDeAgua() {
         return proyectosDeTanquesDeAgua;
     }
 
-    public ArrayList<ProyectoConstruccion> proyectosDeTanquesDeGas() {
+    public ArrayList<ProyectoConstruccionPlanta> proyectosDeTanquesDeGas() {
         return proyectosDeTanquesDeGas;
     }
 
-    public ArrayList<ProyectoConstruccion> proyectosDePlantasProcesadoras() {
+    public ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras() {
         return proyectosDePlantasProcesadoras;
     }
 

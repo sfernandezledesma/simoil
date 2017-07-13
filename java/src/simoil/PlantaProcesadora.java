@@ -3,7 +3,7 @@ package simoil;
 import java.util.ArrayList;
 
 
-public class PlantaProcesadora extends Estructura {
+public class PlantaProcesadora {
     private float capacidadProcesamiento;
     private ArrayList<Pozo> pozosConectados;
     private ArrayList<Tanque> tanquesDeAguaConectados;
@@ -32,9 +32,12 @@ public class PlantaProcesadora extends Estructura {
         return tanquesDeGasConectados;
     }
 
-    @Override
-    public Estructura clonar() {
-        return new PlantaProcesadora(capacidadProcesamiento);
+    public void conectarTanqueDeAgua(Tanque tanqueDeAgua) {
+        tanquesDeAguaConectados.add(tanqueDeAgua);
+    }
+
+    public void conectarTanqueDeGas(Tanque tanqueDeGas) {
+        tanquesDeGasConectados.add(tanqueDeGas);
     }
 
     //TODO procesar()

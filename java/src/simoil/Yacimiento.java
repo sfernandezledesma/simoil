@@ -1,5 +1,6 @@
 package simoil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -7,11 +8,11 @@ public class Yacimiento {
     private float volumenAgua;
     private float volumenGas;
     private float volumenPetroleo;
-    private List<Parcela> parcelas;
+    private ArrayList<Parcela> parcelas;
     private float globalExtraido;
     private float globalReinyectado;
 
-    public Yacimiento(float volumenAgua, float volumenGas, float volumenPetroleo, List<Parcela> parcelas) {
+    public Yacimiento(float volumenAgua, float volumenGas, float volumenPetroleo, ArrayList<Parcela> parcelas) {
         if (volumenAgua < 0 || volumenGas < 0 || volumenPetroleo < 0)
             throw new RuntimeException("Los volumenes deben ser no negativos.");
 
@@ -39,7 +40,7 @@ public class Yacimiento {
                 volumenPetroleo / volumenTotal * 100);
     }
 
-    public List<Parcela> parcelas() {
+    public ArrayList<Parcela> parcelas() {
         return parcelas;
     }
 

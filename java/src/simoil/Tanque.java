@@ -1,7 +1,7 @@
 package simoil;
 
 
-public class Tanque extends Estructura {
+public class Tanque  {
     private float capacidadTotal;
     private float capacidadDisponible;
 
@@ -42,8 +42,4 @@ public class Tanque extends Estructura {
         return volumenDescargado;
     }
 
-    @Override
-    public Estructura clonar() {
-        return new Tanque(capacidadTotal);
-    }
 }

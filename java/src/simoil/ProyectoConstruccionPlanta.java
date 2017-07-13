@@ -1,23 +1,23 @@
 package simoil;
 
 
-public class ProyectoConstruccion {
-    private Estructura estructuraAConstruir;
+public class ProyectoConstruccionPlanta {
+    private PlantaProcesadora plantaAConstruir;
     private float costo;
     private int diaComienzoConstruccion;
     private int tiempoConstruccionTotalEnDias;
     private int diasParaFinalizar;
 
-    public ProyectoConstruccion(Estructura estructuraAConstruir, float costo, int tiempoConstruccionTotalEnDias) {
-        this.estructuraAConstruir = estructuraAConstruir.clonar();
+    public ProyectoConstruccionPlanta(PlantaProcesadora plantaAConstruir, float costo, int tiempoConstruccionTotalEnDias) {
+        this.plantaAConstruir = new PlantaProcesadora(plantaAConstruir.capacidadProcesamiento());
         this.costo = costo;
         this.tiempoConstruccionTotalEnDias = tiempoConstruccionTotalEnDias;
         this.diasParaFinalizar = tiempoConstruccionTotalEnDias;
         this.diaComienzoConstruccion = 0;
     }
 
-    public ProyectoConstruccion(ProyectoConstruccion otroProyecto, int diaComienzoConstruccion) {
-        this(otroProyecto.estructura(), otroProyecto.costo(), otroProyecto.tiempoConstruccionTotalEnDias());
+    public ProyectoConstruccionPlanta(ProyectoConstruccionPlanta otroProyecto, int diaComienzoConstruccion) {
+        this(otroProyecto.plantaProcesadora(), otroProyecto.costo(), otroProyecto.tiempoConstruccionTotalEnDias());
         this.diaComienzoConstruccion = diaComienzoConstruccion;
     }
 
@@ -29,8 +29,8 @@ public class ProyectoConstruccion {
         return finalizada;
     }
 
-    public Estructura estructura() {
-        return estructuraAConstruir;
+    public PlantaProcesadora plantaProcesadora() {
+        return plantaAConstruir;
     }
 
     public float costo() {
@@ -48,4 +48,5 @@ public class ProyectoConstruccion {
     public int diaComienzoConstruccion() {
         return diaComienzoConstruccion;
     }
+
 }
