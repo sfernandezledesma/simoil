@@ -14,5 +14,5 @@ public abstract class EstrategiaExcavacion {
 
     public abstract int cuantosRigsAlquilarSimultaneamente(int maximaCantidadDeRigsSimultaneos);
 
-    public abstract AlquilerRig elegirUnNuevoAlquilerDeRig(ArrayList<AlquilerRig> catalogoAlquilerRigs, Parcela parcelaDondeExcavar);
+    public abstract AlquilerRig elegirUnNuevoAlquilerDeRig(ArrayList<AlquilerRig> catalogoAlquilerRigs, Excavacion excavacion);
 }

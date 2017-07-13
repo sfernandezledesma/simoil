@@ -22,10 +22,7 @@ public class ProyectoConstruccionPlanta {
 
     public boolean construirUnDia() {
         diasParaFinalizar = diasParaFinalizar - 1;
-        boolean finalizada = false;
-        if (diasParaFinalizar == 0)
-            finalizada = true;
-        return finalizada;
+        return diasParaFinalizar <= 0;
     }
 
     public PlantaProcesadora plantaEnConstruccion() {

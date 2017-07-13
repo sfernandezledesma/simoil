@@ -24,8 +24,14 @@ public class Rig {
             float multiplicadorExcavacion = 1 - resistenciaEnPorcentaje / 100;
             float metrosAExcavar = multiplicadorExcavacion * poderExcavacion;
             metrosExcavados = excavacion.excavar(metrosAExcavar);
+        } else {
+            throw new RuntimeException("El Rig ya esta excavando.");
         }
         return metrosExcavados;
+    }
+
+    public void apagar() {
+        estaExcavando = false;
     }
 
     public float poderExcavacion() {

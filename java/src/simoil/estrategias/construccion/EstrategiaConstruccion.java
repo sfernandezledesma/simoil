@@ -8,22 +8,18 @@ import java.util.ArrayList;
 
 public abstract class EstrategiaConstruccion {
 
-    protected ArrayList<ProyectoConstruccionPlanta> catalogoPlantas;
-    protected ArrayList<ProyectoConstruccionTanque> catalogoTanques;
     protected ArrayList<ProyectoConstruccionPlanta> proyectosConstruccionPlantas;
     protected ArrayList<ProyectoConstruccionTanque> proyectosConstruccionTanquesDeAgua;
     protected ArrayList<ProyectoConstruccionTanque> proyectosConstruccionTanquesDeGas;
 
-    public EstrategiaConstruccion(ArrayList<ProyectoConstruccionPlanta> catalogoPlantas,
-                                  ArrayList<ProyectoConstruccionTanque> catalogoTanques) {
-        this.catalogoPlantas = catalogoPlantas;
-        this.catalogoTanques = catalogoTanques;
+    public EstrategiaConstruccion() {
         this.proyectosConstruccionPlantas = new ArrayList<ProyectoConstruccionPlanta>();
         this.proyectosConstruccionTanquesDeAgua = new ArrayList<ProyectoConstruccionTanque>();
         this.proyectosConstruccionTanquesDeGas = new ArrayList<ProyectoConstruccionTanque>();
     }
 
-    public abstract void crearProyectosDeConstruccion();
+    public abstract void crearProyectosDeConstruccion(ArrayList<ProyectoConstruccionPlanta> catalogoPlantas,
+                                                      ArrayList<ProyectoConstruccionTanque> catalogoTanques);
 
     public ArrayList<ProyectoConstruccionPlanta> proyectosConstruccionPlantas(){
         return proyectosConstruccionPlantas;

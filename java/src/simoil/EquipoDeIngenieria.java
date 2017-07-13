@@ -2,6 +2,7 @@ package simoil;
 
 import simoil.estrategias.condicionDeFin.EstrategiaCondicionDeFin;
 import simoil.estrategias.construccion.EstrategiaConstruccion;
+import simoil.estrategias.estrategiaVentaGas.EstrategiaVentaGas;
 import simoil.estrategias.excavacion.EstrategiaExcavacion;
 import simoil.estrategias.extraccion.EstrategiaExtraccion;
 import simoil.estrategias.reinyeccion.EstrategiaReinyeccion;
@@ -14,14 +15,16 @@ public class EquipoDeIngenieria {
     private EstrategiaExtraccion estrategiaExtraccion;
     private EstrategiaReinyeccion estrategiaReinyeccion;
     private EstrategiaCondicionDeFin estrategiaCondicionDeFin;
+    private EstrategiaVentaGas estrategiaVentaGas;
 
-    public EquipoDeIngenieria(EstrategiaSeleccionParcelas estrategiaSeleccionParcelas, EstrategiaExcavacion estrategiaExcavacion, EstrategiaConstruccion estrategiaConstruccion, EstrategiaExtraccion estrategiaExtraccion, EstrategiaReinyeccion estrategiaReinyeccion, EstrategiaCondicionDeFin estrategiaCondicionDeFin) {
+    public EquipoDeIngenieria(EstrategiaSeleccionParcelas estrategiaSeleccionParcelas, EstrategiaExcavacion estrategiaExcavacion, EstrategiaConstruccion estrategiaConstruccion, EstrategiaExtraccion estrategiaExtraccion, EstrategiaReinyeccion estrategiaReinyeccion, EstrategiaCondicionDeFin estrategiaCondicionDeFin, EstrategiaVentaGas estrategiaVentaGas) {
         this.estrategiaSeleccionParcelas = estrategiaSeleccionParcelas;
         this.estrategiaExcavacion = estrategiaExcavacion;
         this.estrategiaConstruccion = estrategiaConstruccion;
         this.estrategiaExtraccion = estrategiaExtraccion;
         this.estrategiaReinyeccion = estrategiaReinyeccion;
         this.estrategiaCondicionDeFin = estrategiaCondicionDeFin;
+        this.estrategiaVentaGas = estrategiaVentaGas;
     }
 
     public EstrategiaSeleccionParcelas estrategiaSeleccionParcelas() {
@@ -46,5 +49,9 @@ public class EquipoDeIngenieria {
 
     public EstrategiaCondicionDeFin estrategiaCondicionDeFin() {
         return estrategiaCondicionDeFin;
+    }
+
+    public EstrategiaVentaGas estrategiaVentaGas() {
+        return estrategiaVentaGas;
     }
 }

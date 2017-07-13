@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 public class EmprendimientoPetrolifero {
+    private Contabilidad contabilidad;
     private Yacimiento yacimiento;
     private EquipoDeIngenieria equipoDeIngenieria;
     private ArrayList<PlantaProcesadora> plantasProcesadoras;
@@ -14,10 +15,10 @@ public class EmprendimientoPetrolifero {
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeGas;
     private ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras;
     private ArrayList<Excavacion> excavaciones;
-    private float ingresos;
-    private float gastos;
+
 
     public EmprendimientoPetrolifero(Yacimiento yacimiento, EquipoDeIngenieria equipoDeIngenieria) {
+        this.contabilidad = new Contabilidad();
         this.yacimiento = yacimiento;
         this.equipoDeIngenieria = equipoDeIngenieria;
         this.plantasProcesadoras = new ArrayList<>();
@@ -28,8 +29,6 @@ public class EmprendimientoPetrolifero {
         this.proyectosDeTanquesDeGas = new ArrayList<>();
         this.proyectosDePlantasProcesadoras = new ArrayList<>();
         this.excavaciones = new ArrayList<>();
-        this.ingresos = 0;
-        this.gastos = 0;
     }
 
     public void agregarPlantaProcesadora(PlantaProcesadora plantaProcesadora) {
@@ -56,16 +55,22 @@ public class EmprendimientoPetrolifero {
         this.alquileresDeRigs.add(alquilerDeRig);
     }
 
-    public void definirProyectosDeTanquesDeAgua(ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeAgua) {
-        this.proyectosDeTanquesDeAgua = proyectosDeTanquesDeAgua;
+    public void agregarProyectoDeTanqueDeAgua(ProyectoConstruccionTanque proyectoDeTanqueDeAgua) {
+        if (proyectosDeTanquesDeAgua.contains(proyectoDeTanqueDeAgua) || proyectosDeTanquesDeGas.contains(proyectoDeTanqueDeAgua))
+            throw new RuntimeException("Se intento agregar un proyecto de tanque que ya existia.");
+        this.proyectosDeTanquesDeAgua.add(proyectoDeTanqueDeAgua);
     }
 
-    public void definirProyectosDeTanquesDeGas(ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeGas) {
-        this.proyectosDeTanquesDeGas = proyectosDeTanquesDeGas;
+    public void agregarProyectoDeTanqueDeGas(ProyectoConstruccionTanque proyectoDeTanqueDeGas) {
+        if (proyectosDeTanquesDeGas.contains(proyectoDeTanqueDeGas) || proyectosDeTanquesDeAgua.contains(proyectoDeTanqueDeGas))
+            throw new RuntimeException("Se intento agregar un proyecto de tanque que ya existia.");
+        this.proyectosDeTanquesDeGas.add(proyectoDeTanqueDeGas);
     }
 
-    public void definirProyectosDePlantasProcesadoras(ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras) {
-        this.proyectosDePlantasProcesadoras = proyectosDePlantasProcesadoras;
+    public void agregarProyectoDePlantaProcesadora(ProyectoConstruccionPlanta proyectoDePlantaProcesadora) {
+        if (proyectosDePlantasProcesadoras.contains(proyectoDePlantaProcesadora))
+            throw new RuntimeException("Se intento agregar un proyecto de planta que ya existia.");
+        this.proyectosDePlantasProcesadoras.add(proyectoDePlantaProcesadora);
     }
 
     public void agregarExcavacion(Excavacion nuevaExcavacion) {
@@ -114,11 +119,7 @@ public class EmprendimientoPetrolifero {
         return excavaciones;
     }
 
-    public float ingresos() {
-        return ingresos;
-    }
-
-    public float gastos() {
-        return gastos;
+    public Contabilidad contabilidad() {
+        return contabilidad;
     }
 }

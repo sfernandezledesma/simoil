@@ -48,6 +48,10 @@ public class Excavacion {
         plantasProcesadorasDondeConectarElPozo.add(plantaProcesadora);
     }
 
+    public ArrayList<PlantaProcesadora> plantasProcesadorasDondeConectarElPozo() {
+        return plantasProcesadorasDondeConectarElPozo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
