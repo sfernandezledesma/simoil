@@ -11,14 +11,16 @@ public abstract class EstrategiaConstruccion {
     protected ArrayList<ProyectoConstruccionPlanta> catalogoPlantas;
     protected ArrayList<ProyectoConstruccionTanque> catalogoTanques;
     protected ArrayList<ProyectoConstruccionPlanta> proyectosConstruccionPlantas;
-    protected ArrayList<ProyectoConstruccionTanque> proyectosConstruccionTanques;
+    protected ArrayList<ProyectoConstruccionTanque> proyectosConstruccionTanquesDeAgua;
+    protected ArrayList<ProyectoConstruccionTanque> proyectosConstruccionTanquesDeGas;
 
     public EstrategiaConstruccion(ArrayList<ProyectoConstruccionPlanta> catalogoPlantas,
                                   ArrayList<ProyectoConstruccionTanque> catalogoTanques) {
         this.catalogoPlantas = catalogoPlantas;
         this.catalogoTanques = catalogoTanques;
         this.proyectosConstruccionPlantas = new ArrayList<ProyectoConstruccionPlanta>();
-        this.proyectosConstruccionTanques = new ArrayList<ProyectoConstruccionTanque>();
+        this.proyectosConstruccionTanquesDeAgua = new ArrayList<ProyectoConstruccionTanque>();
+        this.proyectosConstruccionTanquesDeGas = new ArrayList<ProyectoConstruccionTanque>();
     }
 
     public abstract void crearProyectosDeConstruccion();
@@ -27,8 +29,12 @@ public abstract class EstrategiaConstruccion {
         return proyectosConstruccionPlantas;
     }
 
-    public ArrayList<ProyectoConstruccionTanque> proyectosConstruccionTanques(){
-        return proyectosConstruccionTanques;
+    public ArrayList<ProyectoConstruccionTanque> proyectosConstruccionTanquesDeAgua(){
+        return proyectosConstruccionTanquesDeAgua;
+    }
+
+    public ArrayList<ProyectoConstruccionTanque> proyectosConstruccionTanquesDeGas(){
+        return proyectosConstruccionTanquesDeGas;
     }
 
 }

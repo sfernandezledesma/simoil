@@ -1,9 +1,6 @@
 package simoil.estrategias.excavacion;
 
-import simoil.AlquilerRig;
-import simoil.EmprendimientoPetrolifero;
-import simoil.Parcela;
-import simoil.PlanDeExcavacion;
+import simoil.*;
 
 import java.util.ArrayList;
 
@@ -11,12 +8,16 @@ import java.util.ArrayList;
 public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
 
     @Override
-    public ArrayList<PlanDeExcavacion> crearPlanesDeExcavacion(ArrayList<Parcela> parcelasDondeExcavar) {
-        ArrayList<PlanDeExcavacion> planes = new ArrayList<>();
+    public ArrayList<Excavacion> crearExcavaciones(EmprendimientoPetrolifero emprendimientoPetrolifero, ArrayList<Parcela> parcelasDondeExcavar) {
+        ArrayList<Excavacion> excavaciones = new ArrayList<>();
+        ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras = new ArrayList(emprendimientoPetrolifero.proyectosDePlantasProcesadoras());
+        proyectosDePlantasProcesadoras.sort((p1,p2) -> Float.compare(p1.diaComienzoConstruccion() + p1.tiempoConstruccionTotalEnDias(), p2.diaComienzoConstruccion() + p2.tiempoConstruccionTotalEnDias()));
+        int i = 0, n = proyectosDePlantasProcesadoras.size();
         for (Parcela parcela : parcelasDondeExcavar) {
-            planes.add(new PlanDeExcavacion(0, parcela));
+            excavaciones.add(new Excavacion(0, parcela, proyectosDePlantasProcesadoras.get(i).plantaEnConstruccion()));
+            i = i + 1 % n;
         }
-        return planes;
+        return excavaciones;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
     }
 
     @Override
-    public AlquilerRig dameNuevoAlquilerDeRig(ArrayList<AlquilerRig> catalogoAlquilerRigs, Parcela parcelaDondeExcavar) {
+    public AlquilerRig elegirUnNuevoAlquilerDeRig(ArrayList<AlquilerRig> catalogoAlquilerRigs, Parcela parcelaDondeExcavar) {
         AlquilerRig alquilerSeleccionado = catalogoAlquilerRigs.get(0);
         for (AlquilerRig alquiler : catalogoAlquilerRigs) {
             if (alquiler.rig().poderExcavacion() > alquilerSeleccionado.rig().poderExcavacion()) {

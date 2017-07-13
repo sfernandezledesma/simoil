@@ -16,14 +16,14 @@ public class EstrategiaConstruccionPlantaUnica extends EstrategiaConstruccion {
     public void crearProyectosDeConstruccion() {
         ProyectoConstruccionPlanta nuevoProyectoPlanta = new ProyectoConstruccionPlanta(catalogoPlantas.get(0),1);
         this.proyectosConstruccionPlantas().add(nuevoProyectoPlanta);
-        PlantaProcesadora planta = nuevoProyectoPlanta.plantaProcesadora();
+        PlantaProcesadora planta = nuevoProyectoPlanta.plantaEnConstruccion();
 
         ProyectoConstruccionTanque nuevoProyectoTanqueAgua = new ProyectoConstruccionTanque(catalogoTanques.get(0), 1);
-        this.proyectosConstruccionTanques().add(nuevoProyectoTanqueAgua);
-        planta.conectarTanqueDeAgua(nuevoProyectoTanqueAgua.tanque());
+        this.proyectosConstruccionTanquesDeAgua().add(nuevoProyectoTanqueAgua);
+        planta.conectarTanqueDeAgua(nuevoProyectoTanqueAgua.tanqueEnConstruccion());
 
         ProyectoConstruccionTanque nuevoProyectoTanqueGas = new ProyectoConstruccionTanque(catalogoTanques.get(0), 1);
-        this.proyectosConstruccionTanques().add(nuevoProyectoTanqueGas);
-        planta.conectarTanqueDeAgua(nuevoProyectoTanqueGas.tanque());
+        this.proyectosConstruccionTanquesDeGas().add(nuevoProyectoTanqueGas);
+        planta.conectarTanqueDeGas(nuevoProyectoTanqueGas.tanqueEnConstruccion());
     }
 }

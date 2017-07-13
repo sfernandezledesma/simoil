@@ -16,14 +16,14 @@ public class Rig {
         this(otroRig.poderExcavacion(), otroRig.consumoCombustibleDiarioEnLitros());
     }
 
-    public float excavarParcela(Parcela parcela) {
+    public float excavar(Excavacion excavacion) {
         float metrosExcavados = 0;
         if (!estaExcavando) {
             estaExcavando = true;
-            float resistenciaEnPorcentaje = parcela.tipoTerreno().resistenciaALaExcavacionEnPorcentaje();
+            float resistenciaEnPorcentaje = excavacion.parcelaObjetivo().tipoTerreno().resistenciaALaExcavacionEnPorcentaje();
             float multiplicadorExcavacion = 1 - resistenciaEnPorcentaje / 100;
             float metrosAExcavar = multiplicadorExcavacion * poderExcavacion;
-            metrosExcavados = parcela.excavar(metrosAExcavar);
+            metrosExcavados = excavacion.excavar(metrosAExcavar);
         }
         return metrosExcavados;
     }

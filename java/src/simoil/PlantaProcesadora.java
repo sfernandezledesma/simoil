@@ -10,6 +10,8 @@ public class PlantaProcesadora {
     private ArrayList<Tanque> tanquesDeGasConectados;
 
     public PlantaProcesadora(float capacidadProcesamiento) {
+        if (capacidadProcesamiento <= 0)
+            throw new RuntimeException("La capacidad de procesamiento debe ser positiva.");
         this.capacidadProcesamiento = capacidadProcesamiento;
         this.pozosConectados = new ArrayList<>();
         this.tanquesDeAguaConectados = new ArrayList<>();

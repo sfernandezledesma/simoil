@@ -1,15 +1,14 @@
 package simoil;
 
-
 public class ProyectoConstruccionPlanta {
-    private PlantaProcesadora plantaAConstruir;
+    private PlantaProcesadora plantaEnConstruccion;
     private float costo;
     private int diaComienzoConstruccion;
     private int tiempoConstruccionTotalEnDias;
     private int diasParaFinalizar;
 
-    public ProyectoConstruccionPlanta(PlantaProcesadora plantaAConstruir, float costo, int tiempoConstruccionTotalEnDias) {
-        this.plantaAConstruir = new PlantaProcesadora(plantaAConstruir.capacidadProcesamiento());
+    public ProyectoConstruccionPlanta(PlantaProcesadora prototipoDePlantaAConstruir, float costo, int tiempoConstruccionTotalEnDias) {
+        this.plantaEnConstruccion = new PlantaProcesadora(prototipoDePlantaAConstruir.capacidadProcesamiento());
         this.costo = costo;
         this.tiempoConstruccionTotalEnDias = tiempoConstruccionTotalEnDias;
         this.diasParaFinalizar = tiempoConstruccionTotalEnDias;
@@ -17,11 +16,11 @@ public class ProyectoConstruccionPlanta {
     }
 
     public ProyectoConstruccionPlanta(ProyectoConstruccionPlanta otroProyecto, int diaComienzoConstruccion) {
-        this(otroProyecto.plantaProcesadora(), otroProyecto.costo(), otroProyecto.tiempoConstruccionTotalEnDias());
+        this(otroProyecto.plantaEnConstruccion(), otroProyecto.costo(), otroProyecto.tiempoConstruccionTotalEnDias());
         this.diaComienzoConstruccion = diaComienzoConstruccion;
     }
 
-    public boolean avanzarUnDia() {
+    public boolean construirUnDia() {
         diasParaFinalizar = diasParaFinalizar - 1;
         boolean finalizada = false;
         if (diasParaFinalizar == 0)
@@ -29,8 +28,8 @@ public class ProyectoConstruccionPlanta {
         return finalizada;
     }
 
-    public PlantaProcesadora plantaProcesadora() {
-        return plantaAConstruir;
+    public PlantaProcesadora plantaEnConstruccion() {
+        return plantaEnConstruccion;
     }
 
     public float costo() {
@@ -49,4 +48,18 @@ public class ProyectoConstruccionPlanta {
         return diaComienzoConstruccion;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProyectoConstruccionPlanta that = (ProyectoConstruccionPlanta) o;
+
+        return plantaEnConstruccion.equals(that.plantaEnConstruccion);
+    }
+
+    @Override
+    public int hashCode() {
+        return plantaEnConstruccion.hashCode();
+    }
 }

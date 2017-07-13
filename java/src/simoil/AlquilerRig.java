@@ -36,4 +36,19 @@ public class AlquilerRig {
     public void avanzarUnDia() {
         diasAlquilado = diasAlquilado + 1;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AlquilerRig that = (AlquilerRig) o;
+
+        return rig.equals(that.rig);
+    }
+
+    @Override
+    public int hashCode() {
+        return rig.hashCode();
+    }
 }

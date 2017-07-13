@@ -2,7 +2,6 @@ package simoil;
 
 import simoil.estrategias.construccion.EstrategiaConstruccion;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelas;
-
 import java.util.ArrayList;
 
 
@@ -37,7 +36,10 @@ public class Simulador {
         EstrategiaConstruccion estrategiaConstruccion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaConstruccion();
         estrategiaConstruccion.crearProyectosDeConstruccion();
         emprendimientoPetrolifero.definirProyectosDePlantasProcesadoras(estrategiaConstruccion.proyectosConstruccionPlantas());
-        //emprendimientoPetrolifero.definirPr
+        emprendimientoPetrolifero.definirProyectosDeTanquesDeAgua(estrategiaConstruccion.proyectosConstruccionTanquesDeAgua());
+        emprendimientoPetrolifero.definirProyectosDeTanquesDeGas(estrategiaConstruccion.proyectosConstruccionTanquesDeGas());
+
+
     }
 
     private void simularUnDia() {
