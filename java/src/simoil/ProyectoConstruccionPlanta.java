@@ -8,7 +8,7 @@ public class ProyectoConstruccionPlanta {
     private int diasParaFinalizar;
 
     public ProyectoConstruccionPlanta(PlantaProcesadora prototipoDePlantaAConstruir, float costo, int tiempoConstruccionTotalEnDias) {
-        this.plantaEnConstruccion = new PlantaProcesadora(prototipoDePlantaAConstruir.capacidadProcesamiento());
+        this.plantaEnConstruccion = new PlantaProcesadora(prototipoDePlantaAConstruir.capacidadProcesamientoTotal());
         this.costo = costo;
         this.tiempoConstruccionTotalEnDias = tiempoConstruccionTotalEnDias;
         this.diasParaFinalizar = tiempoConstruccionTotalEnDias;

@@ -8,7 +8,17 @@ import java.util.ArrayList;
 
 public class EstrategiaReinyeccionNoReinyectar extends EstrategiaReinyeccion{
     @Override
-    public ArrayList<Pair<Pozo, Float>> dondeYCuantoReinyectar(EmprendimientoPetrolifero emprendimientoPetrolifero) {
-        return new ArrayList<>();
+    public boolean hayQueReinyectar(EmprendimientoPetrolifero emprendimientoPetrolifero) {
+        return false;
+    }
+
+    @Override
+    public boolean noReinyectarGas(EmprendimientoPetrolifero emprendimientoPetrolifero) {
+        return true;
+    }
+
+    @Override
+    public float cuantosLitrosReinyectar(EmprendimientoPetrolifero emprendimientoPetrolifero) {
+        return 0;
     }
 }

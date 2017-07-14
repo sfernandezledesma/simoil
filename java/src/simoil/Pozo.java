@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Pozo {
     private float presionInicial;
     private float presionActual;
-    private boolean valvulaEstaAbierta;
+    private boolean valvulaPrincipalAbierta;
     private ArrayList<PlantaProcesadora> plantasConectadas;
 
     public Pozo(float presionInicial, PlantaProcesadora plantaProcesadoraDondeConectar) {
@@ -19,19 +19,19 @@ public class Pozo {
         this.plantasConectadas.add(plantaProcesadoraDondeConectar);
         this.presionInicial = presionInicial;
         this.presionActual = presionInicial;
-        this.valvulaEstaAbierta = false;
+        this.valvulaPrincipalAbierta = false;
     }
 
-    public void abrir() {
-        valvulaEstaAbierta = true;
+    public void abrirValvulaPrincipal() {
+        valvulaPrincipalAbierta = true;
     }
 
-    public void cerrar() {
-        valvulaEstaAbierta = false;
+    public void cerrarValvulaPrincipal() {
+        valvulaPrincipalAbierta = false;
     }
 
-    public boolean valvulaEstaAbierta() {
-        return valvulaEstaAbierta;
+    public boolean valvulaPrincipalAbierta() {
+        return valvulaPrincipalAbierta;
     }
 
     public float presionInicial() {

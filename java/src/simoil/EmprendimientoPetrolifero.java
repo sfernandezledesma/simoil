@@ -7,9 +7,9 @@ public class EmprendimientoPetrolifero {
     private Contabilidad contabilidad;
     private Yacimiento yacimiento;
     private EquipoDeIngenieria equipoDeIngenieria;
-    private ArrayList<PlantaProcesadora> plantasProcesadoras;
-    private ArrayList<Tanque> tanquesDeAgua;
-    private ArrayList<Tanque> tanquesDeGas;
+    private ArrayList<PlantaProcesadora> plantasProcesadorasHabilitadas;
+    private ArrayList<Tanque> tanquesDeAguaHabilitados;
+    private ArrayList<Tanque> tanquesDeGasHabilitados;
     private ArrayList<AlquilerRig> alquileresDeRigs;
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeAgua;
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeGas;
@@ -21,9 +21,9 @@ public class EmprendimientoPetrolifero {
         this.contabilidad = new Contabilidad();
         this.yacimiento = yacimiento;
         this.equipoDeIngenieria = equipoDeIngenieria;
-        this.plantasProcesadoras = new ArrayList<>();
-        this.tanquesDeAgua = new ArrayList<>();
-        this.tanquesDeGas = new ArrayList<>();
+        this.plantasProcesadorasHabilitadas = new ArrayList<>();
+        this.tanquesDeAguaHabilitados = new ArrayList<>();
+        this.tanquesDeGasHabilitados = new ArrayList<>();
         this.alquileresDeRigs = new ArrayList<>();
         this.proyectosDeTanquesDeAgua = new ArrayList<>();
         this.proyectosDeTanquesDeGas = new ArrayList<>();
@@ -31,22 +31,22 @@ public class EmprendimientoPetrolifero {
         this.excavaciones = new ArrayList<>();
     }
 
-    public void agregarPlantaProcesadora(PlantaProcesadora plantaProcesadora) {
-        if (plantasProcesadoras.contains(plantaProcesadora))
+    public void habilitarPlantaProcesadora(PlantaProcesadora plantaProcesadora) {
+        if (plantasProcesadorasHabilitadas.contains(plantaProcesadora))
             throw new RuntimeException("Se intento agregar una planta que ya existia.");
-        this.plantasProcesadoras.add(plantaProcesadora);
+        this.plantasProcesadorasHabilitadas.add(plantaProcesadora);
     }
 
-    public void agregarTanqueDeAgua(Tanque tanqueDeAgua) {
-        if (tanquesDeAgua.contains(tanqueDeAgua))
+    public void habilitarTanqueDeAgua(Tanque tanqueDeAgua) {
+        if (tanquesDeAguaHabilitados.contains(tanqueDeAgua) || tanquesDeGasHabilitados.contains(tanqueDeAgua))
             throw new RuntimeException("Se intento agregar un tanqueEnConstruccion de agua que ya existia.");
-        this.tanquesDeAgua.add(tanqueDeAgua);
+        this.tanquesDeAguaHabilitados.add(tanqueDeAgua);
     }
 
-    public void agregarTanqueDeGas(Tanque tanqueDeGas) {
-        if (tanquesDeGas.contains(tanqueDeGas))
+    public void habilitarTanqueDeGas(Tanque tanqueDeGas) {
+        if (tanquesDeGasHabilitados.contains(tanqueDeGas) || tanquesDeAguaHabilitados.contains(tanqueDeGas))
             throw new RuntimeException("Se intento agregar un tanqueEnConstruccion de gas que ya existia.");
-        this.tanquesDeGas.add(tanqueDeGas);
+        this.tanquesDeGasHabilitados.add(tanqueDeGas);
     }
 
     public void agregarAlquilerDeRig(AlquilerRig alquilerDeRig) {
@@ -87,16 +87,16 @@ public class EmprendimientoPetrolifero {
         return equipoDeIngenieria;
     }
 
-    public ArrayList<PlantaProcesadora> plantasProcesadoras() {
-        return plantasProcesadoras;
+    public ArrayList<PlantaProcesadora> plantasProcesadorasHabilitadas() {
+        return new ArrayList<PlantaProcesadora>(plantasProcesadorasHabilitadas);
     }
 
-    public ArrayList<Tanque> tanquesDeAgua() {
-        return tanquesDeAgua;
+    public ArrayList<Tanque> tanquesDeAguaHabilitados() {
+        return new ArrayList<Tanque>(tanquesDeAguaHabilitados);
     }
 
-    public ArrayList<Tanque> tanquesDeGas() {
-        return tanquesDeGas;
+    public ArrayList<Tanque> tanquesDeGasHabilitados() {
+        return new ArrayList<Tanque>(tanquesDeGasHabilitados);
     }
 
     public ArrayList<AlquilerRig> alquileresDeRigs() {

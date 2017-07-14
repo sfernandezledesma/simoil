@@ -13,7 +13,7 @@ public class EstrategiaConstruccionPlantaUnica extends EstrategiaConstruccion {
                                              ArrayList<ProyectoConstruccionTanque> catalogoTanques) {
 
         ArrayList<ProyectoConstruccionPlanta> proyectosPlantasOrdenadosPorCapacidadProcesamientoDescendiente = new ArrayList<>(catalogoPlantas);
-        proyectosPlantasOrdenadosPorCapacidadProcesamientoDescendiente.sort((p1,p2) -> Float.compare(p2.plantaEnConstruccion().capacidadProcesamiento(), p1.plantaEnConstruccion().capacidadProcesamiento()));
+        proyectosPlantasOrdenadosPorCapacidadProcesamientoDescendiente.sort((p1,p2) -> Float.compare(p2.plantaEnConstruccion().capacidadProcesamientoTotal(), p1.plantaEnConstruccion().capacidadProcesamientoTotal()));
 
         ProyectoConstruccionPlanta nuevoProyectoPlanta = new ProyectoConstruccionPlanta(proyectosPlantasOrdenadosPorCapacidadProcesamientoDescendiente.get(0),1);
         this.proyectosConstruccionPlantas().add(nuevoProyectoPlanta);

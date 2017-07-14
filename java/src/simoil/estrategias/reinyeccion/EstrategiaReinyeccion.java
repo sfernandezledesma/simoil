@@ -9,6 +9,10 @@ import java.util.ArrayList;
 
 public abstract class EstrategiaReinyeccion {
 
-    public abstract ArrayList<Pair<Pozo, Float>> dondeYCuantoReinyectar(EmprendimientoPetrolifero emprendimientoPetrolifero);
+    public abstract boolean hayQueReinyectar(EmprendimientoPetrolifero emprendimientoPetrolifero);
+
+    public abstract boolean noReinyectarGas(EmprendimientoPetrolifero emprendimientoPetrolifero);
+
+    public abstract float cuantosLitrosReinyectar(EmprendimientoPetrolifero emprendimientoPetrolifero);
 
 }

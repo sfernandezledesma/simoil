@@ -12,6 +12,10 @@ public class Contabilidad {
         return gastos;
     }
 
+    public float ganancia() {
+        return ingresos() - gastos();
+    }
+
     public void sumarIngreso(float nuevoIngreso) {
         if (nuevoIngreso < 0)
             throw new RuntimeException("El valor del ingreso debe ser no negativo.");
