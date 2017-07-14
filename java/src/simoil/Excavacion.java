@@ -1,55 +1,40 @@
 package simoil;
 
-
-import java.util.ArrayList;
-
 public class Excavacion {
     private int diaDeComienzoDeExcavacion;
     private float metrosExcavados;
-    private Parcela parcelaObjetivo;
-    private ArrayList<PlantaProcesadora> plantasProcesadorasDondeConectarElPozo;
+    private Parcela parcelaExcavacion;
 
-    public Excavacion(int diaDeComienzoDeExcavacion, Parcela parcelaObjetivo, PlantaProcesadora plantaDondeConectar) {
+    public Excavacion(int diaDeComienzoDeExcavacion, Parcela parcelaExcavacion, PlantaProcesadora plantaDondeConectar) {
         this.diaDeComienzoDeExcavacion = diaDeComienzoDeExcavacion;
         this.metrosExcavados = 0;
-        this.parcelaObjetivo = parcelaObjetivo;
+        this.parcelaExcavacion = parcelaExcavacion;
         if (plantaDondeConectar == null)
             throw new RuntimeException("Debe haber al menos una planta procesadora donde conectar el pozo.");
-        this.plantasProcesadorasDondeConectarElPozo = new ArrayList<>();
-        this.plantasProcesadorasDondeConectarElPozo.add(plantaDondeConectar);
+        this.parcelaExcavacion.comenzarExcavacionNuevoPozo(plantaDondeConectar);
     }
 
     public int diaDeComienzoDeExcavacion() {
         return diaDeComienzoDeExcavacion;
     }
 
-    public Parcela parcelaObjetivo() {
-        return parcelaObjetivo;
+    public Parcela parcelaExcavacion() {
+        return parcelaExcavacion;
     }
 
     public boolean excavacionFinalizada() {
-        return metrosExcavados == parcelaObjetivo.profundidad();
+        return metrosExcavados == parcelaExcavacion.profundidadDelReservorio();
     }
 
     public float excavar(float metrosAExcavar) {
-        if (metrosAExcavar + metrosExcavados > parcelaObjetivo.profundidad()) {
+        if (metrosAExcavar + metrosExcavados > parcelaExcavacion.profundidadDelReservorio()) {
             float metrosExcavadosHastaElMomento = metrosExcavados;
-            metrosExcavados = parcelaObjetivo.profundidad();
-            return parcelaObjetivo.profundidad() - metrosExcavadosHastaElMomento;
+            metrosExcavados = parcelaExcavacion.profundidadDelReservorio();
+            return parcelaExcavacion.profundidadDelReservorio() - metrosExcavadosHastaElMomento;
         } else {
             metrosExcavados += metrosAExcavar;
             return metrosAExcavar;
         }
-    }
-
-    public void conectarPlantaProcesadora(PlantaProcesadora plantaProcesadora) {
-        if (plantasProcesadorasDondeConectarElPozo.contains(plantaProcesadora))
-            throw new RuntimeException("Ya existe esa planta en el plan de excavacion.");
-        plantasProcesadorasDondeConectarElPozo.add(plantaProcesadora);
-    }
-
-    public ArrayList<PlantaProcesadora> plantasProcesadorasDondeConectarElPozo() {
-        return plantasProcesadorasDondeConectarElPozo;
     }
 
     @Override
@@ -59,11 +44,11 @@ public class Excavacion {
 
         Excavacion that = (Excavacion) o;
 
-        return parcelaObjetivo.equals(that.parcelaObjetivo);
+        return parcelaExcavacion.equals(that.parcelaExcavacion);
     }
 
     @Override
     public int hashCode() {
-        return parcelaObjetivo.hashCode();
+        return parcelaExcavacion.hashCode();
     }
 }

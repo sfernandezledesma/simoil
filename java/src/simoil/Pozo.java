@@ -55,7 +55,11 @@ public class Pozo {
         }
         plantasConectadas.add(plantaProcesadoraAConectar);
     }
-    
+
+    public ArrayList<PlantaProcesadora> plantasConectadas() {
+        return plantasConectadas;
+    }
+
     public static void main(String[] args) {
         Pozo pozoa = null;
         pozoa.presionInicial();

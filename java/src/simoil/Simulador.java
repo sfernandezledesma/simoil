@@ -13,7 +13,6 @@ import simoil.estrategias.reinyeccion.EstrategiaReinyeccionNoReinyectar;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelas;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelasPorMaximaPresion;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -191,7 +190,7 @@ public class Simulador {
                     logger.log("El rig excavo " + metrosExcavados + " metros.");
                     if (excavacion.excavacionFinalizada()) {
                         itExcavacion.remove();
-                        excavacion.parcelaObjetivo().habilitarPozo(excavacion.plantasProcesadorasDondeConectarElPozo());
+                        emprendimientoPetrolifero.yacimiento().habilitarPozo(excavacion.parcelaExcavacion().pozo());
                         logger.log("Se finalizo la excavacion del pozo.");
                     }
                 }
@@ -256,7 +255,7 @@ public class Simulador {
 
         EquipoDeIngenieria equipo = new EquipoDeIngenieria(new EstrategiaSeleccionParcelasPorMaximaPresion(), new EstrategiaExcavacionLoAntesPosible(), new EstrategiaConstruccionPlantaUnica(), new EstrategiaExtraccionTodosLosPozosDisponibles(), new EstrategiaReinyeccionNoReinyectar(), new EstrategiaCondicionDeFinPorDilucionCritica(), new EstrategiaVentaGasVenderTodosLosDias());
         EmprendimientoPetrolifero emprendimiento = new EmprendimientoPetrolifero(yacimiento, equipo);
-        Simulador sim = new Simulador(30, 2, 35,1, 1,
+        Simulador sim = new Simulador(20, 2, 35,1, 1,
                 3, 10, 20, 500, 15,
                 emprendimiento, catalogoAlquilerRigs, catalogoTanques, catalogoPlantas);
 

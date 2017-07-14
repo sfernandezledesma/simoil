@@ -10,7 +10,7 @@ public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
     @Override
     public ArrayList<Excavacion> crearExcavaciones(EmprendimientoPetrolifero emprendimientoPetrolifero, ArrayList<Parcela> parcelasDondeExcavar) {
         ArrayList<Excavacion> excavaciones = new ArrayList<>();
-        ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras = new ArrayList(emprendimientoPetrolifero.proyectosDePlantasProcesadoras());
+        ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras = new ArrayList<>(emprendimientoPetrolifero.proyectosDePlantasProcesadoras());
         proyectosDePlantasProcesadoras.sort((p1,p2) -> Float.compare(p1.diaComienzoConstruccion() + p1.tiempoConstruccionTotalEnDias(), p2.diaComienzoConstruccion() + p2.tiempoConstruccionTotalEnDias()));
         int i = 0, n = proyectosDePlantasProcesadoras.size();
         for (Parcela parcela : parcelasDondeExcavar) {

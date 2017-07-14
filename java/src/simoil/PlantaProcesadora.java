@@ -2,10 +2,8 @@ package simoil;
 
 import java.util.ArrayList;
 
-
 public class PlantaProcesadora {
     private float capacidadProcesamiento;
-    private ArrayList<Pozo> pozosConectados;
     private ArrayList<Tanque> tanquesDeAguaConectados;
     private ArrayList<Tanque> tanquesDeGasConectados;
 
@@ -13,17 +11,12 @@ public class PlantaProcesadora {
         if (capacidadProcesamiento <= 0)
             throw new RuntimeException("La capacidad de procesamiento debe ser positiva.");
         this.capacidadProcesamiento = capacidadProcesamiento;
-        this.pozosConectados = new ArrayList<>();
         this.tanquesDeAguaConectados = new ArrayList<>();
         this.tanquesDeGasConectados = new ArrayList<>();
     }
 
     public float capacidadProcesamiento() {
         return capacidadProcesamiento;
-    }
-
-    public ArrayList<Pozo> pozosConectados() {
-        return pozosConectados;
     }
 
     public ArrayList<Tanque> tanquesDeAguaConectados() {

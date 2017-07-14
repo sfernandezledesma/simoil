@@ -1,16 +1,15 @@
 package simoil;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 public class Yacimiento {
     private float volumenAgua;
     private float volumenGas;
     private float volumenPetroleo;
-    private ArrayList<Parcela> parcelas;
     private float globalExtraido;
     private float globalReinyectado;
+    private ArrayList<Parcela> parcelas;
+    private ArrayList<Pozo> pozosHabilitados;
 
     public Yacimiento(float volumenAgua, float volumenGas, float volumenPetroleo, ArrayList<Parcela> parcelas) {
         if (volumenAgua < 0 || volumenGas < 0 || volumenPetroleo < 0)
@@ -19,14 +18,15 @@ public class Yacimiento {
         this.volumenAgua = volumenAgua;
         this.volumenGas = volumenGas;
         this.volumenPetroleo = volumenPetroleo;
+        this.globalExtraido = 0;
+        this.globalReinyectado = 0;
 
         if (parcelas == null || parcelas.size() == 0)
             throw new RuntimeException("La cantidad de parcelas debe ser positiva.");
         else
             this.parcelas = parcelas;
 
-        this.globalExtraido = 0;
-        this.globalReinyectado = 0;
+        pozosHabilitados = new ArrayList<>();
     }
 
     public float volumenTotal() {
@@ -78,5 +78,25 @@ public class Yacimiento {
         }
         globalExtraido += volumenExtraido;
         return volumenExtraido;
+    }
+
+    public void habilitarPozo(Pozo pozoAHabilitar) {
+        int cantidadAparicionesPozoEnYacimiento = 0;
+        for (Parcela parcela : parcelas) {
+            if (parcela.tienePozo() && parcela.pozo() == pozoAHabilitar) {
+                cantidadAparicionesPozoEnYacimiento++;
+            }
+        }
+        if (cantidadAparicionesPozoEnYacimiento == 0) {
+            throw new RuntimeException("El pozo que se quiere habilitar no existe en el yacimiento.");
+        } else if (cantidadAparicionesPozoEnYacimiento > 1) {
+            throw new RuntimeException("Hay multiples copias del pozo que se quiere habilitar en el yacimiento.");
+        } else {
+            pozosHabilitados.add(pozoAHabilitar);
+        }
+    }
+
+    public ArrayList<Pozo> pozosHabilitados() {
+        return new ArrayList<>(pozosHabilitados);
     }
 }

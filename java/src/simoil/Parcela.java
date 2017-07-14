@@ -1,15 +1,13 @@
 package simoil;
 
-import java.util.ArrayList;
-
 public class Parcela {
     private boolean tienePozo;
 	private Pozo pozo;
 	private TipoTerreno tipoTerreno;
-	private float profundidad;
+	private float profundidadDelReservorio;
 	private float presionInicial;
 	
-	public Parcela(TipoTerreno tipoTerreno, float profundidad, float presionInicial) {
+	public Parcela(TipoTerreno tipoTerreno, float profundidadDelReservorio, float presionInicial) {
 		this.pozo = null;
 		this.tienePozo = false;
 
@@ -18,10 +16,10 @@ public class Parcela {
 		else
 			this.tipoTerreno = tipoTerreno;
 		
-		if (profundidad <= 0)
-			throw new RuntimeException("La profundidad de la parcela debe ser positiva.");
+		if (profundidadDelReservorio <= 0)
+			throw new RuntimeException("La profundidadDelReservorio de la parcela debe ser positiva.");
 		else
-			this.profundidad = profundidad;
+			this.profundidadDelReservorio = profundidadDelReservorio;
 		
 		if (presionInicial < 0)
 			throw new RuntimeException("La presion debe ser no negativa.");
@@ -39,8 +37,8 @@ public class Parcela {
         return tipoTerreno;
     }
 
-    public float profundidad() {
-        return profundidad;
+    public float profundidadDelReservorio() {
+        return profundidadDelReservorio;
     }
 
 	public float presionInicial() {
@@ -51,17 +49,15 @@ public class Parcela {
         return tienePozo;
     }
 
-    public void habilitarPozo(ArrayList<PlantaProcesadora> plantasDondeConectarElPozo) {
+    public void comenzarExcavacionNuevoPozo(PlantaProcesadora plantaDondeConectarElPozo) {
 	    if (tienePozo()) {
 	        throw new RuntimeException("No puede crearse un pozo si ya existe uno.");
         }
-        if (plantasDondeConectarElPozo == null || plantasDondeConectarElPozo.size() == 0) {
+        if (plantaDondeConectarElPozo == null) {
 	        throw new RuntimeException("Debe conectarse al menos una planta procesadora a un nuevo pozo.");
         }
-        this.pozo = new Pozo(this.presionInicial(), plantasDondeConectarElPozo.get(0));
+        this.pozo = new Pozo(this.presionInicial(), plantaDondeConectarElPozo);
         tienePozo = true;
-	    for (int i = 1; i < plantasDondeConectarElPozo.size(); i++)
-	        this.pozo.conectarPlantaProcesadora(plantasDondeConectarElPozo.get(i));
     }
 	
 	public static void main(String[] args) {
