@@ -3,17 +3,23 @@ package simoil;
 import java.util.ArrayList;
 
 public class PlantaProcesadora {
+    String nombre;
     private float capacidadProcesamientoTotal;
     private ArrayList<Tanque> tanquesDeAguaConectados;
     private ArrayList<Tanque> tanquesDeGasConectados;
     private float volumenProcesadoEnElDia = 0;
 
-    public PlantaProcesadora(float capacidadProcesamientoTotal) {
+    public PlantaProcesadora(String nombre, float capacidadProcesamientoTotal) {
+        this.nombre = nombre;
         if (capacidadProcesamientoTotal <= 0)
             throw new RuntimeException("La capacidad de procesamiento debe ser positiva.");
         this.capacidadProcesamientoTotal = capacidadProcesamientoTotal;
         this.tanquesDeAguaConectados = new ArrayList<>();
         this.tanquesDeGasConectados = new ArrayList<>();
+    }
+
+    public String nombre(){
+        return this.nombre;
     }
 
     public void apagar() {
@@ -137,4 +143,15 @@ public class PlantaProcesadora {
     private float capacidadDisponible() {
         return capacidadProcesamientoTotal - volumenProcesadoEnElDia;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PlantaProcesadora that = (PlantaProcesadora) o;
+
+        return nombre.equals(that.nombre);
+    }
+
 }

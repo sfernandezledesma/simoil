@@ -12,7 +12,6 @@ public class Yacimiento {
     private float globalExtraido;
     private float globalReinyectado;
     private ArrayList<Parcela> parcelas;
-    private ArrayList<Pozo> pozosHabilitados;
 
     public Yacimiento(float alpha1, float alpha2, float volumenAgua, float volumenGas, float volumenPetroleo, ArrayList<Parcela> parcelas) {
         this.alpha1 = alpha1;
@@ -32,7 +31,6 @@ public class Yacimiento {
         else
             this.parcelas = parcelas;
 
-        pozosHabilitados = new ArrayList<>();
     }
 
     public float volumenTotalActual() {
@@ -86,26 +84,7 @@ public class Yacimiento {
         return volumenExtraido;
     }
 
-    public void habilitarPozo(Pozo pozoAHabilitar) {
-        int cantidadAparicionesPozoEnYacimiento = 0;
-        for (Parcela parcela : parcelas) {
-            if (parcela.tienePozo() && parcela.pozo() == pozoAHabilitar) {
-                cantidadAparicionesPozoEnYacimiento++;
-            }
-        }
-        if (cantidadAparicionesPozoEnYacimiento == 0) {
-            throw new RuntimeException("El pozo que se quiere habilitar no existe en el yacimiento.");
-        } else if (cantidadAparicionesPozoEnYacimiento > 1) {
-            throw new RuntimeException("Hay multiples copias del pozo que se quiere habilitar en el yacimiento.");
-        } else {
-            pozosHabilitados.add(pozoAHabilitar);
-        }
-    }
-
     public float volumenPotencialDiarioPozo(Pozo pozo) {
-        if (!pozosHabilitados.contains(pozo)) {
-            throw new RuntimeException("El pozo no esta habilitado en el yacimiento, no puede extraer.");
-        }
         if (!pozo.valvulaPrincipalAbierta()) {
             throw new RuntimeException("El pozo tiene la valvula cerrada, no puede extraer.");
         }
@@ -118,9 +97,10 @@ public class Yacimiento {
 
     public int cantidadPozosAbiertos() {
         int cantidadPozosAbiertos = 0;
-        for (Pozo p : pozosHabilitados) {
-            if (p.valvulaPrincipalAbierta())
+        for (Pozo pozo : pozosHabilitadosParaExtraccion()) {
+            if (pozo.valvulaPrincipalAbierta()) {
                 cantidadPozosAbiertos++;
+            }
         }
         return cantidadPozosAbiertos;
     }
@@ -128,7 +108,7 @@ public class Yacimiento {
     public void actualizarPresionesPozos() {
         if (cantidadPozosAbiertos() > 0) {
             float beta = 0.1f * (volumenTotalActual() / volumenTotalInicial) / (float) Math.pow(cantidadPozosAbiertos(), 4.0 / 3.0);
-            for (Pozo pozo : pozosHabilitados) {
+            for (Pozo pozo : pozosHabilitadosParaExtraccion()) {
                 if (pozo.valvulaPrincipalAbierta()) {
                     float nuevaPresion = pozo.presionActual() * (float) Math.exp(-beta);
                     pozo.actualizarPresion(nuevaPresion);
@@ -137,7 +117,13 @@ public class Yacimiento {
         }
     }
 
-    public ArrayList<Pozo> pozosHabilitados() {
-        return new ArrayList<>(pozosHabilitados);
+    public ArrayList<Pozo> pozosHabilitadosParaExtraccion() {
+        ArrayList<Pozo> pozosHabilitadosParaExtraccion = new ArrayList<>();
+        for (Parcela parcela : parcelas()) {
+            if (parcela.tienePozo()) {
+                pozosHabilitadosParaExtraccion.add(parcela.pozo());
+            }
+        }
+        return pozosHabilitadosParaExtraccion;
     }
 }

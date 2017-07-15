@@ -1,10 +1,11 @@
 package simoil;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
 public class EmprendimientoPetrolifero {
-    private Contabilidad contabilidad;
+    private RegistroContable registroContable;
     private Yacimiento yacimiento;
     private EquipoDeIngenieria equipoDeIngenieria;
     private ArrayList<PlantaProcesadora> plantasProcesadorasHabilitadas;
@@ -15,10 +16,30 @@ public class EmprendimientoPetrolifero {
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeGas;
     private ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras;
     private ArrayList<Excavacion> excavaciones;
+    private ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras;
+    private ArrayList<EspecificacionTanque> catalogoTanques;
+    private ArrayList<AlquilerRig> alquileresRigs;
 
+    public ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras() {
+        return catalogoPlantasProcesadoras;
+    }
 
-    public EmprendimientoPetrolifero(Yacimiento yacimiento, EquipoDeIngenieria equipoDeIngenieria) {
-        this.contabilidad = new Contabilidad();
+    public ArrayList<EspecificacionTanque> catalogoTanques() {
+        return catalogoTanques;
+    }
+
+    public ArrayList<AlquilerRig> alquileresRigs() {
+        return alquileresRigs;
+    }
+
+    public EmprendimientoPetrolifero(Yacimiento yacimiento, EquipoDeIngenieria equipoDeIngenieria,
+                                     ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras,
+                                     ArrayList<EspecificacionTanque> catalogoTanques,
+                                     ArrayList<AlquilerRig> alquileresRigs) {
+        this.catalogoPlantasProcesadoras = catalogoPlantasProcesadoras;
+        this.catalogoTanques = catalogoTanques;
+        this.alquileresDeRigs = alquileresRigs;
+        this.registroContable = new RegistroContable();
         this.yacimiento = yacimiento;
         this.equipoDeIngenieria = equipoDeIngenieria;
         this.plantasProcesadorasHabilitadas = new ArrayList<>();
@@ -119,7 +140,7 @@ public class EmprendimientoPetrolifero {
         return excavaciones;
     }
 
-    public Contabilidad contabilidad() {
-        return contabilidad;
+    public RegistroContable contabilidad() {
+        return registroContable;
     }
 }

@@ -2,18 +2,20 @@ package simoil;
 
 
 public class Rig {
+    private String nombre;
     private float poderExcavacion;
     private float consumoCombustibleDiarioEnLitros;
     private boolean estaExcavando;
 
-    public Rig(float poderExcavacion, float consumoCombustibleDiarioEnLitros) {
+    public Rig(String nombre, float poderExcavacion, float consumoCombustibleDiarioEnLitros) {
+        this.nombre = nombre;
         this.estaExcavando = false;
         this.poderExcavacion = poderExcavacion;
         this.consumoCombustibleDiarioEnLitros = consumoCombustibleDiarioEnLitros;
     }
 
-    public Rig(Rig otroRig) {
-        this(otroRig.poderExcavacion(), otroRig.consumoCombustibleDiarioEnLitros());
+    public Rig(String nombre, Rig otroRig) {
+        this(nombre, otroRig.poderExcavacion(), otroRig.consumoCombustibleDiarioEnLitros());
     }
 
     public float excavar(Excavacion excavacion) {
@@ -44,5 +46,19 @@ public class Rig {
 
     public float consumoCombustibleDiarioEnLitros() {
         return consumoCombustibleDiarioEnLitros;
+    }
+
+    public String nombre(){
+        return nombre;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rig rig = (Rig) o;
+
+        return nombre.equals(rig.nombre);
     }
 }

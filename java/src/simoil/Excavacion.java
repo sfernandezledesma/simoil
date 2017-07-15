@@ -1,17 +1,20 @@
 package simoil;
 
 public class Excavacion {
+    private String nombrePozoEnExcavacion;
     private int diaDeComienzoDeExcavacion;
     private float metrosExcavados;
     private Parcela parcelaExcavacion;
 
-    public Excavacion(int diaDeComienzoDeExcavacion, Parcela parcelaExcavacion, PlantaProcesadora plantaDondeConectar) {
+    public Excavacion(String nombrePozoEnExcavacion, int diaDeComienzoDeExcavacion, Parcela parcelaExcavacion) {
+        this.nombrePozoEnExcavacion = nombrePozoEnExcavacion;
         this.diaDeComienzoDeExcavacion = diaDeComienzoDeExcavacion;
         this.metrosExcavados = 0;
         this.parcelaExcavacion = parcelaExcavacion;
-        if (plantaDondeConectar == null)
-            throw new RuntimeException("Debe haber al menos una planta procesadora donde conectar el pozo.");
-        this.parcelaExcavacion.comenzarExcavacionNuevoPozo(plantaDondeConectar);
+    }
+
+    public String nombrePozoEnExcavacion() {
+        return nombrePozoEnExcavacion;
     }
 
     public int diaDeComienzoDeExcavacion() {

@@ -2,10 +2,12 @@ package simoil;
 
 
 public class Tanque  {
+    private String nombre;
     private float capacidadTotal;
     private float capacidadDisponible;
 
-    public Tanque(float capacidadTotal) {
+    public Tanque(String nombre, float capacidadTotal) {
+        this.nombre = nombre;
         if (capacidadTotal <= 0)
             throw new RuntimeException("La capacidad de un tanque debe ser positiva.");
         this.capacidadTotal = capacidadTotal;
@@ -40,6 +42,20 @@ public class Tanque  {
         float volumenDescargado = volumenCargado();
         capacidadDisponible = capacidadTotal;
         return volumenDescargado;
+    }
+
+    public String nombre(){
+        return this.nombre;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tanque tanque = (Tanque) o;
+
+        return nombre.equals(tanque.nombre);
     }
 
 }

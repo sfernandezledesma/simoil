@@ -1,6 +1,6 @@
 package simoil;
 
-public class Contabilidad {
+public class RegistroContable {
     private float ingresos = 0;
     private float gastos = 0;
 

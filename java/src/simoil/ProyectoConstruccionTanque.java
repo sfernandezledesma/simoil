@@ -1,22 +1,15 @@
 package simoil;
 
 public class ProyectoConstruccionTanque {
-    private Tanque tanqueEnConstruccion;
-    private float costo;
+    private String nombreTanqueEnConstruccion;
     private int diaComienzoConstruccion;
-    private int tiempoConstruccionTotalEnDias;
     private int diasParaFinalizar;
+    private EspecificacionTanque especificacionTanque;
 
-    public ProyectoConstruccionTanque(Tanque prototipoDeTanqueaAConstruir, float costo, int tiempoConstruccionTotalEnDias) {
-        this.tanqueEnConstruccion = new Tanque(prototipoDeTanqueaAConstruir.capacidadTotal());
-        this.costo = costo;
-        this.tiempoConstruccionTotalEnDias = tiempoConstruccionTotalEnDias;
-        this.diasParaFinalizar = tiempoConstruccionTotalEnDias;
-        this.diaComienzoConstruccion = 0;
-    }
-
-    public ProyectoConstruccionTanque(ProyectoConstruccionTanque otroProyecto, int diaComienzoConstruccion) {
-        this(otroProyecto.tanqueEnConstruccion(), otroProyecto.costo(), otroProyecto.tiempoConstruccionTotalEnDias());
+    public ProyectoConstruccionTanque(String nombreTanqueEnConstruccion, int diaComienzoConstruccion, EspecificacionTanque especificacionTanque) {
+        this.nombreTanqueEnConstruccion = nombreTanqueEnConstruccion;
+        this.especificacionTanque = especificacionTanque;
+        this.diasParaFinalizar = especificacionTanque.cantidadDiasDeConstruccion();
         this.diaComienzoConstruccion = diaComienzoConstruccion;
     }
 
@@ -25,16 +18,8 @@ public class ProyectoConstruccionTanque {
         return diasParaFinalizar <= 0;
     }
 
-    public Tanque tanqueEnConstruccion() {
-        return tanqueEnConstruccion;
-    }
-
-    public float costo() {
-        return costo;
-    }
-
-    public int tiempoConstruccionTotalEnDias() {
-        return tiempoConstruccionTotalEnDias;
+    public EspecificacionTanque especificacionTanque() {
+        return especificacionTanque;
     }
 
     public int diasParaFinalizar() {
@@ -52,11 +37,15 @@ public class ProyectoConstruccionTanque {
 
         ProyectoConstruccionTanque that = (ProyectoConstruccionTanque) o;
 
-        return tanqueEnConstruccion.equals(that.tanqueEnConstruccion);
+        return nombreTanqueEnConstruccion.equals(that.nombreTanqueEnConstruccion);
     }
 
     @Override
     public int hashCode() {
-        return tanqueEnConstruccion.hashCode();
+        return nombreTanqueEnConstruccion.hashCode();
+    }
+
+    public String nombreTanqueEnConstruccion(){
+        return this.nombreTanqueEnConstruccion;
     }
 }

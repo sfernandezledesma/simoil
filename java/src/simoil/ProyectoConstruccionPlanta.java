@@ -1,23 +1,20 @@
 package simoil;
 
 public class ProyectoConstruccionPlanta {
-    private PlantaProcesadora plantaEnConstruccion;
-    private float costo;
+    private String nombrePlantaEnConstruccion;
     private int diaComienzoConstruccion;
-    private int tiempoConstruccionTotalEnDias;
     private int diasParaFinalizar;
+    private EspecificacionPlantaProcesadora especificacionPlantaProcesadora;
 
-    public ProyectoConstruccionPlanta(PlantaProcesadora prototipoDePlantaAConstruir, float costo, int tiempoConstruccionTotalEnDias) {
-        this.plantaEnConstruccion = new PlantaProcesadora(prototipoDePlantaAConstruir.capacidadProcesamientoTotal());
-        this.costo = costo;
-        this.tiempoConstruccionTotalEnDias = tiempoConstruccionTotalEnDias;
-        this.diasParaFinalizar = tiempoConstruccionTotalEnDias;
-        this.diaComienzoConstruccion = 0;
+    public ProyectoConstruccionPlanta(String nombrePlanta, int diaComienzoConstruccion, EspecificacionPlantaProcesadora especificacionPlantaProcesadora) {
+        this.nombrePlantaEnConstruccion = nombrePlanta;
+        this.especificacionPlantaProcesadora = especificacionPlantaProcesadora;
+        this.diasParaFinalizar = especificacionPlantaProcesadora.cantidadDiasDeConstruccion();
+        this.diaComienzoConstruccion = diaComienzoConstruccion;
     }
 
-    public ProyectoConstruccionPlanta(ProyectoConstruccionPlanta otroProyecto, int diaComienzoConstruccion) {
-        this(otroProyecto.plantaEnConstruccion(), otroProyecto.costo(), otroProyecto.tiempoConstruccionTotalEnDias());
-        this.diaComienzoConstruccion = diaComienzoConstruccion;
+    public EspecificacionPlantaProcesadora especificacionPlantaProcesadora() {
+        return especificacionPlantaProcesadora;
     }
 
     public boolean construirUnDia() {
@@ -25,16 +22,11 @@ public class ProyectoConstruccionPlanta {
         return diasParaFinalizar <= 0;
     }
 
-    public PlantaProcesadora plantaEnConstruccion() {
-        return plantaEnConstruccion;
-    }
-
-    public float costo() {
-        return costo;
-    }
-
-    public int tiempoConstruccionTotalEnDias() {
-        return tiempoConstruccionTotalEnDias;
+    public PlantaProcesadora finalizarConstruccion() {
+        if (diasParaFinalizar() > 0) {
+            throw new RuntimeException("No puede finalizarse la construccion, faltan aun " + diasParaFinalizar() + " dias.");
+        }
+        return new PlantaProcesadora(nombrePlantaEnConstruccion, especificacionPlantaProcesadora.capacidadProcesamientoTotal());
     }
 
     public int diasParaFinalizar() {
@@ -52,11 +44,15 @@ public class ProyectoConstruccionPlanta {
 
         ProyectoConstruccionPlanta that = (ProyectoConstruccionPlanta) o;
 
-        return plantaEnConstruccion.equals(that.plantaEnConstruccion);
+        return nombrePlantaEnConstruccion.equals(that.nombrePlantaEnConstruccion);
     }
 
     @Override
     public int hashCode() {
-        return plantaEnConstruccion.hashCode();
+        return nombrePlantaEnConstruccion.hashCode();
+    }
+
+    public String nombrePlantaEnConstruccion(){
+        return this.nombrePlantaEnConstruccion;
     }
 }

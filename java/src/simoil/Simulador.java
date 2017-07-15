@@ -29,10 +29,11 @@ public class Simulador {
     private float precioLitroAguaEspecialComprada;
     private EmprendimientoPetrolifero emprendimientoPetrolifero;
     private ArrayList<AlquilerRig> catalogoAlquilerRigs;
-    private ArrayList<ProyectoConstruccionTanque> catalogoConstruccionTanques;
-    private ArrayList<ProyectoConstruccionPlanta> catalogoConstruccionPlantasProcesadoras;
+    private ArrayList<EspecificacionTanque> catalogoConstruccionTanques;
+    private ArrayList<EspecificacionPlantaProcesadora> catalogoConstruccionPlantasProcesadoras;
+    private ArrayList<Parcela> parcelasSeleccionadasDondeExcavar;
 
-    public Simulador(int maximoDias, int maximaCantidadRigsSimultaneos, float volumenMaximoReinyeccionEnUnDia, float porcentajeCriticoPetroleo, int cantidadDePozosDeseados, float precioLitroDeCombustibleRig, float precioLitroGas, float precioLitroPetroleo, float precioLitroAguaEspecialComprada, EmprendimientoPetrolifero emprendimientoPetrolifero, ArrayList<AlquilerRig> catalogoAlquilerRigs, ArrayList<ProyectoConstruccionTanque> catalogoConstruccionTanques, ArrayList<ProyectoConstruccionPlanta> catalogoConstruccionPlantasProcesadoras) {
+    public Simulador(int maximoDias, int maximaCantidadRigsSimultaneos, float volumenMaximoReinyeccionEnUnDia, float porcentajeCriticoPetroleo, int cantidadDePozosDeseados, float precioLitroDeCombustibleRig, float precioLitroGas, float precioLitroPetroleo, float precioLitroAguaEspecialComprada, EmprendimientoPetrolifero emprendimientoPetrolifero, ArrayList<AlquilerRig> catalogoAlquilerRigs, ArrayList<EspecificacionTanque> catalogoConstruccionTanques, ArrayList<EspecificacionPlantaProcesadora> catalogoConstruccionPlantasProcesadoras) {
         this.maximoDias = maximoDias;
         this.maximaCantidadRigsSimultaneos = maximaCantidadRigsSimultaneos;
         this.volumenMaximoReinyeccionEnUnDia = volumenMaximoReinyeccionEnUnDia;
@@ -51,43 +52,8 @@ public class Simulador {
     public void iniciarSimulacion() {
         // Primero necesitamos conocer las parcelas donde vamos a excavar los pozos
         EstrategiaSeleccionParcelas estrategiaSeleccionParcelas = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaSeleccionParcelas();
-        ArrayList<Parcela> parcelasSeleccionadas = estrategiaSeleccionParcelas.seleccionarParcelasParaExcavar(emprendimientoPetrolifero, cantidadDePozosDeseados);
+        this.parcelasSeleccionadasDondeExcavar = estrategiaSeleccionParcelas.seleccionarParcelasParaExcavar(emprendimientoPetrolifero, cantidadDePozosDeseados);
 
-        // Tambien necesitamos definir los proyectos de construccion de plantas procesadoras y tanques
-        EstrategiaConstruccion estrategiaConstruccion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaConstruccion();
-        estrategiaConstruccion.crearProyectosDeConstruccion(catalogoConstruccionPlantasProcesadoras, catalogoConstruccionTanques);
-
-        ArrayList<ProyectoConstruccionPlanta> proyectosNuevosPlantas = estrategiaConstruccion.proyectosConstruccionPlantas();
-        for (ProyectoConstruccionPlanta proyectoPlanta : proyectosNuevosPlantas) {
-            emprendimientoPetrolifero.agregarProyectoDePlantaProcesadora(proyectoPlanta);
-            emprendimientoPetrolifero.contabilidad().sumarGasto(proyectoPlanta.costo());
-            logger.log("Se proyecto una nueva planta procesadora. Su construccion comienza el dia " +
-                    proyectoPlanta.diaComienzoConstruccion() + " y su costo fue de $" + proyectoPlanta.costo() + ".");
-        }
-
-        ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeAgua = estrategiaConstruccion.proyectosConstruccionTanquesDeAgua();
-        for (ProyectoConstruccionTanque proyectoTanqueAgua : proyectosNuevosTanquesDeAgua) {
-            emprendimientoPetrolifero.agregarProyectoDeTanqueDeAgua(proyectoTanqueAgua);
-            emprendimientoPetrolifero.contabilidad().sumarGasto(proyectoTanqueAgua.costo());
-            logger.log("Se proyecto un nuevo tanque de agua. Su construccion comienza el dia " +
-                    proyectoTanqueAgua.diaComienzoConstruccion() + " y su costo fue de $" + proyectoTanqueAgua.costo() + ".");
-        }
-
-        ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeGas = estrategiaConstruccion.proyectosConstruccionTanquesDeGas();
-        for (ProyectoConstruccionTanque proyectoTanqueGas : proyectosNuevosTanquesDeGas) {
-            emprendimientoPetrolifero.agregarProyectoDeTanqueDeGas(proyectoTanqueGas);
-            emprendimientoPetrolifero.contabilidad().sumarGasto(proyectoTanqueGas.costo());
-            logger.log("Se proyecto un nuevo tanque de gas. Su construccion comienza el dia " +
-                    proyectoTanqueGas.diaComienzoConstruccion() + " y su costo fue de $" + proyectoTanqueGas.costo() + ".");
-        }
-
-        // Con estos dos datos, ya podemos definir cuando excavar y a que planta conectar cada pozo
-        EstrategiaExcavacion estrategiaExcavacion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaExcavacion();
-        ArrayList<Excavacion> excavaciones = estrategiaExcavacion.crearExcavaciones(emprendimientoPetrolifero, parcelasSeleccionadas);
-        for (Excavacion nuevaExcavacion : excavaciones)
-            emprendimientoPetrolifero.agregarExcavacion(nuevaExcavacion);
-
-        // Ahora podemos empezar a simular dia a dia chequeando si hay que finalizar con la estrategia de condicion de fin
         EstrategiaCondicionDeFin estrategiaCondicionDeFin = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaCondicionDeFin();
         while (!estrategiaCondicionDeFin.hayQueFinalizar(emprendimientoPetrolifero, diaActual, maximoDias, porcentajeCriticoPetroleo)) {
             simularUnDia();
@@ -96,6 +62,38 @@ public class Simulador {
 
     private void simularUnDia() {
         logger.log("Dia " + diaActual + ":");
+
+        // Definimos los proyectos de construccion de plantas procesadoras y tanques
+        EstrategiaConstruccion estrategiaConstruccion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaConstruccion();
+        ArrayList<ProyectoConstruccionPlanta> proyectosNuevosPlantas = estrategiaConstruccion.nuevosProyectosConstruccionPlantas(emprendimientoPetrolifero);
+        for (ProyectoConstruccionPlanta proyectoPlanta : proyectosNuevosPlantas) {
+            emprendimientoPetrolifero.agregarProyectoDePlantaProcesadora(proyectoPlanta);
+            emprendimientoPetrolifero.contabilidad().sumarGasto(proyectoPlanta.especificacionPlantaProcesadora().costo());
+            logger.log("Se proyecto una nueva planta procesadora. Su construccion comienza el dia " +
+                    proyectoPlanta.diaComienzoConstruccion() + " y su costo fue de $" + proyectoPlanta.especificacionPlantaProcesadora().costo() + ".");
+        }
+        ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeAgua = estrategiaConstruccion.nuevosProyectosConstruccionTanquesDeAgua(emprendimientoPetrolifero);
+        for (ProyectoConstruccionTanque proyectoTanqueAgua : proyectosNuevosTanquesDeAgua) {
+            emprendimientoPetrolifero.agregarProyectoDeTanqueDeAgua(proyectoTanqueAgua);
+            emprendimientoPetrolifero.contabilidad().sumarGasto(proyectoTanqueAgua.especificacionTanque().costo());
+            logger.log("Se proyecto un nuevo tanque de agua. Su construccion comienza el dia " +
+                    proyectoTanqueAgua.diaComienzoConstruccion() + " y su costo fue de $" + proyectoTanqueAgua.especificacionTanque().costo() + ".");
+        }
+        ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeGas = estrategiaConstruccion.nuevosProyectosConstruccionTanquesDeGas(emprendimientoPetrolifero);
+        for (ProyectoConstruccionTanque proyectoTanqueGas : proyectosNuevosTanquesDeGas) {
+            emprendimientoPetrolifero.agregarProyectoDeTanqueDeGas(proyectoTanqueGas);
+            emprendimientoPetrolifero.contabilidad().sumarGasto(proyectoTanqueGas.especificacionTanque().costo());
+            logger.log("Se proyecto un nuevo tanque de gas. Su construccion comienza el dia " +
+                    proyectoTanqueGas.diaComienzoConstruccion() + " y su costo fue de $" + proyectoTanqueGas.especificacionTanque().costo() + ".");
+        }
+
+        // Definimos nuevas excavaciones
+        EstrategiaExcavacion estrategiaExcavacion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaExcavacion();
+        ArrayList<Excavacion> nuevasExcavaciones = estrategiaExcavacion.crearExcavaciones(emprendimientoPetrolifero, parcelasSeleccionadasDondeExcavar);
+        for (Excavacion nuevaExcavacion : nuevasExcavaciones) {
+            emprendimientoPetrolifero.agregarExcavacion(nuevaExcavacion);
+        }
+
         // Primero tenemos que decidir si vamos a vender el gas que almacenamos anteriormente
         if (emprendimientoPetrolifero.equipoDeIngenieria().estrategiaVentaGas().hayQueVenderElGas(emprendimientoPetrolifero)) {
             venderGas();
@@ -125,7 +123,7 @@ public class Simulador {
         ComposicionDeProducto composicionDeProducto = yacimiento.composicionDeProducto();
         float volumenPetroleoExtraidoEnElDia = 0;
         float proporcionPetroleo = yacimiento.composicionDeProducto().porcentajePetroleo() / 100f;
-        for (Pozo pozo : yacimiento.pozosHabilitados()) {
+        for (Pozo pozo : yacimiento.pozosHabilitadosParaExtraccion()) {
             if (pozo.valvulaPrincipalAbierta()) {
                 float volumenPotencialDelPozo = yacimiento.volumenPotencialDiarioPozo(pozo);
                 logger.log("El pozo puede extraer potencialmente " +  volumenPotencialDelPozo +" litros de producto.");
@@ -172,7 +170,7 @@ public class Simulador {
 
     private void finalizarDia() {
         // Cerramos valvulas principales de todos los pozos
-        for (Pozo pozo : emprendimientoPetrolifero.yacimiento().pozosHabilitados())
+        for (Pozo pozo : emprendimientoPetrolifero.yacimiento().pozosHabilitadosParaExtraccion())
             pozo.cerrarValvulaPrincipal();
         // Apagamos Rigs
         for (AlquilerRig alquilerRig : emprendimientoPetrolifero.alquileresDeRigs())
@@ -195,7 +193,11 @@ public class Simulador {
             ProyectoConstruccionPlanta proyectoConstruccionPlanta = itProyectoPlanta.next();
             if (proyectoConstruccionPlanta.diaComienzoConstruccion() <= diaActual && proyectoConstruccionPlanta.construirUnDia()) {
                 itProyectoPlanta.remove();
-                emprendimientoPetrolifero.habilitarPlantaProcesadora(proyectoConstruccionPlanta.plantaEnConstruccion());
+                PlantaProcesadora nuevaPlanta = new PlantaProcesadora(
+                        proyectoConstruccionPlanta.nombrePlantaEnConstruccion(),
+                        proyectoConstruccionPlanta.especificacionPlantaProcesadora().capacidadProcesamientoTotal()
+                );
+                emprendimientoPetrolifero.habilitarPlantaProcesadora(nuevaPlanta);
                 logger.log("La construccion de la planta finalizo hoy.");
             }
         }
@@ -204,7 +206,11 @@ public class Simulador {
             ProyectoConstruccionTanque proyectoConstruccionTanqueAgua = itProyectoTanqueAgua.next();
             if (proyectoConstruccionTanqueAgua.diaComienzoConstruccion() <= diaActual && proyectoConstruccionTanqueAgua.construirUnDia()) {
                 itProyectoTanqueAgua.remove();
-                emprendimientoPetrolifero.habilitarTanqueDeAgua(proyectoConstruccionTanqueAgua.tanqueEnConstruccion());
+                Tanque nuevoTanqueAgua = new Tanque(
+                        proyectoConstruccionTanqueAgua.nombreTanqueEnConstruccion(),
+                        proyectoConstruccionTanqueAgua.especificacionTanque().capacidadTotal()
+                );
+                emprendimientoPetrolifero.habilitarTanqueDeAgua(nuevoTanqueAgua);
                 logger.log("La construccion del tanque de agua finalizo hoy.");
             }
         }
@@ -213,7 +219,11 @@ public class Simulador {
             ProyectoConstruccionTanque proyectoConstruccionTanqueGas = itProyectoTanqueGas.next();
             if (proyectoConstruccionTanqueGas.diaComienzoConstruccion() <= diaActual && proyectoConstruccionTanqueGas.construirUnDia()) {
                 itProyectoTanqueGas.remove();
-                emprendimientoPetrolifero.habilitarTanqueDeGas(proyectoConstruccionTanqueGas.tanqueEnConstruccion());
+                Tanque nuevoTanqueGas = new Tanque(
+                        proyectoConstruccionTanqueGas.nombreTanqueEnConstruccion(),
+                        proyectoConstruccionTanqueGas.especificacionTanque().capacidadTotal()
+                );
+                emprendimientoPetrolifero.habilitarTanqueDeGas(nuevoTanqueGas);
                 logger.log("La construccion del tanque de gas finalizo hoy.");
             }
         }
@@ -247,7 +257,6 @@ public class Simulador {
                     logger.log("El rig excavo " + metrosExcavados + " metros.");
                     if (excavacion.excavacionFinalizada()) {
                         itExcavacion.remove();
-                        emprendimientoPetrolifero.yacimiento().habilitarPozo(excavacion.parcelaExcavacion().pozo());
                         logger.log("Se finalizo la excavacion del pozo.");
                     }
                 }
@@ -288,9 +297,9 @@ public class Simulador {
         TipoTerreno rocoso = new TipoTerreno("rocoso", 60);
         TipoTerreno arcilloso = new TipoTerreno("arcilloso", -10);
         ArrayList<Parcela> parcelas = new ArrayList<>();
-        parcelas.add(new Parcela(rocoso, 10, 3100));
-        parcelas.add(new Parcela(rocoso, 20, 3200));
-        parcelas.add(new Parcela(arcilloso, 30, 3300));
+        parcelas.add(new Parcela("p1", rocoso, 10, 3100));
+        parcelas.add(new Parcela("p2",rocoso, 20, 3200));
+        parcelas.add(new Parcela("p3",arcilloso, 30, 3300));
         Yacimiento yacimiento = new Yacimiento(
                 0.1f,
                 0.01f,
@@ -299,18 +308,18 @@ public class Simulador {
                 80000000,
                 parcelas);
 
-        ArrayList<ProyectoConstruccionPlanta> catalogoPlantas = new ArrayList<>();
-        catalogoPlantas.add(new ProyectoConstruccionPlanta(new PlantaProcesadora(20000), 200, 3));
-        catalogoPlantas.add(new ProyectoConstruccionPlanta(new PlantaProcesadora(50000), 1000, 5));
-        ArrayList<ProyectoConstruccionTanque> catalogoTanques = new ArrayList<>();
-        catalogoTanques.add(new ProyectoConstruccionTanque(new Tanque(30000), 100, 2));
-        catalogoTanques.add(new ProyectoConstruccionTanque(new Tanque(40000), 150, 3));
-        ArrayList<AlquilerRig> catalogoAlquilerRigs = new ArrayList<>();
-        catalogoAlquilerRigs.add(new AlquilerRig(5, 3, new Rig(2, 10)));
-        catalogoAlquilerRigs.add(new AlquilerRig(7, 5, new Rig(4, 15)));
+        ArrayList<EspecificacionPlantaProcesadora> catalogoPlantas = new ArrayList<>();
+        catalogoPlantas.add(new EspecificacionPlantaProcesadora(3, 200, 20000));
+        catalogoPlantas.add(new EspecificacionPlantaProcesadora(3, 1000, 50000));
+        ArrayList<EspecificacionTanque> catalogoTanques = new ArrayList<>();
+        catalogoTanques.add(new EspecificacionTanque(2, 100,30000));
+        catalogoTanques.add(new EspecificacionTanque(3, 150, 40000));
+        ArrayList<AlquilerRig> alquileresRigs = new ArrayList<>();
+        alquileresRigs.add(new AlquilerRig(5, 3, new Rig("Rig1", 2, 10)));
+        alquileresRigs.add(new AlquilerRig(7, 5, new Rig("Rig",4, 15)));
 
         EquipoDeIngenieria equipo = new EquipoDeIngenieria(new EstrategiaSeleccionParcelasPorMaximaPresion(), new EstrategiaExcavacionLoAntesPosible(), new EstrategiaConstruccionPlantaUnica(), new EstrategiaExtraccionTodosLosPozosHabilitados(), new EstrategiaReinyeccionNoReinyectar(), new EstrategiaCondicionDeFinPorDilucionCritica(), new EstrategiaVentaGasVenderTodosLosDias());
-        EmprendimientoPetrolifero emprendimiento = new EmprendimientoPetrolifero(yacimiento, equipo);
+        EmprendimientoPetrolifero emprendimiento = new EmprendimientoPetrolifero(yacimiento, equipo, catalogoPlantas, catalogoTanques, alquileresRigs);
         Simulador sim = new Simulador(
                 25,
                 2,
@@ -321,7 +330,7 @@ public class Simulador {
                 0.1f,
                 0.22f,
                 0.03f,
-                emprendimiento, catalogoAlquilerRigs, catalogoTanques, catalogoPlantas);
+                emprendimiento, alquileresRigs, catalogoTanques, catalogoPlantas);
 
         sim.iniciarSimulacion();
     }
