@@ -180,7 +180,7 @@ public class EmprendimientoPetrolifero {
             if (plantaProcesadora.nombre().equals(nombre))
                 return plantaProcesadora;
         }
-        throw new RuntimeException("No existe una planta procesadora con ese nombreTipoTerreno.");
+        throw new RuntimeException("No existe una planta procesadora con ese nombre.");
     }
 
     public Tanque tanqueDeAguaPorNombre(String nombre) {
@@ -188,7 +188,7 @@ public class EmprendimientoPetrolifero {
             if (tanqueDeAgua.nombre().equals(nombre))
                 return tanqueDeAgua;
         }
-        throw new RuntimeException("No existe un tanque de agua con ese nombreTipoTerreno.");
+        throw new RuntimeException("No existe un tanque de agua con ese nombre.");
     }
 
     public Tanque tanqueDeGasPorNombre(String nombre) {
@@ -196,6 +196,6 @@ public class EmprendimientoPetrolifero {
             if (tanqueDeGas.nombre().equals(nombre))
                 return tanqueDeGas;
         }
-        throw new RuntimeException("No existe un tanque de agua con ese nombreTipoTerreno.");
+        throw new RuntimeException("No existe un tanque de agua con ese nombre.");
     }
 }
