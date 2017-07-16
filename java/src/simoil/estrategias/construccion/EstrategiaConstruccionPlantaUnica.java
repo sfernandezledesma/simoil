@@ -16,13 +16,13 @@ public class EstrategiaConstruccionPlantaUnica extends EstrategiaConstruccion {
         nuevasConexionesPlantaTanqueGas = new ArrayList<>();
         if (hayNuevosProyectos) {
             ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente = new ArrayList<>(emprendimientoPetrolifero.catalogoPlantasProcesadoras());
-            catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente.sort((p1,p2) -> Float.compare(p2.capacidadProcesamientoTotal(), p1.capacidadProcesamientoTotal()));
+            catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente.sort((p1,p2) -> Double.compare(p2.capacidadProcesamientoTotal(), p1.capacidadProcesamientoTotal()));
             ProyectoConstruccionPlantaProcesadora nuevoProyectoPlanta = new ProyectoConstruccionPlantaProcesadora(
                     "1", 1, catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente.get(0));
             nuevosProyectosPlantas.add(nuevoProyectoPlanta);
 
             ArrayList<EspecificacionTanque> catalogosTanquesOrdenadosPorCapacidadDescendiente = new ArrayList<>(emprendimientoPetrolifero.catalogoTanques());
-            catalogosTanquesOrdenadosPorCapacidadDescendiente.sort((p1,p2) -> Float.compare(p2.capacidadTotal(), p1.capacidadTotal()));
+            catalogosTanquesOrdenadosPorCapacidadDescendiente.sort((p1,p2) -> Double.compare(p2.capacidadTotal(), p1.capacidadTotal()));
 
             ProyectoConstruccionTanque nuevoProyectoTanqueAgua = new ProyectoConstruccionTanque(
                     "A1", 1, catalogosTanquesOrdenadosPorCapacidadDescendiente.get(0));

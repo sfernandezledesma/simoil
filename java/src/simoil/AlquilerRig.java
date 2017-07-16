@@ -2,12 +2,12 @@ package simoil;
 
 
 public class AlquilerRig {
-    private float costoDiario;
+    private double costoDiario;
     private int minimoDias;
     private Rig rig;
     private int diasAlquilado;
 
-    public AlquilerRig(float costoDiario, int minimoDias, Rig rig) {
+    public AlquilerRig(double costoDiario, int minimoDias, Rig rig) {
         this.costoDiario = costoDiario;
         this.minimoDias = minimoDias;
         this.rig = rig;
@@ -18,7 +18,7 @@ public class AlquilerRig {
         this.diasAlquilado = 0;
     }
 
-    public float costoDiario() {
+    public double costoDiario() {
         return costoDiario;
     }
 

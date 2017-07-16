@@ -46,7 +46,7 @@ public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
         ArrayList<ConexionEntreEstructuras> nuevasConexiones = new ArrayList<>();
         if (hayNuevasConexiones) {
             ArrayList<ProyectoConstruccionPlantaProcesadora> proyectosDePlantasProcesadorasOrdenados = new ArrayList<>(emprendimientoPetrolifero.proyectosDePlantasProcesadoras());
-            proyectosDePlantasProcesadorasOrdenados.sort((p1,p2) -> Float.compare(p1.diaComienzoConstruccion() + p1.especificacionPlantaProcesadora().cantidadDiasDeConstruccion(), p2.diaComienzoConstruccion() + p2.especificacionPlantaProcesadora().cantidadDiasDeConstruccion()));
+            proyectosDePlantasProcesadorasOrdenados.sort((p1,p2) -> Double.compare(p1.diaComienzoConstruccion() + p1.especificacionPlantaProcesadora().cantidadDiasDeConstruccion(), p2.diaComienzoConstruccion() + p2.especificacionPlantaProcesadora().cantidadDiasDeConstruccion()));
             for (Excavacion nuevaExcavacion : nuevasExcavaciones) {
                 for (ProyectoConstruccionPlantaProcesadora proyectoConstruccionPlanta : proyectosDePlantasProcesadorasOrdenados) {
                     nuevasConexiones.add(new ConexionEntreEstructuras(

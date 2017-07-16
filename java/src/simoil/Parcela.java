@@ -4,11 +4,11 @@ public class Parcela {
     private boolean tienePozo;
 	private Pozo pozo;
 	private TipoTerreno tipoTerreno;
-	private float profundidadDelReservorio;
-	private float presionInicial;
+	private double profundidadDelReservorio;
+	private double presionInicial;
 	private String nombre;
 	
-		public Parcela(String nombre, TipoTerreno tipoTerreno, float profundidadDelReservorio, float presionInicial) {
+		public Parcela(String nombre, TipoTerreno tipoTerreno, double profundidadDelReservorio, double presionInicial) {
 		this.pozo = null;
 		this.tienePozo = false;
 		this.nombre = nombre;
@@ -39,11 +39,11 @@ public class Parcela {
         return tipoTerreno;
     }
 
-    public float profundidadDelReservorio() {
+    public double profundidadDelReservorio() {
         return profundidadDelReservorio;
     }
 
-	public float presionInicial() {
+	public double presionInicial() {
 	    return presionInicial;
     }
 

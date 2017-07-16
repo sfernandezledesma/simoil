@@ -26,17 +26,17 @@ public class Simulador {
     private ArrayList<Excavacion> excavacionesPendientesDeFinalizacion = new ArrayList<>();
     private int maximoDias;
     private int maximaCantidadRigsSimultaneos;
-    private float volumenMaximoReinyeccionEnUnDia;
-    private float porcentajeCriticoPetroleo;
+    private double volumenMaximoReinyeccionEnUnDia;
+    private double porcentajeCriticoPetroleo;
     private int cantidadDePozosDeseados;
-    private float precioLitroDeCombustibleRig;
-    private float precioLitroGas;
-    private float precioLitroPetroleo;
-    private float precioLitroAguaEspecialComprada;
+    private double precioLitroDeCombustibleRig;
+    private double precioLitroGas;
+    private double precioLitroPetroleo;
+    private double precioLitroAguaEspecialComprada;
     private EmprendimientoPetrolifero emprendimientoPetrolifero;
     private ArrayList<Parcela> parcelasSeleccionadasDondeExcavar;
 
-    public Simulador(int maximoDias, int maximaCantidadRigsSimultaneos, float volumenMaximoReinyeccionEnUnDia, float porcentajeCriticoPetroleo, int cantidadDePozosDeseados, float precioLitroDeCombustibleRig, float precioLitroGas, float precioLitroPetroleo, float precioLitroAguaEspecialComprada, EmprendimientoPetrolifero emprendimientoPetrolifero) {
+    public Simulador(int maximoDias, int maximaCantidadRigsSimultaneos, double volumenMaximoReinyeccionEnUnDia, double porcentajeCriticoPetroleo, int cantidadDePozosDeseados, double precioLitroDeCombustibleRig, double precioLitroGas, double precioLitroPetroleo, double precioLitroAguaEspecialComprada, EmprendimientoPetrolifero emprendimientoPetrolifero) {
         this.maximoDias = maximoDias;
         this.maximaCantidadRigsSimultaneos = maximaCantidadRigsSimultaneos;
         this.volumenMaximoReinyeccionEnUnDia = volumenMaximoReinyeccionEnUnDia;
@@ -139,13 +139,13 @@ public class Simulador {
         emprendimientoPetrolifero.equipoDeIngenieria().estrategiaExtraccion().abrirValvulasDePozos(emprendimientoPetrolifero);
         Yacimiento yacimiento = emprendimientoPetrolifero.yacimiento();
         ComposicionDeProducto composicionDeProducto = yacimiento.composicionDeProducto();
-        float volumenPetroleoExtraidoEnElDia = 0;
-        float proporcionPetroleo = yacimiento.composicionDeProducto().porcentajePetroleo() / 100f;
+        double volumenPetroleoExtraidoEnElDia = 0;
+        double proporcionPetroleo = yacimiento.composicionDeProducto().porcentajePetroleo() / 100f;
         for (Pozo pozo : yacimiento.pozosHabilitadosParaExtraccion()) {
             if (pozo.valvulaPrincipalAbierta()) {
-                float volumenPotencialDelPozo = yacimiento.volumenPotencialDiarioPozo(pozo);
+                double volumenPotencialDelPozo = yacimiento.volumenPotencialDiarioPozo(pozo);
                 logger.log("El pozo " + pozo.nombre() + " puede extraer potencialmente " + volumenPotencialDelPozo + " litros de producto.");
-                float volumenAExtraerDelPozo = 0;
+                double volumenAExtraerDelPozo = 0;
                 // Tenemos que definir cuantos litros podemos realmente extraer segun plantas procesadoras conectadas al pozo
                 for (PlantaProcesadora plantaProcesadora : pozo.plantasProcesadorasConectadas()) {
                     if (volumenPotencialDelPozo <= 0) {
@@ -153,7 +153,7 @@ public class Simulador {
                     }
                     // Chequeamos que la planta procesadora conectada esta efectivamente habilitada en el yacimiento
                     if (emprendimientoPetrolifero.plantasProcesadorasHabilitadas().contains(plantaProcesadora)) {
-                        float volumenProcesado = plantaProcesadora.procesarProducto(volumenPotencialDelPozo, emprendimientoPetrolifero);
+                        double volumenProcesado = plantaProcesadora.procesarProducto(volumenPotencialDelPozo, emprendimientoPetrolifero);
                         if (volumenProcesado > 0) {
                             logger.log("La planta procesadora " + plantaProcesadora.nombre + " proceso " + volumenProcesado + " litros de producto.");
                         } else {
@@ -173,7 +173,7 @@ public class Simulador {
             }
         }
         if (volumenPetroleoExtraidoEnElDia > 0) {
-            float ingresoPorPetroleo = volumenPetroleoExtraidoEnElDia * precioLitroPetroleo;
+            double ingresoPorPetroleo = volumenPetroleoExtraidoEnElDia * precioLitroPetroleo;
             emprendimientoPetrolifero.registroContable().sumarIngreso(ingresoPorPetroleo);
             logger.log("Se vendieron " + volumenPetroleoExtraidoEnElDia + " litros de petroleo por $" + ingresoPorPetroleo + ".");
             yacimiento.actualizarPresionesPozosPorExtraccion();
@@ -182,10 +182,10 @@ public class Simulador {
 
     private void reinyectar() {
         EstrategiaReinyeccion estrategiaReinyeccion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaReinyeccion();
-        float volumenAguaAReinyectarEnUnDia = estrategiaReinyeccion.cuantosLitrosDeAguaReinyectar();
-        float volumenAguaReinyectado = 0;
-        float volumenGasAReinyectarEnUnDia = estrategiaReinyeccion.cuantosLitrosDeGasReinyectar();
-        float volumenGasReinyectado = 0;
+        double volumenAguaAReinyectarEnUnDia = estrategiaReinyeccion.cuantosLitrosDeAguaReinyectar();
+        double volumenAguaReinyectado = 0;
+        double volumenGasAReinyectarEnUnDia = estrategiaReinyeccion.cuantosLitrosDeGasReinyectar();
+        double volumenGasReinyectado = 0;
         ArrayList<Tanque> tanquesDeAgua = estrategiaReinyeccion.tanquesDeAguaDeDondeDescargarEnOrden();
         ArrayList<Tanque> tanquesDeGas = estrategiaReinyeccion.tanquesDeGasDeDondeDescargarEnOrden();
 
@@ -193,14 +193,14 @@ public class Simulador {
             if (volumenAguaAReinyectarEnUnDia <= 0) {
                 break;
             } else {
-                float volumenADescargar = Math.min(tanqueDeAgua.volumenCargado(), volumenAguaAReinyectarEnUnDia);
+                double volumenADescargar = Math.min(tanqueDeAgua.volumenCargado(), volumenAguaAReinyectarEnUnDia);
                 volumenAguaReinyectado += volumenADescargar;
                 volumenAguaAReinyectarEnUnDia -= tanqueDeAgua.descargar(volumenADescargar);
             }
         }
 
         if (volumenAguaAReinyectarEnUnDia > 0) {
-            float costo = precioLitroAguaEspecialComprada * volumenAguaAReinyectarEnUnDia;
+            double costo = precioLitroAguaEspecialComprada * volumenAguaAReinyectarEnUnDia;
             logger.log("Se compraron " + volumenAguaAReinyectarEnUnDia + " litros de agua por $" + costo + ".");
             volumenAguaReinyectado += volumenAguaAReinyectarEnUnDia;
             volumenAguaAReinyectarEnUnDia = 0;
@@ -211,7 +211,7 @@ public class Simulador {
             if (volumenGasAReinyectarEnUnDia <= 0) {
                 break;
             } else {
-                float volumenADescargar = Math.min(tanqueDeGas.volumenCargado(), volumenGasAReinyectarEnUnDia);
+                double volumenADescargar = Math.min(tanqueDeGas.volumenCargado(), volumenGasAReinyectarEnUnDia);
                 volumenGasReinyectado += volumenADescargar;
                 volumenGasAReinyectarEnUnDia -= tanqueDeGas.descargar(volumenADescargar);
             }
@@ -237,7 +237,7 @@ public class Simulador {
         // Conectamos lo que podamos
         conectarEstructuras();
         // Logueamos informacion contable
-        float ganancia = emprendimientoPetrolifero.registroContable().ganancia();
+        double ganancia = emprendimientoPetrolifero.registroContable().ganancia();
         logger.log(
                 "Total ingresos: $" + emprendimientoPetrolifero.registroContable().ingresos() +
                         ". Total gastos: $" + emprendimientoPetrolifero.registroContable().gastos() +
@@ -387,9 +387,9 @@ public class Simulador {
                     }
                 }
                 if (rig != null) {
-                    float costoCombustibleConsumido = rig.consumoCombustibleDiarioEnLitros() * precioLitroDeCombustibleRig;
+                    double costoCombustibleConsumido = rig.consumoCombustibleDiarioEnLitros() * precioLitroDeCombustibleRig;
                     emprendimientoPetrolifero.registroContable().sumarGasto(costoCombustibleConsumido);
-                    float metrosExcavados = rig.excavar(excavacion);
+                    double metrosExcavados = rig.excavar(excavacion);
                     logger.log("El rig " + rig.nombre() + " excavo " + metrosExcavados + " metros en la excavacion del pozo " + excavacion.nombrePozoEnExcavacion() + ".");
                     if (excavacion.excavacionFinalizada()) {
                         itExcavacion.remove();
@@ -411,7 +411,7 @@ public class Simulador {
         for (AlquilerRig nuevoAlquiler : nuevosAlquileres) {
             emprendimientoPetrolifero.contratarAlquilerDeRig(nuevoAlquiler);
         }
-        float costoTotalAlquileresHoy = 0;
+        double costoTotalAlquileresHoy = 0;
         for (AlquilerRig alquilerRig : emprendimientoPetrolifero.alquileresDeRigsContratados()) {
             costoTotalAlquileresHoy += alquilerRig.costoDiario();
             alquilerRig.avanzarUnDia();
@@ -422,12 +422,12 @@ public class Simulador {
     }
 
     private void venderGas() {
-        float totalLitrosDeGasVendidos = 0;
+        double totalLitrosDeGasVendidos = 0;
         ArrayList<Tanque> tanquesDeGas = emprendimientoPetrolifero.tanquesDeGasHabilitados();
         for (Tanque tanqueGas : tanquesDeGas) {
             totalLitrosDeGasVendidos += tanqueGas.descargarTodo();
         }
-        float precioDelGasVendido = totalLitrosDeGasVendidos * precioLitroGas;
+        double precioDelGasVendido = totalLitrosDeGasVendidos * precioLitroGas;
         emprendimientoPetrolifero.registroContable().sumarIngreso(precioDelGasVendido);
         if (precioDelGasVendido > 0)
             logger.log("Se vendieron " + totalLitrosDeGasVendidos + " litros de gas por $" + precioDelGasVendido + ".");
@@ -441,8 +441,8 @@ public class Simulador {
         parcelas.add(new Parcela("2", rocoso, 20, 3200));
         parcelas.add(new Parcela("3", arcilloso, 30, 3300));
         Yacimiento yacimiento = new Yacimiento(
-                0.1f,
-                0.01f,
+                0.1,
+                0.01,
                 10000000,
                 10000000,
                 80000000,
@@ -452,8 +452,8 @@ public class Simulador {
         catalogoPlantas.add(new EspecificacionPlantaProcesadora(3, 200, 20000));
         catalogoPlantas.add(new EspecificacionPlantaProcesadora(5, 1000, 50000));
         ArrayList<EspecificacionTanque> catalogoTanques = new ArrayList<>();
-        catalogoTanques.add(new EspecificacionTanque(2, 100, 1000));
-        catalogoTanques.add(new EspecificacionTanque(3, 150, 1000));
+        catalogoTanques.add(new EspecificacionTanque(2, 100, 3000));
+        catalogoTanques.add(new EspecificacionTanque(3, 150, 5000));
         ArrayList<AlquilerRig> catalogoAlquileresRigs = new ArrayList<>();
         catalogoAlquileresRigs.add(new AlquilerRig(60, 3, new Rig("1", 2, 10)));
         catalogoAlquileresRigs.add(new AlquilerRig(100, 5, new Rig("2", 4, 15)));
@@ -470,13 +470,13 @@ public class Simulador {
         Simulador sim = new Simulador(
                 25,
                 2,
-                999999999,
+                10000,
                 35,
-                1,
+                3,
                 10,
-                0.1f,
-                0.22f,
-                0.03f,
+                0.1,
+                0.22,
+                0.03,
                 emprendimiento);
 
         sim.iniciarSimulacion();

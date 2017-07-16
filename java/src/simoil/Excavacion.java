@@ -3,7 +3,7 @@ package simoil;
 public class Excavacion {
     private String nombrePozoEnExcavacion;
     private int diaDeComienzoDeExcavacion;
-    private float metrosExcavados;
+    private double metrosExcavados;
     private Parcela parcelaEnExcavacion;
 
     public Excavacion(String nombrePozoEnExcavacion, int diaDeComienzoDeExcavacion, Parcela parcelaEnExcavacion) {
@@ -29,9 +29,9 @@ public class Excavacion {
         return metrosExcavados == parcelaEnExcavacion.profundidadDelReservorio();
     }
 
-    public float excavar(float metrosAExcavar) {
+    public double excavar(double metrosAExcavar) {
         if (metrosAExcavar + metrosExcavados > parcelaEnExcavacion.profundidadDelReservorio()) {
-            float metrosExcavadosHastaElMomento = metrosExcavados;
+            double metrosExcavadosHastaElMomento = metrosExcavados;
             metrosExcavados = parcelaEnExcavacion.profundidadDelReservorio();
             return parcelaEnExcavacion.profundidadDelReservorio() - metrosExcavadosHastaElMomento;
         } else {

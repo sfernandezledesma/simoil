@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class PlantaProcesadora {
     String nombre;
-    private float capacidadProcesamientoTotal;
+    private double capacidadProcesamientoTotal;
     private ArrayList<Tanque> tanquesDeAguaConectados;
     private ArrayList<Tanque> tanquesDeGasConectados;
-    private float volumenProcesadoEnElDia = 0;
+    private double volumenProcesadoEnElDia = 0;
 
-    public PlantaProcesadora(String nombre, float capacidadProcesamientoTotal) {
+    public PlantaProcesadora(String nombre, double capacidadProcesamientoTotal) {
         this.nombre = nombre;
         if (capacidadProcesamientoTotal <= 0)
             throw new RuntimeException("La capacidad de procesamiento debe ser positiva.");
@@ -26,7 +26,7 @@ public class PlantaProcesadora {
         volumenProcesadoEnElDia = 0;
     }
 
-    public float capacidadProcesamientoTotal() {
+    public double capacidadProcesamientoTotal() {
         return capacidadProcesamientoTotal;
     }
 
@@ -46,19 +46,19 @@ public class PlantaProcesadora {
         tanquesDeGasConectados.add(tanqueDeGas);
     }
 
-    public float procesarProducto(float volumenProducto, EmprendimientoPetrolifero emprendimientoPetrolifero) {
+    public double procesarProducto(double volumenProducto, EmprendimientoPetrolifero emprendimientoPetrolifero) {
         ComposicionDeProducto composicion = emprendimientoPetrolifero.yacimiento().composicionDeProducto();
         ArrayList<Tanque> tanquesDeAguaHabilitados = emprendimientoPetrolifero.tanquesDeAguaHabilitados();
         ArrayList<Tanque> tanquesDeGasHabilitados = emprendimientoPetrolifero.tanquesDeGasHabilitados();
-        float volumenTotalProcesado = 0;
+        double volumenTotalProcesado = 0;
         if (capacidadDisponible() > 0) {
-            float potencialVolumenProcesadoTotal = Math.min(capacidadDisponible(), volumenProducto);
-            float proporcionAgua = composicion.porcentajeAgua() / 100;
-            float proporcionGas = composicion.porcentajeGas() / 100;
-            float potencialVolumenAguaProcesada = potencialVolumenProcesadoTotal * proporcionAgua;
-            float potencialVolumenGasProcesado = potencialVolumenProcesadoTotal * proporcionGas;
-            float maximoVolumenAguaAlmacenable = 0;
-            float maximoVolumenGasAlmacenable = 0;
+            double potencialVolumenProcesadoTotal = Math.min(capacidadDisponible(), volumenProducto);
+            double proporcionAgua = composicion.porcentajeAgua() / 100;
+            double proporcionGas = composicion.porcentajeGas() / 100;
+            double potencialVolumenAguaProcesada = potencialVolumenProcesadoTotal * proporcionAgua;
+            double potencialVolumenGasProcesado = potencialVolumenProcesadoTotal * proporcionGas;
+            double maximoVolumenAguaAlmacenable = 0;
+            double maximoVolumenGasAlmacenable = 0;
             ArrayList<Tanque> tanquesDeAguaDisponibles = new ArrayList<>();
             ArrayList<Tanque> tanquesDeGasDisponibles = new ArrayList<>();
             for (Tanque tanqueDeAguaConectado : tanquesDeAguaConectados) {
@@ -75,16 +75,16 @@ public class PlantaProcesadora {
             for (Tanque tanqueDeAguaDisponible : tanquesDeAguaDisponibles) {
                 maximoVolumenAguaAlmacenable += tanqueDeAguaDisponible.capacidadDisponible();
             }
-            float volumenAguaProcesadoAcotandoPorAguaAlmacenable = Math.min(potencialVolumenAguaProcesada, maximoVolumenAguaAlmacenable);
-            float volumenTotalProcesadoAcotandoPorAguaAlmacenable = volumenAguaProcesadoAcotandoPorAguaAlmacenable / proporcionAgua;
-            float volumenGasProcesadoAcotandoPorAguaAlmacenable = volumenTotalProcesadoAcotandoPorAguaAlmacenable * proporcionGas;
+            double volumenAguaProcesadoAcotandoPorAguaAlmacenable = Math.min(potencialVolumenAguaProcesada, maximoVolumenAguaAlmacenable);
+            double volumenTotalProcesadoAcotandoPorAguaAlmacenable = volumenAguaProcesadoAcotandoPorAguaAlmacenable / proporcionAgua;
+            double volumenGasProcesadoAcotandoPorAguaAlmacenable = volumenTotalProcesadoAcotandoPorAguaAlmacenable * proporcionGas;
 
             for (Tanque tanqueDeGasDisponible : tanquesDeGasDisponibles) {
                 maximoVolumenGasAlmacenable += tanqueDeGasDisponible.capacidadDisponible();
             }
-            float volumenGasProcesadoAcotandoPorGasAlmacenable = Math.min(potencialVolumenGasProcesado, maximoVolumenGasAlmacenable);
-            float volumenTotalProcesadoAcotandoPorGasAlmacenable = volumenGasProcesadoAcotandoPorGasAlmacenable / proporcionGas;
-            float volumenAguaProcesadoAcotandoPorGasAlmacenable = volumenTotalProcesadoAcotandoPorGasAlmacenable * proporcionAgua;
+            double volumenGasProcesadoAcotandoPorGasAlmacenable = Math.min(potencialVolumenGasProcesado, maximoVolumenGasAlmacenable);
+            double volumenTotalProcesadoAcotandoPorGasAlmacenable = volumenGasProcesadoAcotandoPorGasAlmacenable / proporcionGas;
+            double volumenAguaProcesadoAcotandoPorGasAlmacenable = volumenTotalProcesadoAcotandoPorGasAlmacenable * proporcionAgua;
 
             if (potencialVolumenAguaProcesada == 0) {
                 // No hay agua para procesar, procesamos la mayor cantidad de gas que podamos
@@ -140,7 +140,7 @@ public class PlantaProcesadora {
         return volumenTotalProcesado;
     }
 
-    private float capacidadDisponible() {
+    private double capacidadDisponible() {
         return capacidadProcesamientoTotal - volumenProcesadoEnElDia;
     }
 

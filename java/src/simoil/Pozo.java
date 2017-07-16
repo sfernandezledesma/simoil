@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Pozo {
     private String nombre;
-    private float presionInicial;
-    private float presionActual;
+    private double presionInicial;
+    private double presionActual;
     private boolean valvulaPrincipalAbierta;
     private ArrayList<PlantaProcesadora> plantasConectadas;
 
-    public Pozo(String nombre, float presionInicial, PlantaProcesadora plantaProcesadoraDondeConectar) {
+    public Pozo(String nombre, double presionInicial, PlantaProcesadora plantaProcesadoraDondeConectar) {
     	if (presionInicial < 0) {
     		throw new RuntimeException("Presion debe ser no negativa");
     	}
@@ -40,15 +40,15 @@ public class Pozo {
         return valvulaPrincipalAbierta;
     }
 
-    public float presionInicial() {
+    public double presionInicial() {
         return presionInicial;
     }
 
-    public float presionActual() {
+    public double presionActual() {
         return presionActual;
     }
 
-    public void actualizarPresion(float nuevaPresion) {
+    public void actualizarPresion(double nuevaPresion) {
     	if (nuevaPresion < 0) {
     		throw new RuntimeException("Presion debe ser no negativa");
     	}

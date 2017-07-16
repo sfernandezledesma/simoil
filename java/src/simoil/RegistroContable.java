@@ -1,28 +1,28 @@
 package simoil;
 
 public class RegistroContable {
-    private float ingresos = 0;
-    private float gastos = 0;
+    private double ingresos = 0;
+    private double gastos = 0;
 
-    public float ingresos() {
+    public double ingresos() {
         return ingresos;
     }
 
-    public float gastos() {
+    public double gastos() {
         return gastos;
     }
 
-    public float ganancia() {
+    public double ganancia() {
         return ingresos() - gastos();
     }
 
-    public void sumarIngreso(float nuevoIngreso) {
+    public void sumarIngreso(double nuevoIngreso) {
         if (nuevoIngreso < 0)
             throw new RuntimeException("El valor del ingreso debe ser no negativo.");
         ingresos += nuevoIngreso;
     }
 
-    public void sumarGasto(float nuevoGasto) {
+    public void sumarGasto(double nuevoGasto) {
         if (nuevoGasto < 0)
             throw new RuntimeException("El valor del gasto debe ser no negativo.");
         gastos += nuevoGasto;

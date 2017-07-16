@@ -2,16 +2,16 @@ package simoil;
 
 
 public class ComposicionDeProducto {
-    private float porcentajeAgua;
-    private float porcentajeGas;
-    private float porcentajePetroleo;
+    private double porcentajeAgua;
+    private double porcentajeGas;
+    private double porcentajePetroleo;
 
-    public ComposicionDeProducto(float porcentajeAgua, float porcentajeGas, float porcentajePetroleo) {
+    public ComposicionDeProducto(double porcentajeAgua, double porcentajeGas, double porcentajePetroleo) {
         if (porcentajeAgua < 0 || porcentajeAgua > 100 || porcentajeGas < 0 || porcentajeGas > 100 ||
                 porcentajePetroleo < 0 || porcentajePetroleo > 100)
             throw new RuntimeException("Los porcentajes deben estar entre 0 y 100 inclusive.");
 
-        if (Math.abs(porcentajeAgua + porcentajeGas + porcentajePetroleo - 100f) > 0.1f)
+        if (Math.abs(porcentajeAgua + porcentajeGas + porcentajePetroleo - 100) > 0.1)
             throw new RuntimeException("Los porcentajes deben sumar 100.");
 
         this.porcentajeAgua = porcentajeAgua;
@@ -19,15 +19,15 @@ public class ComposicionDeProducto {
         this.porcentajePetroleo = porcentajePetroleo;
     }
 
-    public float porcentajeAgua() {
+    public double porcentajeAgua() {
         return porcentajeAgua;
     }
 
-    public float porcentajeGas() {
+    public double porcentajeGas() {
         return porcentajeGas;
     }
 
-    public float porcentajePetroleo() {
+    public double porcentajePetroleo() {
         return porcentajePetroleo;
     }
 }

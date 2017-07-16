@@ -2,10 +2,10 @@ package simoil;
 
 public class EspecificacionPlantaProcesadora {
     private int cantidadDiasDeConstruccion;
-    private float costo;
-    private float capacidadProcesamientoTotal;
+    private double costo;
+    private double capacidadProcesamientoTotal;
 
-    public EspecificacionPlantaProcesadora(int cantidadDiasDeConstruccion, float costo, float capacidadProcesamientoTotal) {
+    public EspecificacionPlantaProcesadora(int cantidadDiasDeConstruccion, double costo, double capacidadProcesamientoTotal) {
         this.cantidadDiasDeConstruccion = cantidadDiasDeConstruccion;
         this.costo = costo;
         this.capacidadProcesamientoTotal = capacidadProcesamientoTotal;
@@ -15,11 +15,11 @@ public class EspecificacionPlantaProcesadora {
         return cantidadDiasDeConstruccion;
     }
 
-    public float costo() {
+    public double costo() {
         return costo;
     }
 
-    public float capacidadProcesamientoTotal() {
+    public double capacidadProcesamientoTotal() {
         return capacidadProcesamientoTotal;
     }
 }

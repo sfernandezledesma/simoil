@@ -8,17 +8,17 @@ import java.util.ArrayList;
 
 public class EstrategiaReinyeccionPorTanqueLleno extends EstrategiaReinyeccion {
     @Override
-    public float calcularTotalLitrosReinyeccion(EmprendimientoPetrolifero emprendimientoPetrolifero, float volumenMaximoReinyeccionEnUnDia) {
+    public double calcularTotalLitrosReinyeccion(EmprendimientoPetrolifero emprendimientoPetrolifero, double volumenMaximoReinyeccionEnUnDia) {
         tanquesDeAguaDeDondeDescargar = new ArrayList<>();
         tanquesDeGasDeDondeDescargar = new ArrayList<>();
         boolean tanqueLleno = false;
 
         Yacimiento yacimiento = emprendimientoPetrolifero.yacimiento();
-        float capacidadDeReinyecccion = yacimiento.globalExtraido() - yacimiento.globalReinyectado();
+        double capacidadDeReinyecccion = yacimiento.globalExtraido() - yacimiento.globalReinyectado();
         capacidadDeReinyecccion = Math.min(volumenMaximoReinyeccionEnUnDia, capacidadDeReinyecccion);
-        float totalAReinyectar = capacidadDeReinyecccion * 1f;
-        volumenAguaReinyeccion = totalAReinyectar * 1f;
-        volumenGasReinyeccion = totalAReinyectar * 0f;
+        double totalAReinyectar = capacidadDeReinyecccion * 1.0;
+        volumenAguaReinyeccion = totalAReinyectar * 1.0;
+        volumenGasReinyeccion = totalAReinyectar * 0;
 
         for (Tanque tanqueDeAgua : emprendimientoPetrolifero.tanquesDeAguaHabilitados()) {
             tanquesDeAguaDeDondeDescargar.add(tanqueDeAgua);

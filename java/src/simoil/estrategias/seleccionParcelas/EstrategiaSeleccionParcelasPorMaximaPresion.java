@@ -13,7 +13,7 @@ public class EstrategiaSeleccionParcelasPorMaximaPresion extends EstrategiaSelec
     public ArrayList<Parcela> seleccionarParcelasParaExcavar(EmprendimientoPetrolifero emprendimientoPetrolifero, int cantidadPozosDeseados) {
         ArrayList<Parcela> parcelasSeleccionadas = new ArrayList<>(emprendimientoPetrolifero.yacimiento().parcelas());
 
-        parcelasSeleccionadas.sort((p1, p2) -> Float.compare(p2.presionInicial(), p1.presionInicial()));
+        parcelasSeleccionadas.sort((p1, p2) -> Double.compare(p2.presionInicial(), p1.presionInicial()));
 
         while (parcelasSeleccionadas.size() > cantidadPozosDeseados)
             parcelasSeleccionadas.remove(parcelasSeleccionadas.size() - 1);

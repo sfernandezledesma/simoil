@@ -7,21 +7,21 @@ import simoil.Tanque;
 import java.util.ArrayList;
 
 public abstract class EstrategiaReinyeccion {
-    protected float volumenGasReinyeccion = 0;
-    protected float volumenAguaReinyeccion = 0;
+    protected double volumenGasReinyeccion = 0;
+    protected double volumenAguaReinyeccion = 0;
     protected ArrayList<Tanque> tanquesDeAguaDeDondeDescargar = new ArrayList<>();
     protected ArrayList<Tanque> tanquesDeGasDeDondeDescargar = new ArrayList<>();
 
-    public abstract float calcularTotalLitrosReinyeccion(EmprendimientoPetrolifero emprendimientoPetrolifero, float volumenMaximoReinyeccionEnUnDia);
+    public abstract double calcularTotalLitrosReinyeccion(EmprendimientoPetrolifero emprendimientoPetrolifero, double volumenMaximoReinyeccionEnUnDia);
 
-    public float cuantosLitrosDeAguaReinyectar() {
-        float resultado = volumenAguaReinyeccion;
+    public double cuantosLitrosDeAguaReinyectar() {
+        double resultado = volumenAguaReinyeccion;
         volumenAguaReinyeccion = 0;
         return resultado;
     }
 
-    public float cuantosLitrosDeGasReinyectar() {
-        float resultado = volumenGasReinyeccion;
+    public double cuantosLitrosDeGasReinyectar() {
+        double resultado = volumenGasReinyeccion;
         volumenGasReinyeccion = 0;
         return resultado;
     }

@@ -3,17 +3,17 @@ package simoil;
 import java.util.ArrayList;
 
 public class Yacimiento {
-    private float alpha1;
-    private float alpha2;
-    private float volumenAgua;
-    private float volumenGas;
-    private float volumenPetroleo;
-    private float volumenTotalInicial;
-    private float globalExtraido;
-    private float globalReinyectado;
+    private double alpha1;
+    private double alpha2;
+    private double volumenAgua;
+    private double volumenGas;
+    private double volumenPetroleo;
+    private double volumenTotalInicial;
+    private double globalExtraido;
+    private double globalReinyectado;
     private ArrayList<Parcela> parcelas;
 
-    public Yacimiento(float alpha1, float alpha2, float volumenAgua, float volumenGas, float volumenPetroleo, ArrayList<Parcela> parcelas) {
+    public Yacimiento(double alpha1, double alpha2, double volumenAgua, double volumenGas, double volumenPetroleo, ArrayList<Parcela> parcelas) {
         this.alpha1 = alpha1;
         this.alpha2 = alpha2;
         if (volumenAgua < 0 || volumenGas < 0 || volumenPetroleo < 0)
@@ -33,12 +33,12 @@ public class Yacimiento {
 
     }
 
-    public float volumenTotalActual() {
+    public double volumenTotalActual() {
         return volumenAgua + volumenGas + volumenPetroleo;
     }
 
     public ComposicionDeProducto composicionDeProducto() {
-        float volumenTotal = volumenTotalActual();
+        double volumenTotal = volumenTotalActual();
         return new ComposicionDeProducto(volumenAgua / volumenTotal * 100,
                 volumenGas / volumenTotal * 100,
                 volumenPetroleo / volumenTotal * 100);
@@ -48,17 +48,17 @@ public class Yacimiento {
         return parcelas;
     }
 
-    public float globalExtraido() {
+    public double globalExtraido() {
         return globalExtraido;
     }
 
-    public float globalReinyectado() {
+    public double globalReinyectado() {
         return globalReinyectado;
     }
 
-    public float reinyectarAguaYGas(float volumenAguaAReinyectar, float volumenGasAReinyectar) {
-        float totalReinyeccion = volumenAguaAReinyectar + volumenGasAReinyectar;
-        float volumenReinyectado = 0;
+    public double reinyectarAguaYGas(double volumenAguaAReinyectar, double volumenGasAReinyectar) {
+        double totalReinyeccion = volumenAguaAReinyectar + volumenGasAReinyectar;
+        double volumenReinyectado = 0;
         if (totalReinyeccion + globalReinyectado > globalExtraido) {
             throw new RuntimeException("Se intento reinyectar mas volumen de lo que el yacimiento soporta.");
         }
@@ -69,13 +69,13 @@ public class Yacimiento {
         return volumenReinyectado;
     }
 
-    public float extraerProducto(float volumenAExtraer) {
-        float volumenExtraido = 0;
+    public double extraerProducto(double volumenAExtraer) {
+        double volumenExtraido = 0;
         if (volumenAExtraer <= volumenTotalActual()) {
             ComposicionDeProducto composicion = composicionDeProducto();
-            float volumenAguaExtraido = volumenAExtraer * composicion.porcentajeAgua() / 100;
-            float volumenGasExtraido = volumenAExtraer * composicion.porcentajeGas() / 100;
-            float volumenPetroleoExtraido = volumenAExtraer * composicion.porcentajePetroleo() / 100;
+            double volumenAguaExtraido = volumenAExtraer * composicion.porcentajeAgua() / 100.0;
+            double volumenGasExtraido = volumenAExtraer * composicion.porcentajeGas() / 100.0;
+            double volumenPetroleoExtraido = volumenAExtraer * composicion.porcentajePetroleo() / 100.0;
             volumenAgua -= volumenAguaExtraido;
             volumenGas -= volumenGasExtraido;
             volumenPetroleo -= volumenPetroleoExtraido;
@@ -85,15 +85,15 @@ public class Yacimiento {
         return volumenExtraido;
     }
 
-    public float volumenPotencialDiarioPozo(Pozo pozo) {
+    public double volumenPotencialDiarioPozo(Pozo pozo) {
         if (!pozo.valvulaPrincipalAbierta()) {
             throw new RuntimeException("El pozo tiene la valvula cerrada, no puede extraer.");
         }
-        float presionBocaDePozo = pozo.presionActual();
+        double presionBocaDePozo = pozo.presionActual();
         int cantidadPozosAbiertos = cantidadPozosAbiertos();
-        float presionSobrePozosHabilitados = presionBocaDePozo / cantidadPozosAbiertos;
+        double presionSobrePozosHabilitados = presionBocaDePozo / cantidadPozosAbiertos;
 
-        return Math.min(volumenTotalActual(), alpha1 * presionSobrePozosHabilitados + alpha2 * (float) Math.pow(presionSobrePozosHabilitados, 2f));
+        return Math.min(volumenTotalActual(), alpha1 * presionSobrePozosHabilitados + alpha2 * (double) Math.pow(presionSobrePozosHabilitados, 2f));
     }
 
     public int cantidadPozosAbiertos() {
@@ -108,10 +108,10 @@ public class Yacimiento {
 
     public void actualizarPresionesPozosPorExtraccion() {
         if (cantidadPozosAbiertos() > 0) {
-            float beta = 0.1f * (volumenTotalActual() / volumenTotalInicial) / (float) Math.pow(cantidadPozosAbiertos(), 4.0 / 3.0);
+            double beta = 0.1 * (volumenTotalActual() / volumenTotalInicial) / (double) Math.pow(cantidadPozosAbiertos(), 4.0 / 3.0);
             for (Pozo pozo : pozosHabilitadosParaExtraccion()) {
                 if (pozo.valvulaPrincipalAbierta()) {
-                    float nuevaPresion = pozo.presionActual() * (float) Math.exp(-beta);
+                    double nuevaPresion = pozo.presionActual() * (double) Math.exp(-beta);
                     pozo.actualizarPresion(nuevaPresion);
                 }
             }
@@ -120,7 +120,7 @@ public class Yacimiento {
 
     public void actualizarPresionesPozosPorReinyeccion() {
         for (Pozo pozo : pozosHabilitadosParaExtraccion()) {
-            float nuevaPresion = pozo.presionInicial() * (volumenTotalInicial - globalExtraido() + globalReinyectado()) / volumenTotalInicial;
+            double nuevaPresion = pozo.presionInicial() * (volumenTotalInicial - globalExtraido() + globalReinyectado()) / volumenTotalInicial;
             pozo.actualizarPresion(nuevaPresion);
         }
     }

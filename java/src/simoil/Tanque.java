@@ -3,10 +3,10 @@ package simoil;
 
 public class Tanque  {
     private String nombre;
-    private float capacidadTotal;
-    private float capacidadDisponible;
+    private double capacidadTotal;
+    private double capacidadDisponible;
 
-    public Tanque(String nombre, float capacidadTotal) {
+    public Tanque(String nombre, double capacidadTotal) {
         this.nombre = nombre;
         if (capacidadTotal <= 0)
             throw new RuntimeException("La capacidad de un tanque debe ser positiva.");
@@ -14,32 +14,32 @@ public class Tanque  {
         this.capacidadDisponible = capacidadTotal;
     }
 
-    public float capacidadTotal() {
+    public double capacidadTotal() {
         return capacidadTotal;
     }
 
-    public float capacidadDisponible() {
+    public double capacidadDisponible() {
         return capacidadDisponible;
     }
 
-    public float volumenCargado() {
+    public double volumenCargado() {
         return capacidadTotal - capacidadDisponible;
     }
 
-    public float cargar(float volumenACargar) {
-        float volumenCargado = Math.min(volumenACargar, capacidadDisponible);
+    public double cargar(double volumenACargar) {
+        double volumenCargado = Math.min(volumenACargar, capacidadDisponible);
         capacidadDisponible -= volumenCargado;
         return volumenCargado;
     }
 
-    public float descargar(float volumenADescargar) {
-        float volumenDescargado = Math.min(volumenADescargar, volumenCargado());
+    public double descargar(double volumenADescargar) {
+        double volumenDescargado = Math.min(volumenADescargar, volumenCargado());
         capacidadDisponible += volumenDescargado;
         return volumenDescargado;
     }
 
-    public float descargarTodo() {
-        float volumenDescargado = volumenCargado();
+    public double descargarTodo() {
+        double volumenDescargado = volumenCargado();
         capacidadDisponible = capacidadTotal;
         return volumenDescargado;
     }

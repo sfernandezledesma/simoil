@@ -2,9 +2,9 @@ package simoil;
 
 public class TipoTerreno {
 	private String nombreTipoTerreno;
-	private float resistenciaALaExcavacionEnPorcentaje;
+	private double resistenciaALaExcavacionEnPorcentaje;
 	
-	public TipoTerreno(String nombreTipoTerreno, float resistenciaALaExcavacionEnPorcentaje) {
+	public TipoTerreno(String nombreTipoTerreno, double resistenciaALaExcavacionEnPorcentaje) {
 		this.nombreTipoTerreno = nombreTipoTerreno;
 		if (resistenciaALaExcavacionEnPorcentaje >= 100f)
 			throw new RuntimeException("El porcentaje debe ser menor que 100.");
@@ -15,7 +15,7 @@ public class TipoTerreno {
 		return nombreTipoTerreno;
 	}
 	
-	public float resistenciaALaExcavacionEnPorcentaje() {
+	public double resistenciaALaExcavacionEnPorcentaje() {
 		return resistenciaALaExcavacionEnPorcentaje;
 	}
 }

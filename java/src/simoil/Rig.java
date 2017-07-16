@@ -3,11 +3,11 @@ package simoil;
 
 public class Rig {
     private String nombre;
-    private float poderExcavacion;
-    private float consumoCombustibleDiarioEnLitros;
+    private double poderExcavacion;
+    private double consumoCombustibleDiarioEnLitros;
     private boolean estaExcavando;
 
-    public Rig(String nombre, float poderExcavacion, float consumoCombustibleDiarioEnLitros) {
+    public Rig(String nombre, double poderExcavacion, double consumoCombustibleDiarioEnLitros) {
         this.nombre = nombre;
         this.estaExcavando = false;
         this.poderExcavacion = poderExcavacion;
@@ -18,13 +18,13 @@ public class Rig {
         this(nombre, otroRig.poderExcavacion(), otroRig.consumoCombustibleDiarioEnLitros());
     }
 
-    public float excavar(Excavacion excavacion) {
-        float metrosExcavados = 0;
+    public double excavar(Excavacion excavacion) {
+        double metrosExcavados = 0;
         if (!estaExcavando) {
             estaExcavando = true;
-            float resistenciaEnPorcentaje = excavacion.parcelaEnExcavacion().tipoTerreno().resistenciaALaExcavacionEnPorcentaje();
-            float multiplicadorExcavacion = 1 - resistenciaEnPorcentaje / 100;
-            float metrosAExcavar = multiplicadorExcavacion * poderExcavacion;
+            double resistenciaEnPorcentaje = excavacion.parcelaEnExcavacion().tipoTerreno().resistenciaALaExcavacionEnPorcentaje();
+            double multiplicadorExcavacion = 1 - resistenciaEnPorcentaje / 100;
+            double metrosAExcavar = multiplicadorExcavacion * poderExcavacion;
             metrosExcavados = excavacion.excavar(metrosAExcavar);
         } else {
             throw new RuntimeException("El Rig ya esta excavando.");
@@ -36,7 +36,7 @@ public class Rig {
         estaExcavando = false;
     }
 
-    public float poderExcavacion() {
+    public double poderExcavacion() {
         return poderExcavacion;
     }
 
@@ -44,7 +44,7 @@ public class Rig {
         return estaExcavando;
     }
 
-    public float consumoCombustibleDiarioEnLitros() {
+    public double consumoCombustibleDiarioEnLitros() {
         return consumoCombustibleDiarioEnLitros;
     }
 
