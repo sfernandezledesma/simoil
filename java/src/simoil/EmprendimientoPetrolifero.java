@@ -143,4 +143,68 @@ public class EmprendimientoPetrolifero {
     public RegistroContable contabilidad() {
         return registroContable;
     }
+
+    public boolean plantaProcesadoraHabilitada(String nombre) {
+        for (PlantaProcesadora plantaProcesadora : plantasProcesadorasHabilitadas) {
+            if (plantaProcesadora.nombre().equals(nombre))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean tanqueDeAguaHabilitado(String nombre) {
+        for (Tanque tanqueDeAgua : tanquesDeAguaHabilitados) {
+            if (tanqueDeAgua.nombre().equals(nombre))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean tanqueDeGasHabilitado(String nombre) {
+        for (Tanque tanqueDeGas : tanquesDeGasHabilitados) {
+            if (tanqueDeGas.nombre().equals(nombre))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean pozoHabilitado(String nombre) {
+        for (Pozo pozo : yacimiento.pozosHabilitadosParaExtraccion()) {
+            if (pozo.nombre().equals(nombre))
+                return true;
+        }
+        return false;
+    }
+
+    public PlantaProcesadora plantaProcesadoraPorNombre(String nombre) {
+        for (PlantaProcesadora plantaProcesadora : plantasProcesadorasHabilitadas) {
+            if (plantaProcesadora.nombre().equals(nombre))
+                return plantaProcesadora;
+        }
+        throw new RuntimeException("No existe una planta procesadora con ese nombre.");
+    }
+
+    public Tanque tanqueDeAguaPorNombre(String nombre) {
+        for (Tanque tanqueDeAgua : tanquesDeAguaHabilitados) {
+            if (tanqueDeAgua.nombre().equals(nombre))
+                return tanqueDeAgua;
+        }
+        throw new RuntimeException("No existe un tanque de agua con ese nombre.");
+    }
+
+    public Tanque tanqueDeGasPorNombre(String nombre) {
+        for (Tanque tanqueDeGas : tanquesDeGasHabilitados) {
+            if (tanqueDeGas.nombre().equals(nombre))
+                return tanqueDeGas;
+        }
+        throw new RuntimeException("No existe un tanque de agua con ese nombre.");
+    }
+
+    public Pozo pozoPorNombre(String nombre) {
+        for (Pozo pozo : yacimiento.pozosHabilitadosParaExtraccion()) {
+            if (pozo.nombre().equals(nombre))
+                return pozo;
+        }
+        throw new RuntimeException("No existe un pozo con ese nombre.");
+    }
 }

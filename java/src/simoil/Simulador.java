@@ -18,6 +18,10 @@ import java.util.Iterator;
 public class Simulador {
     private int diaActual = 1;
     private Logger logger = new Logger();
+    private ArrayList<ConexionEntreEstructuras> conexionesPendientesPozoPlantaProcesadora = new ArrayList<>();
+    private ArrayList<ConexionEntreEstructuras> conexionesPendientesPlantaProcesadoraTanqueAgua = new ArrayList<>();
+    private ArrayList<ConexionEntreEstructuras> conexionesPendientesPlantaProcesadoraTanqueGas = new ArrayList<>();
+    private ArrayList<Excavacion> excavacionesPendientesDeFinalizacion = new ArrayList<>();
     private int maximoDias;
     private int maximaCantidadRigsSimultaneos;
     private float volumenMaximoReinyeccionEnUnDia;
@@ -65,21 +69,22 @@ public class Simulador {
 
         // Definimos los proyectos de construccion de plantas procesadoras y tanques
         EstrategiaConstruccion estrategiaConstruccion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaConstruccion();
-        ArrayList<ProyectoConstruccionPlanta> proyectosNuevosPlantas = estrategiaConstruccion.nuevosProyectosConstruccionPlantas(emprendimientoPetrolifero);
+        estrategiaConstruccion.crearProyectos(emprendimientoPetrolifero);
+        ArrayList<ProyectoConstruccionPlanta> proyectosNuevosPlantas = estrategiaConstruccion.nuevosProyectosConstruccionPlantas();
         for (ProyectoConstruccionPlanta proyectoPlanta : proyectosNuevosPlantas) {
             emprendimientoPetrolifero.agregarProyectoDePlantaProcesadora(proyectoPlanta);
             emprendimientoPetrolifero.contabilidad().sumarGasto(proyectoPlanta.especificacionPlantaProcesadora().costo());
             logger.log("Se proyecto una nueva planta procesadora. Su construccion comienza el dia " +
                     proyectoPlanta.diaComienzoConstruccion() + " y su costo fue de $" + proyectoPlanta.especificacionPlantaProcesadora().costo() + ".");
         }
-        ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeAgua = estrategiaConstruccion.nuevosProyectosConstruccionTanquesDeAgua(emprendimientoPetrolifero);
+        ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeAgua = estrategiaConstruccion.nuevosProyectosConstruccionTanquesDeAgua();
         for (ProyectoConstruccionTanque proyectoTanqueAgua : proyectosNuevosTanquesDeAgua) {
             emprendimientoPetrolifero.agregarProyectoDeTanqueDeAgua(proyectoTanqueAgua);
             emprendimientoPetrolifero.contabilidad().sumarGasto(proyectoTanqueAgua.especificacionTanque().costo());
             logger.log("Se proyecto un nuevo tanque de agua. Su construccion comienza el dia " +
                     proyectoTanqueAgua.diaComienzoConstruccion() + " y su costo fue de $" + proyectoTanqueAgua.especificacionTanque().costo() + ".");
         }
-        ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeGas = estrategiaConstruccion.nuevosProyectosConstruccionTanquesDeGas(emprendimientoPetrolifero);
+        ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeGas = estrategiaConstruccion.nuevosProyectosConstruccionTanquesDeGas();
         for (ProyectoConstruccionTanque proyectoTanqueGas : proyectosNuevosTanquesDeGas) {
             emprendimientoPetrolifero.agregarProyectoDeTanqueDeGas(proyectoTanqueGas);
             emprendimientoPetrolifero.contabilidad().sumarGasto(proyectoTanqueGas.especificacionTanque().costo());
@@ -87,12 +92,21 @@ public class Simulador {
                     proyectoTanqueGas.diaComienzoConstruccion() + " y su costo fue de $" + proyectoTanqueGas.especificacionTanque().costo() + ".");
         }
 
+        ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueAgua = estrategiaConstruccion.nuevasConexionesPlantaTanqueAgua();
+        conexionesPendientesPlantaProcesadoraTanqueAgua.addAll(nuevasConexionesPlantaTanqueAgua);
+
+        ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueGas = estrategiaConstruccion.nuevasConexionesPlantaTanqueGas();
+        conexionesPendientesPlantaProcesadoraTanqueGas.addAll(nuevasConexionesPlantaTanqueGas);
+
+
         // Definimos nuevas excavaciones
         EstrategiaExcavacion estrategiaExcavacion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaExcavacion();
         ArrayList<Excavacion> nuevasExcavaciones = estrategiaExcavacion.crearExcavaciones(emprendimientoPetrolifero, parcelasSeleccionadasDondeExcavar);
         for (Excavacion nuevaExcavacion : nuevasExcavaciones) {
+            logger.log("Se creo la excavacion del pozo " + nuevaExcavacion.nombrePozoEnExcavacion() + ".");
             emprendimientoPetrolifero.agregarExcavacion(nuevaExcavacion);
         }
+        conexionesPendientesPozoPlantaProcesadora.addAll(estrategiaExcavacion.nuevasConexionesDePozoAPlantas(emprendimientoPetrolifero));
 
         // Primero tenemos que decidir si vamos a vender el gas que almacenamos anteriormente
         if (emprendimientoPetrolifero.equipoDeIngenieria().estrategiaVentaGas().hayQueVenderElGas(emprendimientoPetrolifero)) {
@@ -165,7 +179,7 @@ public class Simulador {
     }
 
     private void reinyectar() {
-        //TODO
+        //TODO COMPLETAR
     }
 
     private void finalizarDia() {
@@ -178,13 +192,89 @@ public class Simulador {
         // Apagamos plantas procesadoras
         for (PlantaProcesadora plantaProcesadora : emprendimientoPetrolifero.plantasProcesadorasHabilitadas())
             plantaProcesadora.apagar();
-
+        // Creamos los pozos que quedaron pendientes por no tener su planta procesadora construida
+        habilitarPozosPendientes();
+        // Conectamos lo que podamos
+        conectarEstructuras();
+        // Logueamos informacion contable
         float ganancia = emprendimientoPetrolifero.contabilidad().ganancia();
         logger.log(
                 "Total ingresos: $" + emprendimientoPetrolifero.contabilidad().ingresos() +
                 ". Total gastos: $" + emprendimientoPetrolifero.contabilidad().gastos() +
                 ". Ganancia: " + (ganancia < 0 ? "-$" : "$") + Math.abs(ganancia) + ".");
         diaActual++;
+    }
+
+    private void habilitarPozosPendientes() {
+        Iterator<Excavacion> itExcavacionPendiente = excavacionesPendientesDeFinalizacion.iterator();
+        while (itExcavacionPendiente.hasNext()) {
+            Excavacion excavacionPendiente = itExcavacionPendiente.next();
+            String nombrePozo = excavacionPendiente.nombrePozoEnExcavacion();
+            ArrayList<PlantaProcesadora> plantasDondeConectar = new ArrayList<>();
+            Iterator<ConexionEntreEstructuras> itConexionesPozoPlanta = conexionesPendientesPozoPlantaProcesadora.iterator();
+            while (itConexionesPozoPlanta.hasNext()) {
+                ConexionEntreEstructuras conexion = itConexionesPozoPlanta.next();
+                String nombrePlanta = conexion.nombreEstructuraDestino();
+                if (conexion.nombreEstructuraOrigen().equals(nombrePozo) &&
+                        emprendimientoPetrolifero.plantaProcesadoraHabilitada(nombrePlanta)) {
+                    itExcavacionPendiente.remove();
+                    itConexionesPozoPlanta.remove();
+                    plantasDondeConectar.add(emprendimientoPetrolifero.plantaProcesadoraPorNombre(nombrePlanta));
+                }
+            }
+            if (plantasDondeConectar.size() > 0) {
+                Parcela parcelaDelPozo = excavacionPendiente.parcelaExcavacion();
+                parcelaDelPozo.habilitarPozo(plantasDondeConectar.get(0));
+                Pozo nuevoPozo = parcelaDelPozo.pozo();
+                for (int i = 1; i < plantasDondeConectar.size(); i++)
+                    nuevoPozo.conectarPlantaProcesadora(plantasDondeConectar.get(i));
+            }
+        }
+    }
+
+    private void conectarEstructuras() {
+        // Intentamos conectar pozos con plantas procesadoras
+        Iterator<ConexionEntreEstructuras> itPozoPlanta = conexionesPendientesPozoPlantaProcesadora.iterator();
+        while (itPozoPlanta.hasNext()) {
+            ConexionEntreEstructuras conexionPozoPlanta = itPozoPlanta.next();
+            String nombrePozo = conexionPozoPlanta.nombreEstructuraOrigen();
+            String nombrePlantaProcesadora = conexionPozoPlanta.nombreEstructuraDestino();
+            if (emprendimientoPetrolifero.pozoHabilitado(nombrePozo) &&
+                    emprendimientoPetrolifero.plantaProcesadoraHabilitada(nombrePlantaProcesadora)) {
+                itPozoPlanta.remove();
+                emprendimientoPetrolifero.pozoPorNombre(nombrePozo).conectarPlantaProcesadora(
+                        emprendimientoPetrolifero.plantaProcesadoraPorNombre(nombrePlantaProcesadora)
+                );
+                logger.log("Pozo " + nombrePozo + " conectado con planta " + nombrePlantaProcesadora + ".");
+            }
+        }
+        // Intentamos conectar plantas procesadoras con tanques
+        Iterator<ConexionEntreEstructuras> itPlantaTanqueAgua = conexionesPendientesPlantaProcesadoraTanqueAgua.iterator();
+        while (itPlantaTanqueAgua.hasNext()) {
+            ConexionEntreEstructuras conexionPlantaTanqueAgua = itPlantaTanqueAgua.next();
+            String nombrePlantaProcesadora = conexionPlantaTanqueAgua.nombreEstructuraOrigen();
+            String nombreTanqueAgua = conexionPlantaTanqueAgua.nombreEstructuraDestino();
+            if (emprendimientoPetrolifero.plantaProcesadoraHabilitada(nombrePlantaProcesadora) &&
+                    emprendimientoPetrolifero.tanqueDeAguaHabilitado(nombreTanqueAgua)) {
+                itPlantaTanqueAgua.remove();
+                emprendimientoPetrolifero.plantaProcesadoraPorNombre(nombrePlantaProcesadora).conectarTanqueDeAgua(
+                        emprendimientoPetrolifero.tanqueDeAguaPorNombre(nombreTanqueAgua)
+                );
+            }
+        }
+        Iterator<ConexionEntreEstructuras> itPlantaTanqueGas = conexionesPendientesPlantaProcesadoraTanqueGas.iterator();
+        while (itPlantaTanqueGas.hasNext()) {
+            ConexionEntreEstructuras conexionPlantaTanqueGas = itPlantaTanqueGas.next();
+            String nombrePlantaProcesadora = conexionPlantaTanqueGas.nombreEstructuraOrigen();
+            String nombreTanqueGas = conexionPlantaTanqueGas.nombreEstructuraDestino();
+            if (emprendimientoPetrolifero.plantaProcesadoraHabilitada(nombrePlantaProcesadora) &&
+                    emprendimientoPetrolifero.tanqueDeGasHabilitado(nombreTanqueGas)) {
+                itPlantaTanqueGas.remove();
+                emprendimientoPetrolifero.plantaProcesadoraPorNombre(nombrePlantaProcesadora).conectarTanqueDeGas(
+                        emprendimientoPetrolifero.tanqueDeGasPorNombre(nombreTanqueGas)
+                );
+            }
+        }
     }
 
     private void construir() {
@@ -258,6 +348,7 @@ public class Simulador {
                     if (excavacion.excavacionFinalizada()) {
                         itExcavacion.remove();
                         logger.log("Se finalizo la excavacion del pozo.");
+                        excavacionesPendientesDeFinalizacion.add(excavacion);
                     }
                 }
             }

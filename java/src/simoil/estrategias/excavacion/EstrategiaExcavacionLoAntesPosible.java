@@ -49,7 +49,8 @@ public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
             proyectosDePlantasProcesadorasOrdenados.sort((p1,p2) -> Float.compare(p1.diaComienzoConstruccion() + p1.especificacionPlantaProcesadora().cantidadDiasDeConstruccion(), p2.diaComienzoConstruccion() + p2.especificacionPlantaProcesadora().cantidadDiasDeConstruccion()));
             for (Excavacion nuevaExcavacion : nuevasExcavaciones) {
                 for (ProyectoConstruccionPlanta proyectoConstruccionPlanta : proyectosDePlantasProcesadorasOrdenados) {
-                    nuevasConexiones.add(new ConexionEntreEstructuras(nuevaExcavacion.nombrePozoEnExcavacion(),
+                    nuevasConexiones.add(new ConexionEntreEstructuras(
+                            nuevaExcavacion.nombrePozoEnExcavacion(),
                             proyectoConstruccionPlanta.nombrePlantaEnConstruccion()));
                 }
             }
