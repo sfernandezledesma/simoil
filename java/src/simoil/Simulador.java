@@ -101,21 +101,21 @@ public class Simulador {
             emprendimientoPetrolifero.agregarProyectoDePlantaProcesadora(proyectoPlanta);
             emprendimientoPetrolifero.registroContable().sumarGasto(proyectoPlanta.especificacionPlantaProcesadora().costo());
             logger.log("Se proyecto la contruccion de la planta procesadora " + proyectoPlanta.nombrePlantaEnConstruccion() + ". Su construccion comienza el dia " +
-                    proyectoPlanta.diaComienzoConstruccion() + " y su costo fue de $" + proyectoPlanta.especificacionPlantaProcesadora().costo() + ".");
+                    proyectoPlanta.diaComienzoConstruccion() + " y su costo fue de $" + String.format("%1$,.2f", proyectoPlanta.especificacionPlantaProcesadora().costo()) + ".");
         }
         ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeAgua = estrategiaConstruccion.nuevosProyectosConstruccionTanquesDeAgua();
         for (ProyectoConstruccionTanque proyectoTanqueAgua : proyectosNuevosTanquesDeAgua) {
             emprendimientoPetrolifero.agregarProyectoDeTanqueDeAgua(proyectoTanqueAgua);
             emprendimientoPetrolifero.registroContable().sumarGasto(proyectoTanqueAgua.especificacionTanque().costo());
             logger.log("Se proyecto la contruccion del tanque de agua " + proyectoTanqueAgua.nombreTanqueEnConstruccion() + ". Su construccion comienza el dia " +
-                    proyectoTanqueAgua.diaComienzoConstruccion() + " y su costo fue de $" + proyectoTanqueAgua.especificacionTanque().costo() + ".");
+                    proyectoTanqueAgua.diaComienzoConstruccion() + " y su costo fue de $" + String.format("%1$,.2f", proyectoTanqueAgua.especificacionTanque().costo()) + ".");
         }
         ArrayList<ProyectoConstruccionTanque> proyectosNuevosTanquesDeGas = estrategiaConstruccion.nuevosProyectosConstruccionTanquesDeGas();
         for (ProyectoConstruccionTanque proyectoTanqueGas : proyectosNuevosTanquesDeGas) {
             emprendimientoPetrolifero.agregarProyectoDeTanqueDeGas(proyectoTanqueGas);
             emprendimientoPetrolifero.registroContable().sumarGasto(proyectoTanqueGas.especificacionTanque().costo());
             logger.log("Se proyecto la contruccion del tanque de gas " + proyectoTanqueGas.nombreTanqueEnConstruccion() + ". Su construccion comienza el dia " +
-                    proyectoTanqueGas.diaComienzoConstruccion() + " y su costo fue de $" + proyectoTanqueGas.especificacionTanque().costo() + ".");
+                    proyectoTanqueGas.diaComienzoConstruccion() + " y su costo fue de $" + String.format("%1$,.2f", proyectoTanqueGas.especificacionTanque().costo()) + ".");
         }
 
         ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueAgua = estrategiaConstruccion.nuevasConexionesPlantaTanqueAgua();
@@ -144,7 +144,7 @@ public class Simulador {
         for (Pozo pozo : yacimiento.pozosHabilitadosParaExtraccion()) {
             if (pozo.valvulaPrincipalAbierta()) {
                 double volumenPotencialDelPozo = yacimiento.volumenPotencialDiarioPozo(pozo);
-                logger.log("El pozo " + pozo.nombre() + " puede extraer potencialmente " + volumenPotencialDelPozo + " litros de producto.");
+                logger.log("El pozo " + pozo.nombre() + " puede extraer potencialmente " + String.format("%1$,.2f", volumenPotencialDelPozo) + " litros de producto.");
                 double volumenAExtraerDelPozo = 0;
                 // Tenemos que definir cuantos litros podemos realmente extraer segun plantas procesadoras conectadas al pozo
                 for (PlantaProcesadora plantaProcesadora : pozo.plantasProcesadorasConectadas()) {
@@ -155,7 +155,7 @@ public class Simulador {
                     if (emprendimientoPetrolifero.plantasProcesadorasHabilitadas().contains(plantaProcesadora)) {
                         double volumenProcesado = plantaProcesadora.procesarProducto(volumenPotencialDelPozo, emprendimientoPetrolifero);
                         if (volumenProcesado > 0) {
-                            logger.log("La planta procesadora " + plantaProcesadora.nombre + " proceso " + volumenProcesado + " litros de producto.");
+                            logger.log("La planta procesadora " + plantaProcesadora.nombre + " proceso " + String.format("%1$,.2f", volumenProcesado) + " litros de producto.");
                         } else {
                             logger.log("La planta procesadora " + plantaProcesadora.nombre + " no puede procesar mas producto.");
                         }
@@ -168,14 +168,14 @@ public class Simulador {
                 }
                 volumenPetroleoExtraidoEnElDia += volumenAExtraerDelPozo * proporcionPetroleo;
                 if (volumenAExtraerDelPozo > 0) {
-                    logger.log("El pozo " + pozo.nombre() + " extrajo " + volumenAExtraerDelPozo + " litros de producto del yacimiento.");
+                    logger.log("El pozo " + pozo.nombre() + " extrajo " + String.format("%1$,.2f", volumenAExtraerDelPozo) + " litros de producto del yacimiento.");
                 }
             }
         }
         if (volumenPetroleoExtraidoEnElDia > 0) {
             double ingresoPorPetroleo = volumenPetroleoExtraidoEnElDia * precioLitroPetroleo;
             emprendimientoPetrolifero.registroContable().sumarIngreso(ingresoPorPetroleo);
-            logger.log("Se vendieron " + volumenPetroleoExtraidoEnElDia + " litros de petroleo por $" + ingresoPorPetroleo + ".");
+            logger.log("Se vendieron " + String.format("%1$,.2f", volumenPetroleoExtraidoEnElDia) + " litros de petroleo por $" + String.format("%1$,.2f", ingresoPorPetroleo) + ".");
             yacimiento.actualizarPresionesPozosPorExtraccion();
         }
     }
@@ -201,7 +201,7 @@ public class Simulador {
 
         if (volumenAguaAReinyectarEnUnDia > 0) {
             double costo = precioLitroAguaEspecialComprada * volumenAguaAReinyectarEnUnDia;
-            logger.log("Se compraron " + volumenAguaAReinyectarEnUnDia + " litros de agua por $" + costo + ".");
+            logger.log("Se compraron " + String.format("%1$,.2f", volumenAguaAReinyectarEnUnDia) + " litros de agua por $" + String.format("%1$,.2f", costo) + ".");
             volumenAguaReinyectado += volumenAguaAReinyectarEnUnDia;
             volumenAguaAReinyectarEnUnDia = 0;
             emprendimientoPetrolifero.registroContable().sumarGasto(costo);
@@ -218,7 +218,7 @@ public class Simulador {
         }
 
         emprendimientoPetrolifero.yacimiento().reinyectarAguaYGas(volumenAguaReinyectado, volumenGasReinyectado);
-        logger.log("Se reinyectaron " + volumenAguaReinyectado + " litros de agua y " + volumenGasReinyectado + " litros de gas.");
+        logger.log("Se reinyectaron " + String.format("%1$,.2f", volumenAguaReinyectado) + " litros de agua y " + String.format("%1$,.2f", volumenGasReinyectado) + " litros de gas.");
         emprendimientoPetrolifero.yacimiento().actualizarPresionesPozosPorReinyeccion();
     }
 
@@ -239,9 +239,9 @@ public class Simulador {
         // Logueamos informacion contable
         double ganancia = emprendimientoPetrolifero.registroContable().ganancia();
         logger.log(
-                "Total ingresos: $" + emprendimientoPetrolifero.registroContable().ingresos() +
-                        ". Total gastos: $" + emprendimientoPetrolifero.registroContable().gastos() +
-                        ". Ganancia: " + (ganancia < 0 ? "-$" : "$") + Math.abs(ganancia) + ".\n");
+                "Total ingresos: $" + String.format("%1$,.2f", emprendimientoPetrolifero.registroContable().ingresos()) +
+                        ". Total gastos: $" + String.format("%1$,.2f", emprendimientoPetrolifero.registroContable().gastos()) +
+                        ". Ganancia: " + (ganancia < 0 ? "-$" : "$") + String.format("%1$,.2f", Math.abs(ganancia)) + ".\n");
         diaActual++;
     }
 
@@ -390,7 +390,7 @@ public class Simulador {
                     double costoCombustibleConsumido = rig.consumoCombustibleDiarioEnLitros() * precioLitroDeCombustibleRig;
                     emprendimientoPetrolifero.registroContable().sumarGasto(costoCombustibleConsumido);
                     double metrosExcavados = rig.excavar(excavacion);
-                    logger.log("El rig " + rig.nombre() + " excavo " + metrosExcavados + " metros en la excavacion del pozo " + excavacion.nombrePozoEnExcavacion() + ".");
+                    logger.log("El rig " + rig.nombre() + " excavo " + String.format("%1$,.2f", metrosExcavados) + " metros en la excavacion del pozo " + excavacion.nombrePozoEnExcavacion() + ".");
                     if (excavacion.excavacionFinalizada()) {
                         itExcavacion.remove();
                         logger.log("Se finalizo la excavacion del pozo " + excavacion.nombrePozoEnExcavacion() + ".");
@@ -417,7 +417,7 @@ public class Simulador {
             alquilerRig.avanzarUnDia();
         }
         if (costoTotalAlquileresHoy > 0)
-            logger.log("Hoy se gasto $" + costoTotalAlquileresHoy + " en alquileres de Rigs.");
+            logger.log("Hoy se gasto $" + String.format("%1$,.2f", costoTotalAlquileresHoy) + " en alquileres de Rigs.");
         emprendimientoPetrolifero.registroContable().sumarGasto(costoTotalAlquileresHoy);
     }
 
@@ -430,7 +430,7 @@ public class Simulador {
         double precioDelGasVendido = totalLitrosDeGasVendidos * precioLitroGas;
         emprendimientoPetrolifero.registroContable().sumarIngreso(precioDelGasVendido);
         if (precioDelGasVendido > 0)
-            logger.log("Se vendieron " + totalLitrosDeGasVendidos + " litros de gas por $" + precioDelGasVendido + ".");
+            logger.log("Se vendieron " + String.format("%1$,.2f", totalLitrosDeGasVendidos) + " litros de gas por $" + String.format("%1$,.2f", precioDelGasVendido) + ".");
     }
 
     public static void main(String[] args) {

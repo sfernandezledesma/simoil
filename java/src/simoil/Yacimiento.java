@@ -93,7 +93,7 @@ public class Yacimiento {
         int cantidadPozosAbiertos = cantidadPozosAbiertos();
         double presionSobrePozosHabilitados = presionBocaDePozo / cantidadPozosAbiertos;
 
-        return Math.min(volumenTotalActual(), alpha1 * presionSobrePozosHabilitados + alpha2 * (double) Math.pow(presionSobrePozosHabilitados, 2f));
+        return Math.min(volumenTotalActual(), alpha1 * presionSobrePozosHabilitados + alpha2 * Math.pow(presionSobrePozosHabilitados, 2.0));
     }
 
     public int cantidadPozosAbiertos() {
