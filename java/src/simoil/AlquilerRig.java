@@ -11,6 +11,11 @@ public class AlquilerRig {
         this.costoDiario = costoDiario;
         this.minimoDias = minimoDias;
         this.rig = rig;
+        this.diasAlquilado = 0;
+    }
+
+    public void finalizarAlquiler() {
+        this.diasAlquilado = 0;
     }
 
     public float costoDiario() {

@@ -53,6 +53,11 @@ public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
                             nuevaExcavacion.nombrePozoEnExcavacion(),
                             proyectoConstruccionPlanta.nombrePlantaEnConstruccion()));
                 }
+                for (PlantaProcesadora plantaProcesadora : emprendimientoPetrolifero.plantasProcesadorasHabilitadas()) {
+                    nuevasConexiones.add(new ConexionEntreEstructuras(
+                            nuevaExcavacion.nombrePozoEnExcavacion(),
+                            plantaProcesadora.nombre()));
+                }
             }
             hayNuevasConexiones = false;
         }

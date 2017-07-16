@@ -12,14 +12,34 @@ public abstract class EstrategiaConstruccion {
 
     public abstract void crearProyectos(EmprendimientoPetrolifero emprendimientoPetrolifero);
 
-    public abstract ArrayList<ProyectoConstruccionPlanta> nuevosProyectosConstruccionPlantas();
+    public ArrayList<ProyectoConstruccionPlanta> nuevosProyectosConstruccionPlantas() {
+        ArrayList<ProyectoConstruccionPlanta> resultado = nuevosProyectosPlantas;
+        nuevosProyectosPlantas = new ArrayList<>();
+        return resultado;
+    }
 
-    public abstract ArrayList<ProyectoConstruccionTanque> nuevosProyectosConstruccionTanquesDeAgua();
+    public ArrayList<ProyectoConstruccionTanque> nuevosProyectosConstruccionTanquesDeAgua() {
+        ArrayList<ProyectoConstruccionTanque> resultado = nuevosProyectosTanquesAgua;
+        nuevosProyectosTanquesAgua = new ArrayList<>();
+        return resultado;
+    }
 
-    public abstract ArrayList<ProyectoConstruccionTanque> nuevosProyectosConstruccionTanquesDeGas();
+    public ArrayList<ProyectoConstruccionTanque> nuevosProyectosConstruccionTanquesDeGas() {
+        ArrayList<ProyectoConstruccionTanque> resultado = nuevosProyectosTanquesGas;
+        nuevosProyectosTanquesGas = new ArrayList<>();
+        return resultado;
+    }
 
-    public abstract ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueAgua();
+    public ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueAgua() {
+        ArrayList<ConexionEntreEstructuras> resultado = nuevasConexionesPlantaTanqueAgua;
+        nuevasConexionesPlantaTanqueAgua = new ArrayList<>();
+        return resultado;
+    }
 
-    public abstract ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueGas();
+    public ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueGas() {
+        ArrayList<ConexionEntreEstructuras> resultado = nuevasConexionesPlantaTanqueGas;
+        nuevasConexionesPlantaTanqueGas = new ArrayList<>();
+        return resultado;
+    }
 
 }

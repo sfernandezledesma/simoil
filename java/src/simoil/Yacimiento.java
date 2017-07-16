@@ -126,4 +126,12 @@ public class Yacimiento {
         }
         return pozosHabilitadosParaExtraccion;
     }
+
+    public Pozo pozoPorNombre(String nombre) {
+        for (Pozo pozo : this.pozosHabilitadosParaExtraccion()) {
+            if (pozo.nombre().equals(nombre))
+                return pozo;
+        }
+        throw new RuntimeException("No existe un pozo con ese nombre.");
+    }
 }

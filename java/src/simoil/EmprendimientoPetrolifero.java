@@ -1,6 +1,5 @@
 package simoil;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -11,41 +10,29 @@ public class EmprendimientoPetrolifero {
     private ArrayList<PlantaProcesadora> plantasProcesadorasHabilitadas;
     private ArrayList<Tanque> tanquesDeAguaHabilitados;
     private ArrayList<Tanque> tanquesDeGasHabilitados;
-    private ArrayList<AlquilerRig> alquileresDeRigs;
+    private ArrayList<AlquilerRig> alquileresDeRigsContratados;
+    private ArrayList<AlquilerRig> catalogoAlquileresRigs;
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeAgua;
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeGas;
     private ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras;
     private ArrayList<Excavacion> excavaciones;
     private ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras;
     private ArrayList<EspecificacionTanque> catalogoTanques;
-    private ArrayList<AlquilerRig> alquileresRigs;
-
-    public ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras() {
-        return catalogoPlantasProcesadoras;
-    }
-
-    public ArrayList<EspecificacionTanque> catalogoTanques() {
-        return catalogoTanques;
-    }
-
-    public ArrayList<AlquilerRig> alquileresRigs() {
-        return alquileresRigs;
-    }
 
     public EmprendimientoPetrolifero(Yacimiento yacimiento, EquipoDeIngenieria equipoDeIngenieria,
                                      ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras,
                                      ArrayList<EspecificacionTanque> catalogoTanques,
-                                     ArrayList<AlquilerRig> alquileresRigs) {
+                                     ArrayList<AlquilerRig> catalogoAlquileresRigs) {
         this.catalogoPlantasProcesadoras = catalogoPlantasProcesadoras;
         this.catalogoTanques = catalogoTanques;
-        this.alquileresDeRigs = alquileresRigs;
+        this.catalogoAlquileresRigs = catalogoAlquileresRigs;
         this.registroContable = new RegistroContable();
         this.yacimiento = yacimiento;
         this.equipoDeIngenieria = equipoDeIngenieria;
         this.plantasProcesadorasHabilitadas = new ArrayList<>();
         this.tanquesDeAguaHabilitados = new ArrayList<>();
         this.tanquesDeGasHabilitados = new ArrayList<>();
-        this.alquileresDeRigs = new ArrayList<>();
+        this.alquileresDeRigsContratados = new ArrayList<>();
         this.proyectosDeTanquesDeAgua = new ArrayList<>();
         this.proyectosDeTanquesDeGas = new ArrayList<>();
         this.proyectosDePlantasProcesadoras = new ArrayList<>();
@@ -71,9 +58,9 @@ public class EmprendimientoPetrolifero {
     }
 
     public void agregarAlquilerDeRig(AlquilerRig alquilerDeRig) {
-        if (alquileresDeRigs.contains(alquilerDeRig))
+        if (alquileresDeRigsContratados.contains(alquilerDeRig))
             throw new RuntimeException("Se intento agregar un alquiler de Rig que ya existia.");
-        this.alquileresDeRigs.add(alquilerDeRig);
+        this.alquileresDeRigsContratados.add(alquilerDeRig);
     }
 
     public void agregarProyectoDeTanqueDeAgua(ProyectoConstruccionTanque proyectoDeTanqueDeAgua) {
@@ -120,8 +107,20 @@ public class EmprendimientoPetrolifero {
         return new ArrayList<Tanque>(tanquesDeGasHabilitados);
     }
 
-    public ArrayList<AlquilerRig> alquileresDeRigs() {
-        return alquileresDeRigs;
+    public ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras() {
+        return catalogoPlantasProcesadoras;
+    }
+
+    public ArrayList<EspecificacionTanque> catalogoTanques() {
+        return catalogoTanques;
+    }
+
+    public ArrayList<AlquilerRig> catalogoAlquileresRigs() {
+        return catalogoAlquileresRigs;
+    }
+
+    public ArrayList<AlquilerRig> alquileresDeRigsContratados() {
+        return alquileresDeRigsContratados;
     }
 
     public ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeAgua() {
@@ -140,7 +139,7 @@ public class EmprendimientoPetrolifero {
         return excavaciones;
     }
 
-    public RegistroContable contabilidad() {
+    public RegistroContable registroContable() {
         return registroContable;
     }
 
@@ -198,13 +197,5 @@ public class EmprendimientoPetrolifero {
                 return tanqueDeGas;
         }
         throw new RuntimeException("No existe un tanque de agua con ese nombre.");
-    }
-
-    public Pozo pozoPorNombre(String nombre) {
-        for (Pozo pozo : yacimiento.pozosHabilitadosParaExtraccion()) {
-            if (pozo.nombre().equals(nombre))
-                return pozo;
-        }
-        throw new RuntimeException("No existe un pozo con ese nombre.");
     }
 }
