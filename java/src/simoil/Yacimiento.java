@@ -59,12 +59,13 @@ public class Yacimiento {
     public float reinyectarAguaYGas(float volumenAguaAReinyectar, float volumenGasAReinyectar) {
         float totalReinyeccion = volumenAguaAReinyectar + volumenGasAReinyectar;
         float volumenReinyectado = 0;
-        if (totalReinyeccion + globalReinyectado < globalExtraido) {
-            volumenAgua += volumenAguaAReinyectar;
-            volumenGas += volumenGasAReinyectar;
-            globalReinyectado = totalReinyeccion;
-            volumenReinyectado = totalReinyeccion;
+        if (totalReinyeccion + globalReinyectado > globalExtraido) {
+            throw new RuntimeException("Se intento reinyectar mas volumen de lo que el yacimiento soporta.");
         }
+        volumenAgua += volumenAguaAReinyectar;
+        volumenGas += volumenGasAReinyectar;
+        globalReinyectado = totalReinyeccion;
+        volumenReinyectado = totalReinyeccion;
         return volumenReinyectado;
     }
 
@@ -105,7 +106,7 @@ public class Yacimiento {
         return cantidadPozosAbiertos;
     }
 
-    public void actualizarPresionesPozos() {
+    public void actualizarPresionesPozosPorExtraccion() {
         if (cantidadPozosAbiertos() > 0) {
             float beta = 0.1f * (volumenTotalActual() / volumenTotalInicial) / (float) Math.pow(cantidadPozosAbiertos(), 4.0 / 3.0);
             for (Pozo pozo : pozosHabilitadosParaExtraccion()) {
@@ -114,6 +115,13 @@ public class Yacimiento {
                     pozo.actualizarPresion(nuevaPresion);
                 }
             }
+        }
+    }
+
+    public void actualizarPresionesPozosPorReinyeccion() {
+        for (Pozo pozo : pozosHabilitadosParaExtraccion()) {
+            float nuevaPresion = pozo.presionInicial() * (volumenTotalInicial - globalExtraido() + globalReinyectado()) / volumenTotalInicial;
+            pozo.actualizarPresion(nuevaPresion);
         }
     }
 

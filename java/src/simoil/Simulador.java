@@ -4,11 +4,13 @@ import simoil.estrategias.condicionDeFin.EstrategiaCondicionDeFin;
 import simoil.estrategias.condicionDeFin.EstrategiaCondicionDeFinPorDilucionCritica;
 import simoil.estrategias.construccion.EstrategiaConstruccion;
 import simoil.estrategias.construccion.EstrategiaConstruccionPlantaUnica;
+import simoil.estrategias.estrategiaVentaGas.EstrategiaVentaGasNuncaVender;
 import simoil.estrategias.estrategiaVentaGas.EstrategiaVentaGasVenderTodosLosDias;
 import simoil.estrategias.excavacion.EstrategiaExcavacion;
 import simoil.estrategias.excavacion.EstrategiaExcavacionLoAntesPosible;
 import simoil.estrategias.extraccion.EstrategiaExtraccionTodosLosPozosHabilitados;
-import simoil.estrategias.reinyeccion.EstrategiaReinyeccionNoReinyectar;
+import simoil.estrategias.reinyeccion.EstrategiaReinyeccion;
+import simoil.estrategias.reinyeccion.EstrategiaReinyeccionPorTanqueLleno;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelas;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelasPorMaximaPresion;
 
@@ -73,7 +75,8 @@ public class Simulador {
         }
 
         // Ahora hay decidir si reinyectar o extraer producto
-        if (emprendimientoPetrolifero.equipoDeIngenieria().estrategiaReinyeccion().hayQueReinyectar(emprendimientoPetrolifero)) {
+        EstrategiaReinyeccion estrategiaReinyeccion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaReinyeccion();
+        if (estrategiaReinyeccion.calcularTotalLitrosReinyeccion(emprendimientoPetrolifero, volumenMaximoReinyeccionEnUnDia) > 0) {
             // Hay que reinyectar, hoy no podemos extraer de ningun pozo
             reinyectar();
         } else { // Si no se reinyecta, se intenta extraer
@@ -173,14 +176,50 @@ public class Simulador {
             float ingresoPorPetroleo = volumenPetroleoExtraidoEnElDia * precioLitroPetroleo;
             emprendimientoPetrolifero.registroContable().sumarIngreso(ingresoPorPetroleo);
             logger.log("Se vendieron " + volumenPetroleoExtraidoEnElDia + " litros de petroleo por $" + ingresoPorPetroleo + ".");
-        }
-        if (volumenPetroleoExtraidoEnElDia > 0) {
-            yacimiento.actualizarPresionesPozos();
+            yacimiento.actualizarPresionesPozosPorExtraccion();
         }
     }
 
     private void reinyectar() {
-        //TODO COMPLETAR
+        EstrategiaReinyeccion estrategiaReinyeccion = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaReinyeccion();
+        float volumenAguaAReinyectarEnUnDia = estrategiaReinyeccion.cuantosLitrosDeAguaReinyectar();
+        float volumenAguaReinyectado = 0;
+        float volumenGasAReinyectarEnUnDia = estrategiaReinyeccion.cuantosLitrosDeGasReinyectar();
+        float volumenGasReinyectado = 0;
+        ArrayList<Tanque> tanquesDeAgua = estrategiaReinyeccion.tanquesDeAguaDeDondeDescargarEnOrden();
+        ArrayList<Tanque> tanquesDeGas = estrategiaReinyeccion.tanquesDeGasDeDondeDescargarEnOrden();
+
+        for (Tanque tanqueDeAgua : tanquesDeAgua) {
+            if (volumenAguaAReinyectarEnUnDia <= 0) {
+                break;
+            } else {
+                float volumenADescargar = Math.min(tanqueDeAgua.volumenCargado(), volumenAguaAReinyectarEnUnDia);
+                volumenAguaReinyectado += volumenADescargar;
+                volumenAguaAReinyectarEnUnDia -= tanqueDeAgua.descargar(volumenADescargar);
+            }
+        }
+
+        if (volumenAguaAReinyectarEnUnDia > 0) {
+            float costo = precioLitroAguaEspecialComprada * volumenAguaAReinyectarEnUnDia;
+            logger.log("Se compraron " + volumenAguaAReinyectarEnUnDia + " litros de agua por $" + costo + ".");
+            volumenAguaReinyectado += volumenAguaAReinyectarEnUnDia;
+            volumenAguaAReinyectarEnUnDia = 0;
+            emprendimientoPetrolifero.registroContable().sumarGasto(costo);
+        }
+
+        for (Tanque tanqueDeGas : tanquesDeGas) {
+            if (volumenGasAReinyectarEnUnDia <= 0) {
+                break;
+            } else {
+                float volumenADescargar = Math.min(tanqueDeGas.volumenCargado(), volumenGasAReinyectarEnUnDia);
+                volumenGasReinyectado += volumenADescargar;
+                volumenGasAReinyectarEnUnDia -= tanqueDeGas.descargar(volumenADescargar);
+            }
+        }
+
+        emprendimientoPetrolifero.yacimiento().reinyectarAguaYGas(volumenAguaReinyectado, volumenGasReinyectado);
+        logger.log("Se reinyectaron " + volumenAguaReinyectado + " litros de agua y " + volumenGasReinyectado + " litros de gas.");
+        emprendimientoPetrolifero.yacimiento().actualizarPresionesPozosPorReinyeccion();
     }
 
     private void finalizarDia() {
@@ -226,10 +265,14 @@ public class Simulador {
             if (plantasDondeConectar.size() > 0) {
                 Parcela parcelaDelPozo = excavacionPendiente.parcelaEnExcavacion();
                 parcelaDelPozo.habilitarPozo(plantasDondeConectar.get(0));
+                logger.log("Pozo " + parcelaDelPozo.pozo().nombre() + " conectado con planta " + plantasDondeConectar.get(0).nombre() + ".");
                 Pozo nuevoPozo = parcelaDelPozo.pozo();
                 logger.log("El pozo " + nuevoPozo.nombre() + " fue habilitado para la extraccion.");
-                for (int i = 1; i < plantasDondeConectar.size(); i++)
+                for (int i = 1; i < plantasDondeConectar.size(); i++) {
                     nuevoPozo.conectarPlantaProcesadora(plantasDondeConectar.get(i));
+                    logger.log("Pozo " + nuevoPozo.nombre() + " conectado con planta " + plantasDondeConectar.get(i).nombre() + ".");
+                }
+
             }
         }
     }
@@ -409,20 +452,27 @@ public class Simulador {
         catalogoPlantas.add(new EspecificacionPlantaProcesadora(3, 200, 20000));
         catalogoPlantas.add(new EspecificacionPlantaProcesadora(5, 1000, 50000));
         ArrayList<EspecificacionTanque> catalogoTanques = new ArrayList<>();
-        catalogoTanques.add(new EspecificacionTanque(2, 100, 30000));
-        catalogoTanques.add(new EspecificacionTanque(3, 150, 50000));
+        catalogoTanques.add(new EspecificacionTanque(2, 100, 1000));
+        catalogoTanques.add(new EspecificacionTanque(3, 150, 1000));
         ArrayList<AlquilerRig> catalogoAlquileresRigs = new ArrayList<>();
         catalogoAlquileresRigs.add(new AlquilerRig(60, 3, new Rig("1", 2, 10)));
         catalogoAlquileresRigs.add(new AlquilerRig(100, 5, new Rig("2", 4, 15)));
 
-        EquipoDeIngenieria equipo = new EquipoDeIngenieria(new EstrategiaSeleccionParcelasPorMaximaPresion(), new EstrategiaExcavacionLoAntesPosible(), new EstrategiaConstruccionPlantaUnica(), new EstrategiaExtraccionTodosLosPozosHabilitados(), new EstrategiaReinyeccionNoReinyectar(), new EstrategiaCondicionDeFinPorDilucionCritica(), new EstrategiaVentaGasVenderTodosLosDias());
+        EquipoDeIngenieria equipo = new EquipoDeIngenieria(
+                new EstrategiaSeleccionParcelasPorMaximaPresion(),
+                new EstrategiaExcavacionLoAntesPosible(),
+                new EstrategiaConstruccionPlantaUnica(),
+                new EstrategiaExtraccionTodosLosPozosHabilitados(),
+                new EstrategiaReinyeccionPorTanqueLleno(),
+                new EstrategiaCondicionDeFinPorDilucionCritica(),
+                new EstrategiaVentaGasVenderTodosLosDias());
         EmprendimientoPetrolifero emprendimiento = new EmprendimientoPetrolifero(yacimiento, equipo, catalogoPlantas, catalogoTanques, catalogoAlquileresRigs);
         Simulador sim = new Simulador(
                 25,
                 2,
-                1000,
+                999999999,
                 35,
-                3,
+                1,
                 10,
                 0.1f,
                 0.22f,
