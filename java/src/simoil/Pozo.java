@@ -62,7 +62,7 @@ public class Pozo {
         plantasConectadas.add(plantaProcesadoraAConectar);
     }
 
-    public ArrayList<PlantaProcesadora> plantasConectadas() {
+    public ArrayList<PlantaProcesadora> plantasProcesadorasConectadas() {
         return plantasConectadas;
     }
 }

@@ -22,7 +22,7 @@ public class Rig {
         float metrosExcavados = 0;
         if (!estaExcavando) {
             estaExcavando = true;
-            float resistenciaEnPorcentaje = excavacion.parcelaExcavacion().tipoTerreno().resistenciaALaExcavacionEnPorcentaje();
+            float resistenciaEnPorcentaje = excavacion.parcelaEnExcavacion().tipoTerreno().resistenciaALaExcavacionEnPorcentaje();
             float multiplicadorExcavacion = 1 - resistenciaEnPorcentaje / 100;
             float metrosAExcavar = multiplicadorExcavacion * poderExcavacion;
             metrosExcavados = excavacion.excavar(metrosAExcavar);

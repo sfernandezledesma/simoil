@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
     private boolean hayNuevasExcavaciones = true;
     private boolean hayNuevasConexiones = true;
-    private ArrayList<Excavacion> nuevasExcavaciones;
 
     @Override
     public ArrayList<Excavacion> crearExcavaciones(EmprendimientoPetrolifero emprendimientoPetrolifero, ArrayList<Parcela> parcelasDondeExcavar) {
@@ -27,7 +26,8 @@ public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
     }
 
     @Override
-    public AlquilerRig elegirUnNuevoAlquilerDeRig(ArrayList<AlquilerRig> catalogoAlquilerRigs, Excavacion excavacion) {
+    public AlquilerRig elegirUnNuevoAlquilerDeRig(EmprendimientoPetrolifero emprendimientoPetrolifero, Excavacion excavacion) {
+        ArrayList<AlquilerRig> catalogoAlquilerRigs = emprendimientoPetrolifero.catalogoAlquileresRigs();
         if (catalogoAlquilerRigs.size() == 0) {
             throw new RuntimeException("No hay Rigs para alquilar.");
         }
@@ -45,10 +45,10 @@ public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
     public ArrayList<ConexionEntreEstructuras> nuevasConexionesDePozoAPlantas(EmprendimientoPetrolifero emprendimientoPetrolifero) {
         ArrayList<ConexionEntreEstructuras> nuevasConexiones = new ArrayList<>();
         if (hayNuevasConexiones) {
-            ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadorasOrdenados = new ArrayList<>(emprendimientoPetrolifero.proyectosDePlantasProcesadoras());
+            ArrayList<ProyectoConstruccionPlantaProcesadora> proyectosDePlantasProcesadorasOrdenados = new ArrayList<>(emprendimientoPetrolifero.proyectosDePlantasProcesadoras());
             proyectosDePlantasProcesadorasOrdenados.sort((p1,p2) -> Float.compare(p1.diaComienzoConstruccion() + p1.especificacionPlantaProcesadora().cantidadDiasDeConstruccion(), p2.diaComienzoConstruccion() + p2.especificacionPlantaProcesadora().cantidadDiasDeConstruccion()));
             for (Excavacion nuevaExcavacion : nuevasExcavaciones) {
-                for (ProyectoConstruccionPlanta proyectoConstruccionPlanta : proyectosDePlantasProcesadorasOrdenados) {
+                for (ProyectoConstruccionPlantaProcesadora proyectoConstruccionPlanta : proyectosDePlantasProcesadorasOrdenados) {
                     nuevasConexiones.add(new ConexionEntreEstructuras(
                             nuevaExcavacion.nombrePozoEnExcavacion(),
                             proyectoConstruccionPlanta.nombrePlantaEnConstruccion()));

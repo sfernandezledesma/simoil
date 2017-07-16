@@ -1,16 +1,20 @@
 package simoil;
 
-public class ProyectoConstruccionPlanta {
+public class ProyectoConstruccionPlantaProcesadora {
     private String nombrePlantaEnConstruccion;
     private int diaComienzoConstruccion;
     private int diasParaFinalizar;
     private EspecificacionPlantaProcesadora especificacionPlantaProcesadora;
 
-    public ProyectoConstruccionPlanta(String nombrePlanta, int diaComienzoConstruccion, EspecificacionPlantaProcesadora especificacionPlantaProcesadora) {
+    public ProyectoConstruccionPlantaProcesadora(String nombrePlanta, int diaComienzoConstruccion, EspecificacionPlantaProcesadora especificacionPlantaProcesadora) {
         this.nombrePlantaEnConstruccion = nombrePlanta;
         this.especificacionPlantaProcesadora = especificacionPlantaProcesadora;
         this.diasParaFinalizar = especificacionPlantaProcesadora.cantidadDiasDeConstruccion();
         this.diaComienzoConstruccion = diaComienzoConstruccion;
+    }
+
+    public String nombrePlantaEnConstruccion(){
+        return this.nombrePlantaEnConstruccion;
     }
 
     public EspecificacionPlantaProcesadora especificacionPlantaProcesadora() {
@@ -42,7 +46,7 @@ public class ProyectoConstruccionPlanta {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProyectoConstruccionPlanta that = (ProyectoConstruccionPlanta) o;
+        ProyectoConstruccionPlantaProcesadora that = (ProyectoConstruccionPlantaProcesadora) o;
 
         return nombrePlantaEnConstruccion.equals(that.nombrePlantaEnConstruccion);
     }
@@ -50,9 +54,5 @@ public class ProyectoConstruccionPlanta {
     @Override
     public int hashCode() {
         return nombrePlantaEnConstruccion.hashCode();
-    }
-
-    public String nombrePlantaEnConstruccion(){
-        return this.nombrePlantaEnConstruccion;
     }
 }

@@ -14,7 +14,7 @@ public class EmprendimientoPetrolifero {
     private ArrayList<AlquilerRig> catalogoAlquileresRigs;
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeAgua;
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeGas;
-    private ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras;
+    private ArrayList<ProyectoConstruccionPlantaProcesadora> proyectosDePlantasProcesadoras;
     private ArrayList<Excavacion> excavaciones;
     private ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras;
     private ArrayList<EspecificacionTanque> catalogoTanques;
@@ -47,19 +47,19 @@ public class EmprendimientoPetrolifero {
 
     public void habilitarTanqueDeAgua(Tanque tanqueDeAgua) {
         if (tanquesDeAguaHabilitados.contains(tanqueDeAgua) || tanquesDeGasHabilitados.contains(tanqueDeAgua))
-            throw new RuntimeException("Se intento agregar un tanqueEnConstruccion de agua que ya existia.");
+            throw new RuntimeException("Se intento agregar un tanque de agua que ya existia.");
         this.tanquesDeAguaHabilitados.add(tanqueDeAgua);
     }
 
     public void habilitarTanqueDeGas(Tanque tanqueDeGas) {
         if (tanquesDeGasHabilitados.contains(tanqueDeGas) || tanquesDeAguaHabilitados.contains(tanqueDeGas))
-            throw new RuntimeException("Se intento agregar un tanqueEnConstruccion de gas que ya existia.");
+            throw new RuntimeException("Se intento agregar un tanque de gas que ya existia.");
         this.tanquesDeGasHabilitados.add(tanqueDeGas);
     }
 
-    public void agregarAlquilerDeRig(AlquilerRig alquilerDeRig) {
+    public void contratarAlquilerDeRig(AlquilerRig alquilerDeRig) {
         if (alquileresDeRigsContratados.contains(alquilerDeRig))
-            throw new RuntimeException("Se intento agregar un alquiler de Rig que ya existia.");
+            throw new RuntimeException("Se intento agregar un alquiler de rig que ya existia.");
         this.alquileresDeRigsContratados.add(alquilerDeRig);
     }
 
@@ -75,7 +75,7 @@ public class EmprendimientoPetrolifero {
         this.proyectosDeTanquesDeGas.add(proyectoDeTanqueDeGas);
     }
 
-    public void agregarProyectoDePlantaProcesadora(ProyectoConstruccionPlanta proyectoDePlantaProcesadora) {
+    public void agregarProyectoDePlantaProcesadora(ProyectoConstruccionPlantaProcesadora proyectoDePlantaProcesadora) {
         if (proyectosDePlantasProcesadoras.contains(proyectoDePlantaProcesadora))
             throw new RuntimeException("Se intento agregar un proyecto de planta que ya existia.");
         this.proyectosDePlantasProcesadoras.add(proyectoDePlantaProcesadora);
@@ -131,7 +131,7 @@ public class EmprendimientoPetrolifero {
         return proyectosDeTanquesDeGas;
     }
 
-    public ArrayList<ProyectoConstruccionPlanta> proyectosDePlantasProcesadoras() {
+    public ArrayList<ProyectoConstruccionPlantaProcesadora> proyectosDePlantasProcesadoras() {
         return proyectosDePlantasProcesadoras;
     }
 
@@ -180,7 +180,7 @@ public class EmprendimientoPetrolifero {
             if (plantaProcesadora.nombre().equals(nombre))
                 return plantaProcesadora;
         }
-        throw new RuntimeException("No existe una planta procesadora con ese nombre.");
+        throw new RuntimeException("No existe una planta procesadora con ese nombreTipoTerreno.");
     }
 
     public Tanque tanqueDeAguaPorNombre(String nombre) {
@@ -188,7 +188,7 @@ public class EmprendimientoPetrolifero {
             if (tanqueDeAgua.nombre().equals(nombre))
                 return tanqueDeAgua;
         }
-        throw new RuntimeException("No existe un tanque de agua con ese nombre.");
+        throw new RuntimeException("No existe un tanque de agua con ese nombreTipoTerreno.");
     }
 
     public Tanque tanqueDeGasPorNombre(String nombre) {
@@ -196,6 +196,6 @@ public class EmprendimientoPetrolifero {
             if (tanqueDeGas.nombre().equals(nombre))
                 return tanqueDeGas;
         }
-        throw new RuntimeException("No existe un tanque de agua con ese nombre.");
+        throw new RuntimeException("No existe un tanque de agua con ese nombreTipoTerreno.");
     }
 }

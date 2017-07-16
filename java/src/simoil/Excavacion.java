@@ -4,13 +4,13 @@ public class Excavacion {
     private String nombrePozoEnExcavacion;
     private int diaDeComienzoDeExcavacion;
     private float metrosExcavados;
-    private Parcela parcelaExcavacion;
+    private Parcela parcelaEnExcavacion;
 
-    public Excavacion(String nombrePozoEnExcavacion, int diaDeComienzoDeExcavacion, Parcela parcelaExcavacion) {
+    public Excavacion(String nombrePozoEnExcavacion, int diaDeComienzoDeExcavacion, Parcela parcelaEnExcavacion) {
         this.nombrePozoEnExcavacion = nombrePozoEnExcavacion;
         this.diaDeComienzoDeExcavacion = diaDeComienzoDeExcavacion;
         this.metrosExcavados = 0;
-        this.parcelaExcavacion = parcelaExcavacion;
+        this.parcelaEnExcavacion = parcelaEnExcavacion;
     }
 
     public String nombrePozoEnExcavacion() {
@@ -21,19 +21,19 @@ public class Excavacion {
         return diaDeComienzoDeExcavacion;
     }
 
-    public Parcela parcelaExcavacion() {
-        return parcelaExcavacion;
+    public Parcela parcelaEnExcavacion() {
+        return parcelaEnExcavacion;
     }
 
     public boolean excavacionFinalizada() {
-        return metrosExcavados == parcelaExcavacion.profundidadDelReservorio();
+        return metrosExcavados == parcelaEnExcavacion.profundidadDelReservorio();
     }
 
     public float excavar(float metrosAExcavar) {
-        if (metrosAExcavar + metrosExcavados > parcelaExcavacion.profundidadDelReservorio()) {
+        if (metrosAExcavar + metrosExcavados > parcelaEnExcavacion.profundidadDelReservorio()) {
             float metrosExcavadosHastaElMomento = metrosExcavados;
-            metrosExcavados = parcelaExcavacion.profundidadDelReservorio();
-            return parcelaExcavacion.profundidadDelReservorio() - metrosExcavadosHastaElMomento;
+            metrosExcavados = parcelaEnExcavacion.profundidadDelReservorio();
+            return parcelaEnExcavacion.profundidadDelReservorio() - metrosExcavadosHastaElMomento;
         } else {
             metrosExcavados += metrosAExcavar;
             return metrosAExcavar;
@@ -47,11 +47,11 @@ public class Excavacion {
 
         Excavacion that = (Excavacion) o;
 
-        return parcelaExcavacion.equals(that.parcelaExcavacion);
+        return parcelaEnExcavacion.equals(that.parcelaEnExcavacion);
     }
 
     @Override
     public int hashCode() {
-        return parcelaExcavacion.hashCode();
+        return parcelaEnExcavacion.hashCode();
     }
 }

@@ -4,7 +4,7 @@ import simoil.*;
 import java.util.ArrayList;
 
 public abstract class EstrategiaConstruccion {
-    protected ArrayList<ProyectoConstruccionPlanta> nuevosProyectosPlantas = new ArrayList<>();
+    protected ArrayList<ProyectoConstruccionPlantaProcesadora> nuevosProyectosPlantas = new ArrayList<>();
     protected ArrayList<ProyectoConstruccionTanque> nuevosProyectosTanquesAgua = new ArrayList<>();
     protected ArrayList<ProyectoConstruccionTanque> nuevosProyectosTanquesGas = new ArrayList<>();
     protected ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueAgua = new ArrayList<>();
@@ -12,8 +12,8 @@ public abstract class EstrategiaConstruccion {
 
     public abstract void crearProyectos(EmprendimientoPetrolifero emprendimientoPetrolifero);
 
-    public ArrayList<ProyectoConstruccionPlanta> nuevosProyectosConstruccionPlantas() {
-        ArrayList<ProyectoConstruccionPlanta> resultado = nuevosProyectosPlantas;
+    public ArrayList<ProyectoConstruccionPlantaProcesadora> nuevosProyectosConstruccionPlantas() {
+        ArrayList<ProyectoConstruccionPlantaProcesadora> resultado = nuevosProyectosPlantas;
         nuevosProyectosPlantas = new ArrayList<>();
         return resultado;
     }

@@ -132,6 +132,6 @@ public class Yacimiento {
             if (pozo.nombre().equals(nombre))
                 return pozo;
         }
-        throw new RuntimeException("No existe un pozo con ese nombre.");
+        throw new RuntimeException("No existe un pozo con ese nombreTipoTerreno.");
     }
 }

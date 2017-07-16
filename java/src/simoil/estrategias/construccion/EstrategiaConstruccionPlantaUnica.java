@@ -2,7 +2,6 @@ package simoil.estrategias.construccion;
 
 import simoil.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EstrategiaConstruccionPlantaUnica extends EstrategiaConstruccion {
@@ -18,7 +17,7 @@ public class EstrategiaConstruccionPlantaUnica extends EstrategiaConstruccion {
         if (hayNuevosProyectos) {
             ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente = new ArrayList<>(emprendimientoPetrolifero.catalogoPlantasProcesadoras());
             catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente.sort((p1,p2) -> Float.compare(p2.capacidadProcesamientoTotal(), p1.capacidadProcesamientoTotal()));
-            ProyectoConstruccionPlanta nuevoProyectoPlanta = new ProyectoConstruccionPlanta(
+            ProyectoConstruccionPlantaProcesadora nuevoProyectoPlanta = new ProyectoConstruccionPlantaProcesadora(
                     "1", 1, catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente.get(0));
             nuevosProyectosPlantas.add(nuevoProyectoPlanta);
 
