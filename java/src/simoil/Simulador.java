@@ -4,13 +4,12 @@ import simoil.estrategias.condicionDeFin.EstrategiaCondicionDeFin;
 import simoil.estrategias.condicionDeFin.EstrategiaCondicionDeFinPorDilucionCritica;
 import simoil.estrategias.construccion.EstrategiaConstruccion;
 import simoil.estrategias.construccion.EstrategiaConstruccionPlantaUnica;
-import simoil.estrategias.estrategiaVentaGas.EstrategiaVentaGasNuncaVender;
 import simoil.estrategias.estrategiaVentaGas.EstrategiaVentaGasVenderTodosLosDias;
 import simoil.estrategias.excavacion.EstrategiaExcavacion;
 import simoil.estrategias.excavacion.EstrategiaExcavacionLoAntesPosible;
 import simoil.estrategias.extraccion.EstrategiaExtraccionTodosLosPozosHabilitados;
 import simoil.estrategias.reinyeccion.EstrategiaReinyeccion;
-import simoil.estrategias.reinyeccion.EstrategiaReinyeccionPorTanqueLleno;
+import simoil.estrategias.reinyeccion.EstrategiaReinyeccionReinyectarTodoCuandoSeLlenaUnTanque;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelas;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelasPorMaximaPresion;
 
@@ -238,6 +237,15 @@ public class Simulador {
         conectarEstructuras();
         // Logueamos informacion contable
         double ganancia = emprendimientoPetrolifero.registroContable().ganancia();
+        ComposicionDeProducto composicionYacimiento = emprendimientoPetrolifero.yacimiento().composicionDeProducto();
+        double volumenTotalYacimiento = emprendimientoPetrolifero.yacimiento().volumenTotalActual();
+        double volumenPetroleoYacimiento = volumenTotalYacimiento * composicionYacimiento.porcentajePetroleo() / 100;
+        double volumenGasYacimiento = volumenTotalYacimiento * composicionYacimiento.porcentajeGas() / 100;
+        double volumenAguaYacimiento = volumenTotalYacimiento * composicionYacimiento.porcentajeAgua() / 100;
+        logger.log("Yacimiento: " + String.format("%1$,.2f", volumenPetroleoYacimiento) + " litros de petroleo, " +
+                String.format("%1$,.2f", volumenAguaYacimiento) + " litros de agua, y " +
+                String.format("%1$,.2f", volumenGasYacimiento) + " litros de gas. Dilucion petroleo: " +
+                String.format("%1$,.2f", composicionYacimiento.porcentajePetroleo()) + "%.");
         logger.log(
                 "Total ingresos: $" + String.format("%1$,.2f", emprendimientoPetrolifero.registroContable().ingresos()) +
                         ". Total gastos: $" + String.format("%1$,.2f", emprendimientoPetrolifero.registroContable().gastos()) +
@@ -390,7 +398,8 @@ public class Simulador {
                     double costoCombustibleConsumido = rig.consumoCombustibleDiarioEnLitros() * precioLitroDeCombustibleRig;
                     emprendimientoPetrolifero.registroContable().sumarGasto(costoCombustibleConsumido);
                     double metrosExcavados = rig.excavar(excavacion);
-                    logger.log("El rig " + rig.nombre() + " excavo " + String.format("%1$,.2f", metrosExcavados) + " metros en la excavacion del pozo " + excavacion.nombrePozoEnExcavacion() + ".");
+                    logger.log("El rig " + rig.nombre() + " excavo " + String.format("%1$,.2f", metrosExcavados) + " metros en la excavacion del pozo " + excavacion.nombrePozoEnExcavacion() +
+                            ".Consumio " + String.format("%1$,.2f", rig.consumoCombustibleDiarioEnLitros()) + " litros de combustible que costaron $" + String.format("%1$,.2f", costoCombustibleConsumido) + ".");
                     if (excavacion.excavacionFinalizada()) {
                         itExcavacion.remove();
                         logger.log("Se finalizo la excavacion del pozo " + excavacion.nombrePozoEnExcavacion() + ".");
@@ -437,23 +446,30 @@ public class Simulador {
         TipoTerreno rocoso = new TipoTerreno("rocoso", 60);
         TipoTerreno arcilloso = new TipoTerreno("arcilloso", -10);
         ArrayList<Parcela> parcelas = new ArrayList<>();
-        parcelas.add(new Parcela("1", rocoso, 10, 3100));
-        parcelas.add(new Parcela("2", rocoso, 20, 3200));
-        parcelas.add(new Parcela("3", arcilloso, 30, 3300));
+        parcelas.add(new Parcela("1", rocoso, 10, 3300));
+        parcelas.add(new Parcela("2", rocoso, 20, 3250));
+        parcelas.add(new Parcela("3", arcilloso, 30, 3400));
+        parcelas.add(new Parcela("4", rocoso, 10, 3400));
+        parcelas.add(new Parcela("5", rocoso, 10, 3500));
+        parcelas.add(new Parcela("6", arcilloso, 20, 3333));
+        for (int i = 7; i < 30; i++) {
+            parcelas.add(new Parcela(Integer.toString(i), arcilloso, 20, 3333));
+        }
+
         Yacimiento yacimiento = new Yacimiento(
-                0.1,
-                0.01,
-                10000000,
-                10000000,
-                80000000,
+                0.6,
+                0.05,
+                20000000,
+                30000000,
+                50000000,
                 parcelas);
 
         ArrayList<EspecificacionPlantaProcesadora> catalogoPlantas = new ArrayList<>();
-        catalogoPlantas.add(new EspecificacionPlantaProcesadora(3, 200, 20000));
-        catalogoPlantas.add(new EspecificacionPlantaProcesadora(5, 1000, 50000));
+        catalogoPlantas.add(new EspecificacionPlantaProcesadora(3, 200, 200000));
+        catalogoPlantas.add(new EspecificacionPlantaProcesadora(5, 1000, 500000));
         ArrayList<EspecificacionTanque> catalogoTanques = new ArrayList<>();
-        catalogoTanques.add(new EspecificacionTanque(2, 100, 3000));
-        catalogoTanques.add(new EspecificacionTanque(3, 150, 5000));
+        catalogoTanques.add(new EspecificacionTanque(2, 100, 30000));
+        catalogoTanques.add(new EspecificacionTanque(3, 150, 50000));
         ArrayList<AlquilerRig> catalogoAlquileresRigs = new ArrayList<>();
         catalogoAlquileresRigs.add(new AlquilerRig(60, 3, new Rig("1", 2, 10)));
         catalogoAlquileresRigs.add(new AlquilerRig(100, 5, new Rig("2", 4, 15)));
@@ -463,16 +479,16 @@ public class Simulador {
                 new EstrategiaExcavacionLoAntesPosible(),
                 new EstrategiaConstruccionPlantaUnica(),
                 new EstrategiaExtraccionTodosLosPozosHabilitados(),
-                new EstrategiaReinyeccionPorTanqueLleno(),
+                new EstrategiaReinyeccionReinyectarTodoCuandoSeLlenaUnTanque(),
                 new EstrategiaCondicionDeFinPorDilucionCritica(),
                 new EstrategiaVentaGasVenderTodosLosDias());
         EmprendimientoPetrolifero emprendimiento = new EmprendimientoPetrolifero(yacimiento, equipo, catalogoPlantas, catalogoTanques, catalogoAlquileresRigs);
         Simulador sim = new Simulador(
-                25,
+                500,
                 2,
-                10000,
+                100000000,
                 35,
-                3,
+                30,
                 10,
                 0.1,
                 0.22,
