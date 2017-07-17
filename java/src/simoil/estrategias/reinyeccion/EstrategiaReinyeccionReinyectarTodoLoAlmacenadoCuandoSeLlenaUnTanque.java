@@ -6,7 +6,7 @@ import simoil.Yacimiento;
 
 import java.util.ArrayList;
 
-public class EstrategiaReinyeccionReinyectarTodoCuandoSeLlenaUnTanque extends EstrategiaReinyeccion {
+public class EstrategiaReinyeccionReinyectarTodoLoAlmacenadoCuandoSeLlenaUnTanque extends EstrategiaReinyeccion {
     @Override
     public double calcularTotalLitrosReinyeccion(EmprendimientoPetrolifero emprendimientoPetrolifero, double volumenMaximoReinyeccionEnUnDia) {
         tanquesDeAguaDeDondeDescargar = new ArrayList<>();
@@ -16,7 +16,6 @@ public class EstrategiaReinyeccionReinyectarTodoCuandoSeLlenaUnTanque extends Es
         Yacimiento yacimiento = emprendimientoPetrolifero.yacimiento();
         double capacidadDeReinyeccion = yacimiento.globalExtraido() - yacimiento.globalReinyectado();
         capacidadDeReinyeccion = Math.min(volumenMaximoReinyeccionEnUnDia, capacidadDeReinyeccion);
-        //double totalAReinyectar = capacidadDeReinyecccion * 1.0;
         volumenAguaReinyeccion = 0;
         volumenGasReinyeccion = 0;
 
@@ -41,7 +40,6 @@ public class EstrategiaReinyeccionReinyectarTodoCuandoSeLlenaUnTanque extends Es
         volumenTotalReinyeccionUsandoSoloTanques = Math.min(volumenTotalReinyeccionUsandoSoloTanques, capacidadDeReinyeccion);
         volumenAguaReinyeccion = volumenTotalReinyeccionUsandoSoloTanques * proporcionAguaReinyeccion;
         volumenGasReinyeccion = volumenTotalReinyeccionUsandoSoloTanques * proporcionGasReinyeccion;
-        volumenAguaReinyeccion += (capacidadDeReinyeccion > volumenTotalReinyeccionUsandoSoloTanques) ? capacidadDeReinyeccion - volumenTotalReinyeccionUsandoSoloTanques : 0;
 
         if (!tanqueLleno) {
             tanquesDeAguaDeDondeDescargar.clear();

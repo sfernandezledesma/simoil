@@ -7,9 +7,9 @@ import simoil.estrategias.construccion.EstrategiaConstruccionPlantaUnica;
 import simoil.estrategias.estrategiaVentaGas.EstrategiaVentaGasVenderTodosLosDias;
 import simoil.estrategias.excavacion.EstrategiaExcavacion;
 import simoil.estrategias.excavacion.EstrategiaExcavacionLoAntesPosible;
-import simoil.estrategias.extraccion.EstrategiaExtraccionTodosLosPozosHabilitados;
+import simoil.estrategias.extraccion.EstrategiaExtraccionLosCincoPozosConMayorPresion;
 import simoil.estrategias.reinyeccion.EstrategiaReinyeccion;
-import simoil.estrategias.reinyeccion.EstrategiaReinyeccionReinyectarTodoCuandoSeLlenaUnTanque;
+import simoil.estrategias.reinyeccion.EstrategiaReinyeccionReinyectarTodoLoAlmacenadoCuandoSeLlenaUnTanque;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelas;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelasPorMaximaPresion;
 
@@ -23,7 +23,7 @@ public class Simulador {
     private ArrayList<ConexionEntreEstructuras> conexionesPendientesPlantaProcesadoraTanqueAgua = new ArrayList<>();
     private ArrayList<ConexionEntreEstructuras> conexionesPendientesPlantaProcesadoraTanqueGas = new ArrayList<>();
     private ArrayList<Excavacion> excavacionesPendientesDeFinalizacion = new ArrayList<>();
-    private int maximoDias;
+    private int maximoDiasSimulacion;
     private int maximaCantidadRigsSimultaneos;
     private double volumenMaximoReinyeccionEnUnDia;
     private double porcentajeCriticoPetroleo;
@@ -35,8 +35,8 @@ public class Simulador {
     private EmprendimientoPetrolifero emprendimientoPetrolifero;
     private ArrayList<Parcela> parcelasSeleccionadasDondeExcavar;
 
-    public Simulador(int maximoDias, int maximaCantidadRigsSimultaneos, double volumenMaximoReinyeccionEnUnDia, double porcentajeCriticoPetroleo, int cantidadDePozosDeseados, double precioLitroDeCombustibleRig, double precioLitroGas, double precioLitroPetroleo, double precioLitroAguaEspecialComprada, EmprendimientoPetrolifero emprendimientoPetrolifero) {
-        this.maximoDias = maximoDias;
+    public Simulador(int maximoDiasSimulacion, int maximaCantidadRigsSimultaneos, double volumenMaximoReinyeccionEnUnDia, double porcentajeCriticoPetroleo, int cantidadDePozosDeseados, double precioLitroDeCombustibleRig, double precioLitroGas, double precioLitroPetroleo, double precioLitroAguaEspecialComprada, EmprendimientoPetrolifero emprendimientoPetrolifero) {
+        this.maximoDiasSimulacion = maximoDiasSimulacion;
         this.maximaCantidadRigsSimultaneos = maximaCantidadRigsSimultaneos;
         this.volumenMaximoReinyeccionEnUnDia = volumenMaximoReinyeccionEnUnDia;
         this.porcentajeCriticoPetroleo = porcentajeCriticoPetroleo;
@@ -54,9 +54,14 @@ public class Simulador {
         this.parcelasSeleccionadasDondeExcavar = estrategiaSeleccionParcelas.seleccionarParcelasParaExcavar(emprendimientoPetrolifero, cantidadDePozosDeseados);
 
         EstrategiaCondicionDeFin estrategiaCondicionDeFin = emprendimientoPetrolifero.equipoDeIngenieria().estrategiaCondicionDeFin();
-        while (!estrategiaCondicionDeFin.hayQueFinalizar(emprendimientoPetrolifero, diaActual, maximoDias, porcentajeCriticoPetroleo)) {
+        while (!estrategiaCondicionDeFin.hayQueFinalizar(emprendimientoPetrolifero, diasTranscurridos())
+                && diasTranscurridos() < maximoDiasSimulacion) {
             simularUnDia();
         }
+    }
+
+    public int diasTranscurridos() {
+        return diaActual - 1;
     }
 
     private void simularUnDia() {
@@ -452,7 +457,7 @@ public class Simulador {
         parcelas.add(new Parcela("4", rocoso, 10, 3400));
         parcelas.add(new Parcela("5", rocoso, 10, 3500));
         parcelas.add(new Parcela("6", arcilloso, 20, 3333));
-        for (int i = 7; i < 30; i++) {
+        for (int i = 7; i <= 30; i++) {
             parcelas.add(new Parcela(Integer.toString(i), arcilloso, 20, 3333));
         }
 
@@ -478,13 +483,13 @@ public class Simulador {
                 new EstrategiaSeleccionParcelasPorMaximaPresion(),
                 new EstrategiaExcavacionLoAntesPosible(),
                 new EstrategiaConstruccionPlantaUnica(),
-                new EstrategiaExtraccionTodosLosPozosHabilitados(),
-                new EstrategiaReinyeccionReinyectarTodoCuandoSeLlenaUnTanque(),
-                new EstrategiaCondicionDeFinPorDilucionCritica(),
+                new EstrategiaExtraccionLosCincoPozosConMayorPresion(),
+                new EstrategiaReinyeccionReinyectarTodoLoAlmacenadoCuandoSeLlenaUnTanque(),
+                new EstrategiaCondicionDeFinPorDilucionCritica(40),
                 new EstrategiaVentaGasVenderTodosLosDias());
         EmprendimientoPetrolifero emprendimiento = new EmprendimientoPetrolifero(yacimiento, equipo, catalogoPlantas, catalogoTanques, catalogoAlquileresRigs);
         Simulador sim = new Simulador(
-                500,
+                5000,
                 2,
                 100000000,
                 35,
