@@ -135,6 +135,14 @@ public class Yacimiento {
         return pozosHabilitadosParaExtraccion;
     }
 
+    public boolean pozoHabilitadoPorNombre(String nombre) {
+        for (Pozo pozo : this.pozosHabilitadosParaExtraccion()) {
+            if (pozo.nombre().equals(nombre))
+                return true;
+        }
+        return false;
+    }
+
     public Pozo pozoPorNombre(String nombre) {
         for (Pozo pozo : this.pozosHabilitadosParaExtraccion()) {
             if (pozo.nombre().equals(nombre))

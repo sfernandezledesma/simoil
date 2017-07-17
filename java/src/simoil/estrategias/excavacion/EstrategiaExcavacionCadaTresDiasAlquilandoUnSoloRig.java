@@ -4,20 +4,25 @@ import simoil.*;
 
 import java.util.ArrayList;
 
-public class EstrategiaExcavacionLoAntesPosible extends EstrategiaExcavacion {
-
+public class EstrategiaExcavacionCadaTresDiasAlquilandoUnSoloRig extends  EstrategiaExcavacion {
+    private int diaDeUltimaExcavacion = -1;
     @Override
     public ArrayList<Excavacion> crearExcavaciones(EmprendimientoPetrolifero emprendimientoPetrolifero, ArrayList<Parcela> parcelasDondeExcavar) {
         nuevasExcavaciones = new ArrayList<>();
         for (Parcela parcela : parcelasDondeExcavar) {
-            nuevasExcavaciones.add(new Excavacion(parcela.nombre(), 1, parcela));
+            if (diaDeUltimaExcavacion == -1) {
+                diaDeUltimaExcavacion = 1;
+            } else {
+                diaDeUltimaExcavacion += 3;
+            }
+            nuevasExcavaciones.add(new Excavacion(parcela.nombre(), diaDeUltimaExcavacion, parcela));
         }
         return nuevasExcavaciones;
     }
 
     @Override
     public int cuantosRigsAlquilarSimultaneamente(int maximaCantidadDeRigsSimultaneos) {
-        return maximaCantidadDeRigsSimultaneos;
+        return 1;
     }
 
     @Override

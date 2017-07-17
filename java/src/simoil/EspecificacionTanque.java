@@ -3,12 +3,12 @@ package simoil;
 public class EspecificacionTanque {
     private int cantidadDiasDeConstruccion;
     private double costo;
-    private double capacidadTotal;
+    private double capacidadAlmacenamientoEnLitros;
 
-    public EspecificacionTanque(int cantidadDiasDeConstruccion, double costo, double capacidadTotal) {
+    public EspecificacionTanque(int cantidadDiasDeConstruccion, double costo, double capacidadAlmacenamientoEnLitros) {
         this.cantidadDiasDeConstruccion = cantidadDiasDeConstruccion;
         this.costo = costo;
-        this.capacidadTotal = capacidadTotal;
+        this.capacidadAlmacenamientoEnLitros = capacidadAlmacenamientoEnLitros;
     }
 
     public int cantidadDiasDeConstruccion() {
@@ -19,7 +19,7 @@ public class EspecificacionTanque {
         return costo;
     }
 
-    public double capacidadTotal() {
-        return capacidadTotal;
+    public double capacidadAlmacenamientoEnLitros() {
+        return capacidadAlmacenamientoEnLitros;
     }
 }

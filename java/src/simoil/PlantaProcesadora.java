@@ -30,6 +30,10 @@ public class PlantaProcesadora {
         return capacidadProcesamientoTotal;
     }
 
+    public double capacidadProcesamientoDisponible() {
+        return capacidadProcesamientoTotal - volumenProcesadoEnElDia;
+    }
+
     public ArrayList<Tanque> tanquesDeAguaConectados() {
         return tanquesDeAguaConectados;
     }
@@ -51,8 +55,8 @@ public class PlantaProcesadora {
         ArrayList<Tanque> tanquesDeAguaHabilitados = emprendimientoPetrolifero.tanquesDeAguaHabilitados();
         ArrayList<Tanque> tanquesDeGasHabilitados = emprendimientoPetrolifero.tanquesDeGasHabilitados();
         double volumenTotalProcesado = 0;
-        if (capacidadDisponible() > 0) {
-            double potencialVolumenProcesadoTotal = Math.min(capacidadDisponible(), volumenProducto);
+        if (capacidadProcesamientoDisponible() > 0) {
+            double potencialVolumenProcesadoTotal = Math.min(capacidadProcesamientoDisponible(), volumenProducto);
             double proporcionAgua = composicion.porcentajeAgua() / 100;
             double proporcionGas = composicion.porcentajeGas() / 100;
             double potencialVolumenAguaProcesada = potencialVolumenProcesadoTotal * proporcionAgua;
@@ -138,10 +142,6 @@ public class PlantaProcesadora {
             }
         }
         return volumenTotalProcesado;
-    }
-
-    private double capacidadDisponible() {
-        return capacidadProcesamientoTotal - volumenProcesadoEnElDia;
     }
 
     @Override

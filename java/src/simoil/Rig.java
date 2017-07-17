@@ -27,7 +27,7 @@ public class Rig {
             double metrosAExcavar = multiplicadorExcavacion * poderExcavacion;
             metrosExcavados = excavacion.excavar(metrosAExcavar);
         } else {
-            throw new RuntimeException("El Rig ya esta excavando.");
+            throw new RuntimeException("Se intento excavar con un rig que ya estaba excavando.");
         }
         return metrosExcavados;
     }

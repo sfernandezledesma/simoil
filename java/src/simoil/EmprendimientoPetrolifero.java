@@ -15,7 +15,8 @@ public class EmprendimientoPetrolifero {
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeAgua;
     private ArrayList<ProyectoConstruccionTanque> proyectosDeTanquesDeGas;
     private ArrayList<ProyectoConstruccionPlantaProcesadora> proyectosDePlantasProcesadoras;
-    private ArrayList<Excavacion> excavaciones;
+    private ArrayList<Excavacion> excavacionesActivas;
+    private ArrayList<Excavacion> excavacionesPendientesDeFinalizacion;
     private ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras;
     private ArrayList<EspecificacionTanque> catalogoTanques;
 
@@ -36,7 +37,8 @@ public class EmprendimientoPetrolifero {
         this.proyectosDeTanquesDeAgua = new ArrayList<>();
         this.proyectosDeTanquesDeGas = new ArrayList<>();
         this.proyectosDePlantasProcesadoras = new ArrayList<>();
-        this.excavaciones = new ArrayList<>();
+        this.excavacionesActivas = new ArrayList<>();
+        this.excavacionesPendientesDeFinalizacion = new ArrayList<>();
     }
 
     public void habilitarPlantaProcesadora(PlantaProcesadora plantaProcesadora) {
@@ -81,10 +83,13 @@ public class EmprendimientoPetrolifero {
         this.proyectosDePlantasProcesadoras.add(proyectoDePlantaProcesadora);
     }
 
-    public void agregarExcavacion(Excavacion nuevaExcavacion) {
-        if (excavaciones.contains(nuevaExcavacion))
+    public void agregarNuevaExcavacion(Excavacion nuevaExcavacion) {
+        if (excavacionesActivas.contains(nuevaExcavacion))
             throw new RuntimeException("Se intento agregar una excavacion ya existente.");
-        this.excavaciones.add(nuevaExcavacion);
+        if (yacimiento.pozoHabilitadoPorNombre(nuevaExcavacion.nombrePozoEnExcavacion())) {
+            throw new RuntimeException("Se intento agregar una excavacion de un pozo que ya existe.");
+        }
+        this.excavacionesActivas.add(nuevaExcavacion);
     }
 
     public Yacimiento yacimiento() {
@@ -135,8 +140,12 @@ public class EmprendimientoPetrolifero {
         return proyectosDePlantasProcesadoras;
     }
 
-    public ArrayList<Excavacion> excavaciones() {
-        return excavaciones;
+    public ArrayList<Excavacion> excavacionesActivas() {
+        return excavacionesActivas;
+    }
+
+    public ArrayList<Excavacion> excavacionesPendientesDeFinalizacion() {
+        return excavacionesPendientesDeFinalizacion;
     }
 
     public RegistroContable registroContable() {

@@ -3,10 +3,10 @@ package simoil.estrategias.seleccionParcelas;
 import simoil.EmprendimientoPetrolifero;
 import simoil.Excavacion;
 import simoil.Parcela;
+
 import java.util.ArrayList;
 
-public class EstrategiaSeleccionParcelasPorMaximaPresion extends EstrategiaSeleccionParcelas {
-
+public class EstrategiaSeleccionParcelasPorFacilidadDeExcavacion extends EstrategiaSeleccionParcelas {
     @Override
     public ArrayList<Parcela> seleccionarParcelasParaExcavar(EmprendimientoPetrolifero emprendimientoPetrolifero, int cantidadPozosDeseados) {
         ArrayList<Parcela> parcelasSeleccionadas = new ArrayList<>();
@@ -36,7 +36,7 @@ public class EstrategiaSeleccionParcelasPorMaximaPresion extends EstrategiaSelec
             }
         }
 
-        parcelasSeleccionadas.sort((p1, p2) -> Double.compare(p2.presionInicial(), p1.presionInicial()));
+        parcelasSeleccionadas.sort((p1, p2) -> Double.compare(multiplicadorExcavacion(p2), multiplicadorExcavacion(p1)));
 
         while (parcelasSeleccionadas.size() > cantidadPozosDeseados)
             parcelasSeleccionadas.remove(parcelasSeleccionadas.size() - 1);
@@ -44,4 +44,7 @@ public class EstrategiaSeleccionParcelasPorMaximaPresion extends EstrategiaSelec
         return parcelasSeleccionadas;
     }
 
+    private double multiplicadorExcavacion(Parcela parcela) {
+        return 1.0 - parcela.tipoTerreno().resistenciaALaExcavacionEnPorcentaje() / 100.0;
+    }
 }

@@ -30,7 +30,7 @@ public class ProyectoConstruccionPlantaProcesadora {
         if (diasParaFinalizar() > 0) {
             throw new RuntimeException("No puede finalizarse la construccion, faltan aun " + diasParaFinalizar() + " dias.");
         }
-        return new PlantaProcesadora(nombrePlantaEnConstruccion, especificacionPlantaProcesadora.capacidadProcesamientoTotal());
+        return new PlantaProcesadora(nombrePlantaEnConstruccion, especificacionPlantaProcesadora.capacidadDiariaProcesamientoEnLitros());
     }
 
     public int diasParaFinalizar() {
