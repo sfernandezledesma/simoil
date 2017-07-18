@@ -18,6 +18,13 @@ public class ProyectoConstruccionTanque {
         return diasParaFinalizar <= 0;
     }
 
+    public Tanque finalizarConstruccion() {
+        if (diasParaFinalizar() > 0) {
+            throw new RuntimeException("No puede finalizarse la construccion, faltan aun " + diasParaFinalizar() + " dias.");
+        }
+        return new Tanque(nombreTanqueEnConstruccion, especificacionTanque.capacidadAlmacenamientoEnLitros());
+    }
+
     public EspecificacionTanque especificacionTanque() {
         return especificacionTanque;
     }

@@ -3,19 +3,15 @@ package simoil;
 
 public class Rig {
     private String nombre;
-    private double poderExcavacion;
+    private double poderExcavacionEnMetros;
     private double consumoCombustibleDiarioEnLitros;
     private boolean estaExcavando;
 
-    public Rig(String nombre, double poderExcavacion, double consumoCombustibleDiarioEnLitros) {
+    public Rig(String nombre, double poderExcavacionEnMetros, double consumoCombustibleDiarioEnLitros) {
         this.nombre = nombre;
         this.estaExcavando = false;
-        this.poderExcavacion = poderExcavacion;
+        this.poderExcavacionEnMetros = poderExcavacionEnMetros;
         this.consumoCombustibleDiarioEnLitros = consumoCombustibleDiarioEnLitros;
-    }
-
-    public Rig(String nombre, Rig otroRig) {
-        this(nombre, otroRig.poderExcavacion(), otroRig.consumoCombustibleDiarioEnLitros());
     }
 
     public double excavar(Excavacion excavacion) {
@@ -24,7 +20,7 @@ public class Rig {
             estaExcavando = true;
             double resistenciaEnPorcentaje = excavacion.parcelaEnExcavacion().tipoTerreno().resistenciaALaExcavacionEnPorcentaje();
             double multiplicadorExcavacion = 1 - resistenciaEnPorcentaje / 100;
-            double metrosAExcavar = multiplicadorExcavacion * poderExcavacion;
+            double metrosAExcavar = multiplicadorExcavacion * poderExcavacionEnMetros;
             metrosExcavados = excavacion.excavar(metrosAExcavar);
         } else {
             throw new RuntimeException("Se intento excavar con un rig que ya estaba excavando.");
@@ -36,8 +32,8 @@ public class Rig {
         estaExcavando = false;
     }
 
-    public double poderExcavacion() {
-        return poderExcavacion;
+    public double poderExcavacionEnMetros() {
+        return poderExcavacionEnMetros;
     }
 
     public boolean estaExcavando() {

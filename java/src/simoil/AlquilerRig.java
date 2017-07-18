@@ -15,6 +15,9 @@ public class AlquilerRig {
     }
 
     public void finalizarAlquiler() {
+        if (diasAlquilado() < minimoDiasAlquilado()) {
+            throw new RuntimeException("No se puede finalizar un alquiler antes del minimo de dias.");
+        }
         this.diasAlquilado = 0;
     }
 
@@ -22,11 +25,11 @@ public class AlquilerRig {
         return costoDiario;
     }
 
-    public int minimoDias() {
+    public int minimoDiasAlquilado() {
         return minimoDias;
     }
 
-    public Rig rig() {
+    public Rig rigAlquilado() {
         return rig;
     }
 

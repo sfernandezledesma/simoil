@@ -33,7 +33,7 @@ public class EstrategiaExcavacionCadaTresDiasAlquilandoUnSoloRig extends  Estrat
         }
         AlquilerRig alquilerSeleccionado = catalogoAlquilerRigs.get(0);
         for (AlquilerRig alquiler : catalogoAlquilerRigs) {
-            if (alquiler.rig().poderExcavacion() > alquilerSeleccionado.rig().poderExcavacion()) {
+            if (alquiler.rigAlquilado().poderExcavacionEnMetros() > alquilerSeleccionado.rigAlquilado().poderExcavacionEnMetros()) {
                 alquilerSeleccionado = alquiler;
             }
         }

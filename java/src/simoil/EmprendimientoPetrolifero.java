@@ -86,7 +86,7 @@ public class EmprendimientoPetrolifero {
     public void agregarNuevaExcavacion(Excavacion nuevaExcavacion) {
         if (excavacionesActivas.contains(nuevaExcavacion))
             throw new RuntimeException("Se intento agregar una excavacion ya existente.");
-        if (yacimiento.pozoHabilitadoPorNombre(nuevaExcavacion.nombrePozoEnExcavacion())) {
+        if (yacimiento.pozoHabilitado(nuevaExcavacion.nombrePozoEnExcavacion())) {
             throw new RuntimeException("Se intento agregar una excavacion de un pozo que ya existe.");
         }
         this.excavacionesActivas.add(nuevaExcavacion);
@@ -171,14 +171,6 @@ public class EmprendimientoPetrolifero {
     public boolean tanqueDeGasHabilitado(String nombre) {
         for (Tanque tanqueDeGas : tanquesDeGasHabilitados) {
             if (tanqueDeGas.nombre().equals(nombre))
-                return true;
-        }
-        return false;
-    }
-
-    public boolean pozoHabilitado(String nombre) {
-        for (Pozo pozo : yacimiento.pozosHabilitadosParaExtraccion()) {
-            if (pozo.nombre().equals(nombre))
                 return true;
         }
         return false;

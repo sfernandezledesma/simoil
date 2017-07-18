@@ -48,11 +48,11 @@ public class Yacimiento {
         return parcelas;
     }
 
-    public double globalExtraido() {
+    public double volumenGlobalExtraido() {
         return globalExtraido;
     }
 
-    public double globalReinyectado() {
+    public double volumenGlobalReinyectado() {
         return globalReinyectado;
     }
 
@@ -120,7 +120,7 @@ public class Yacimiento {
 
     public void actualizarPresionesPozosPorReinyeccion() {
         for (Pozo pozo : pozosHabilitadosParaExtraccion()) {
-            double nuevaPresion = pozo.presionInicial() * (volumenTotalInicial - globalExtraido() + globalReinyectado()) / volumenTotalInicial;
+            double nuevaPresion = pozo.presionInicial() * (volumenTotalInicial - volumenGlobalExtraido() + volumenGlobalReinyectado()) / volumenTotalInicial;
             pozo.actualizarPresion(nuevaPresion);
         }
     }
@@ -135,7 +135,7 @@ public class Yacimiento {
         return pozosHabilitadosParaExtraccion;
     }
 
-    public boolean pozoHabilitadoPorNombre(String nombre) {
+    public boolean pozoHabilitado(String nombre) {
         for (Pozo pozo : this.pozosHabilitadosParaExtraccion()) {
             if (pozo.nombre().equals(nombre))
                 return true;

@@ -14,7 +14,7 @@ public class EstrategiaReinyeccionReinyectarTodoLoAlmacenadoCuandoSeLlenaUnTanqu
         boolean tanqueLleno = false;
 
         Yacimiento yacimiento = emprendimientoPetrolifero.yacimiento();
-        double capacidadDeReinyeccion = yacimiento.globalExtraido() - yacimiento.globalReinyectado();
+        double capacidadDeReinyeccion = yacimiento.volumenGlobalExtraido() - yacimiento.volumenGlobalReinyectado();
         capacidadDeReinyeccion = Math.min(volumenMaximoReinyeccionEnUnDia, capacidadDeReinyeccion);
         volumenAguaReinyeccion = 0;
         volumenGasReinyeccion = 0;

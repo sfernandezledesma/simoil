@@ -19,7 +19,7 @@ public class EstrategiaReinyeccionPorBajaPresionDePozo extends EstrategiaReinyec
         tanquesDeAguaDeDondeDescargar = new ArrayList<>();
         tanquesDeGasDeDondeDescargar = new ArrayList<>();
         Yacimiento yacimiento = emprendimientoPetrolifero.yacimiento();
-        double capacidadDeReinyeccion = yacimiento.globalExtraido() - yacimiento.globalReinyectado();
+        double capacidadDeReinyeccion = yacimiento.volumenGlobalExtraido() - yacimiento.volumenGlobalReinyectado();
         capacidadDeReinyeccion = Math.min(volumenMaximoReinyeccionEnUnDia, capacidadDeReinyeccion);
         volumenAguaReinyeccion = 0;
         volumenGasReinyeccion = 0;
