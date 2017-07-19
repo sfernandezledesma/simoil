@@ -9,6 +9,7 @@ import simoil.estrategias.excavacion.EstrategiaExcavacion;
 import simoil.estrategias.excavacion.EstrategiaExcavacionCadaTresDiasAlquilandoUnSoloRig;
 import simoil.estrategias.extraccion.EstrategiaExtraccionNPozosConMayorPresion;
 import simoil.estrategias.reinyeccion.EstrategiaReinyeccion;
+import simoil.estrategias.reinyeccion.EstrategiaReinyeccionPorBajaPresionDePozo;
 import simoil.estrategias.reinyeccion.EstrategiaReinyeccionReinyectarTodoLoAlmacenadoCuandoSeLlenaUnTanque;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelas;
 import simoil.estrategias.seleccionParcelas.EstrategiaSeleccionParcelasPorFacilidadDeExcavacion;
@@ -458,9 +459,9 @@ public class Simulador {
         parcelas.add(new Parcela("4", rocoso, 10, 3400));
         parcelas.add(new Parcela("5", rocoso, 10, 3500));
         parcelas.add(new Parcela("6", arcilloso, 20, 3333));
-        for (int i = 7; i <= 30; i++) {
+        /*for (int i = 7; i <= 30; i++) {
             parcelas.add(new Parcela(Integer.toString(i), arcilloso, 20, 3333));
-        }
+        }*/
 
         Yacimiento yacimiento = new Yacimiento(
                 0.6,
@@ -487,7 +488,7 @@ public class Simulador {
                 new EstrategiaExcavacionCadaTresDiasAlquilandoUnSoloRig(),
                 new EstrategiaConstruccionTantasPlantasYTanquesComoParcelas(),
                 new EstrategiaExtraccionNPozosConMayorPresion(1),
-                new EstrategiaReinyeccionReinyectarTodoLoAlmacenadoCuandoSeLlenaUnTanque(),
+                new EstrategiaReinyeccionReinyectarTodoLoAlmacenadoCuandoSeLlenaUnTanque(),//new EstrategiaReinyeccionPorBajaPresionDePozo(3000),
                 new EstrategiaCondicionDeFinPorMaximoDiasLicitacion(100),
                 new EstrategiaVentaGasVenderTodosLosDias());
         EmprendimientoPetrolifero emprendimiento = new EmprendimientoPetrolifero(yacimiento, equipo, catalogoPlantas, catalogoTanques, catalogoAlquileresRigs);

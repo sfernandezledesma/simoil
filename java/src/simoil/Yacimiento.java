@@ -74,7 +74,7 @@ public class Yacimiento {
         }
         volumenAgua += volumenAguaAReinyectar;
         volumenGas += volumenGasAReinyectar;
-        globalReinyectado = totalReinyeccion;
+        globalReinyectado += totalReinyeccion;
         volumenReinyectado = totalReinyeccion;
         return volumenReinyectado;
     }
