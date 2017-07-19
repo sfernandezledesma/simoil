@@ -25,6 +25,10 @@ public class EstrategiaReinyeccionPorBajaPresionDePozo extends EstrategiaReinyec
         volumenGasReinyeccion = 0;
         boolean reinyectar = false;
 
+        if (emprendimientoPetrolifero.yacimiento().pozosHabilitadosParaExtraccion().size() == 0) {
+            return 0;
+        }
+
         for (Pozo pozo : emprendimientoPetrolifero.yacimiento().pozosHabilitadosParaExtraccion()) {
             if (pozo.presionActual() < minimaPresion) {
                 reinyectar = true;

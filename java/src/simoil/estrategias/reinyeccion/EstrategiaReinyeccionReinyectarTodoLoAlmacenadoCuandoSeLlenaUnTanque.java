@@ -19,6 +19,10 @@ public class EstrategiaReinyeccionReinyectarTodoLoAlmacenadoCuandoSeLlenaUnTanqu
         volumenAguaReinyeccion = 0;
         volumenGasReinyeccion = 0;
 
+        if (emprendimientoPetrolifero.yacimiento().pozosHabilitadosParaExtraccion().size() == 0) {
+            return 0;
+        }
+
         for (Tanque tanqueDeAgua : emprendimientoPetrolifero.tanquesDeAguaHabilitados()) {
             tanquesDeAguaDeDondeDescargar.add(tanqueDeAgua);
             volumenAguaReinyeccion += tanqueDeAgua.volumenCargado();

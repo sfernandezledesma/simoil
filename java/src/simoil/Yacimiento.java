@@ -64,6 +64,9 @@ public class Yacimiento {
     }
 
     public double reinyectarAguaYGas(double volumenAguaAReinyectar, double volumenGasAReinyectar) {
+        if (pozosHabilitadosParaExtraccion().size() == 0) {
+            throw new RuntimeException("Se intento reinyectar en un yacimiento sin pozos.");
+        }
         double totalReinyeccion = volumenAguaAReinyectar + volumenGasAReinyectar;
         double volumenReinyectado = 0;
         if (totalReinyeccion + globalReinyectado > globalExtraido) {
