@@ -66,12 +66,12 @@ public class PlantaProcesadora {
             ArrayList<Tanque> tanquesDeAguaDisponibles = new ArrayList<>();
             ArrayList<Tanque> tanquesDeGasDisponibles = new ArrayList<>();
             for (Tanque tanqueDeAguaConectado : tanquesDeAguaConectados) {
-                if (tanquesDeAguaHabilitados.contains(tanqueDeAguaConectado)) {
+                if (emprendimientoPetrolifero.tanqueDeAguaHabilitado(tanqueDeAguaConectado.nombre())) {
                     tanquesDeAguaDisponibles.add(tanqueDeAguaConectado);
                 }
             }
             for (Tanque tanqueDeGasConectado : tanquesDeGasConectados) {
-                if (tanquesDeGasHabilitados.contains(tanqueDeGasConectado)) {
+                if (emprendimientoPetrolifero.tanqueDeGasHabilitado(tanqueDeGasConectado.nombre())) {
                     tanquesDeGasDisponibles.add(tanqueDeGasConectado);
                 }
             }

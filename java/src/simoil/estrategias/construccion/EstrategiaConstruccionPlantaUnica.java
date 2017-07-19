@@ -9,30 +9,33 @@ public class EstrategiaConstruccionPlantaUnica extends EstrategiaConstruccion {
 
     @Override
     public void crearProyectos(EmprendimientoPetrolifero emprendimientoPetrolifero) {
-        nuevosProyectosPlantas = new ArrayList<>();
-        nuevosProyectosTanquesAgua = new ArrayList<>();
-        nuevosProyectosTanquesGas = new ArrayList<>();
-        nuevasConexionesPlantaTanqueAgua = new ArrayList<>();
-        nuevasConexionesPlantaTanqueGas = new ArrayList<>();
+        nuevosProyectosPlantas.clear();
+        nuevosProyectosTanquesAgua.clear();
+        nuevosProyectosTanquesGas.clear();
+        nuevasConexionesPlantaTanqueAgua.clear();
+        nuevasConexionesPlantaTanqueGas.clear();
         if (hayNuevosProyectos) {
-            ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente = new ArrayList<>(emprendimientoPetrolifero.catalogoPlantasProcesadoras());
-            catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente.sort((p1,p2) -> Double.compare(p2.capacidadDiariaProcesamientoEnLitros(), p1.capacidadDiariaProcesamientoEnLitros()));
+            ArrayList<EspecificacionPlantaProcesadora> catalogoPlantas = emprendimientoPetrolifero.catalogoPlantasProcesadoras();
+            ArrayList<EspecificacionTanque> catalogosTanques = emprendimientoPetrolifero.catalogoTanques();
+
+            EspecificacionPlantaProcesadora especificacionPlantaElegida = catalogoPlantas.get(0);
+
             ProyectoConstruccionPlantaProcesadora nuevoProyectoPlanta = new ProyectoConstruccionPlantaProcesadora(
-                    "1", 1, catalogoPlantasOrdenadosPorCapacidadProcesamientoDescendiente.get(0));
+                    "1", 1, especificacionPlantaElegida);
             nuevosProyectosPlantas.add(nuevoProyectoPlanta);
 
-            ArrayList<EspecificacionTanque> catalogosTanquesOrdenadosPorCapacidadDescendiente = new ArrayList<>(emprendimientoPetrolifero.catalogoTanques());
-            catalogosTanquesOrdenadosPorCapacidadDescendiente.sort((p1,p2) -> Double.compare(p2.capacidadAlmacenamientoEnLitros(), p1.capacidadAlmacenamientoEnLitros()));
+
+            EspecificacionTanque especificacionTanqueElegida = catalogosTanques.get(0);
 
             ProyectoConstruccionTanque nuevoProyectoTanqueAgua = new ProyectoConstruccionTanque(
-                    "A1", 1, catalogosTanquesOrdenadosPorCapacidadDescendiente.get(0));
+                    "A1", 1, especificacionTanqueElegida);
             nuevosProyectosTanquesAgua.add(nuevoProyectoTanqueAgua);
             nuevasConexionesPlantaTanqueAgua.add(new ConexionEntreEstructuras(
                     nuevoProyectoPlanta.nombrePlantaEnConstruccion(),
                     nuevoProyectoTanqueAgua.nombreTanqueEnConstruccion()));
 
             ProyectoConstruccionTanque nuevoProyectoTanqueGas = new ProyectoConstruccionTanque(
-                    "G1", 1, catalogosTanquesOrdenadosPorCapacidadDescendiente.get(0));
+                    "G1", 1, especificacionTanqueElegida);
             nuevosProyectosTanquesGas.add(nuevoProyectoTanqueGas);
             nuevasConexionesPlantaTanqueGas.add(new ConexionEntreEstructuras(
                     nuevoProyectoPlanta.nombrePlantaEnConstruccion(),

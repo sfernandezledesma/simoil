@@ -13,33 +13,23 @@ public abstract class EstrategiaConstruccion {
     public abstract void crearProyectos(EmprendimientoPetrolifero emprendimientoPetrolifero);
 
     public ArrayList<ProyectoConstruccionPlantaProcesadora> nuevosProyectosConstruccionPlantas() {
-        ArrayList<ProyectoConstruccionPlantaProcesadora> resultado = nuevosProyectosPlantas;
-        nuevosProyectosPlantas = new ArrayList<>();
-        return resultado;
+        return nuevosProyectosPlantas;
     }
 
     public ArrayList<ProyectoConstruccionTanque> nuevosProyectosConstruccionTanquesDeAgua() {
-        ArrayList<ProyectoConstruccionTanque> resultado = nuevosProyectosTanquesAgua;
-        nuevosProyectosTanquesAgua = new ArrayList<>();
-        return resultado;
+        return nuevosProyectosTanquesAgua;
     }
 
     public ArrayList<ProyectoConstruccionTanque> nuevosProyectosConstruccionTanquesDeGas() {
-        ArrayList<ProyectoConstruccionTanque> resultado = nuevosProyectosTanquesGas;
-        nuevosProyectosTanquesGas = new ArrayList<>();
-        return resultado;
+        return nuevosProyectosTanquesGas;
     }
 
     public ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueAgua() {
-        ArrayList<ConexionEntreEstructuras> resultado = nuevasConexionesPlantaTanqueAgua;
-        nuevasConexionesPlantaTanqueAgua = new ArrayList<>();
-        return resultado;
+        return nuevasConexionesPlantaTanqueAgua;
     }
 
     public ArrayList<ConexionEntreEstructuras> nuevasConexionesPlantaTanqueGas() {
-        ArrayList<ConexionEntreEstructuras> resultado = nuevasConexionesPlantaTanqueGas;
-        nuevasConexionesPlantaTanqueGas = new ArrayList<>();
-        return resultado;
+        return nuevasConexionesPlantaTanqueGas;
     }
 
 }

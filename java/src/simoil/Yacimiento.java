@@ -31,6 +31,13 @@ public class Yacimiento {
         else
             this.parcelas = parcelas;
 
+        for (int i = 0; i < parcelas.size(); i ++) {
+            for (int j = i + 1; j < parcelas.size(); j++) {
+                if (parcelas.get(i).nombre().equals(parcelas.get(j).nombre())) {
+                    throw new RuntimeException("No se puede crear un yacimiento con dos parcelas que se llamen igual.");
+                }
+            }
+        }
     }
 
     public double volumenTotalActual() {

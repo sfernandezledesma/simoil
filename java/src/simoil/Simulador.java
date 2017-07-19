@@ -156,7 +156,7 @@ public class Simulador {
                         break;
                     }
                     // Chequeamos que la planta procesadora conectada esta efectivamente habilitada en el yacimiento
-                    if (emprendimientoPetrolifero.plantasProcesadorasHabilitadas().contains(plantaProcesadora)) {
+                    if (emprendimientoPetrolifero.plantaProcesadoraHabilitada(plantaProcesadora.nombre())) {
                         if (plantaProcesadora.capacidadProcesamientoDisponible() > 0) {
                             double volumenProcesado = plantaProcesadora.procesarProducto(volumenPotencialDelPozo, emprendimientoPetrolifero);
                             if (volumenProcesado > 0) {
@@ -471,11 +471,11 @@ public class Simulador {
                 parcelas);
 
         ArrayList<EspecificacionPlantaProcesadora> catalogoPlantas = new ArrayList<>();
-        catalogoPlantas.add(new EspecificacionPlantaProcesadora(5, 200, 50000));
-        catalogoPlantas.add(new EspecificacionPlantaProcesadora(10, 1000, 100000));
+        catalogoPlantas.add(new EspecificacionPlantaProcesadora(10, 10000, 100000));
+        catalogoPlantas.add(new EspecificacionPlantaProcesadora(5, 2000, 50000));
         ArrayList<EspecificacionTanque> catalogoTanques = new ArrayList<>();
-        catalogoTanques.add(new EspecificacionTanque(2, 100, 300000));
-        catalogoTanques.add(new EspecificacionTanque(3, 150, 500000));
+        catalogoTanques.add(new EspecificacionTanque(3, 1500, 500000));
+        catalogoTanques.add(new EspecificacionTanque(2, 1000, 300000));
         ArrayList<AlquilerRig> catalogoAlquileresRigs = new ArrayList<>();
         catalogoAlquileresRigs.add(new AlquilerRig(60, 3, new Rig("1", 2, 10)));
         catalogoAlquileresRigs.add(new AlquilerRig(100, 5, new Rig("2", 4, 15)));
