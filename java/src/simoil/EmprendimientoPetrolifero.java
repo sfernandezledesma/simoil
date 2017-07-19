@@ -84,7 +84,7 @@ public class EmprendimientoPetrolifero {
     }
 
     public void agregarNuevaExcavacion(Excavacion nuevaExcavacion) {
-        if (excavacionesActivas.contains(nuevaExcavacion))
+        if (excavacionesActivas.contains(nuevaExcavacion) || excavacionesPendientesDeFinalizacion.contains(nuevaExcavacion))
             throw new RuntimeException("Se intento agregar una excavacion ya existente.");
         if (yacimiento.pozoHabilitado(nuevaExcavacion.nombrePozoEnExcavacion())) {
             throw new RuntimeException("Se intento agregar una excavacion de un pozo que ya existe.");
