@@ -14,22 +14,31 @@ public class Yacimiento {
     private ArrayList<Parcela> parcelas;
 
     public Yacimiento(double alpha1, double alpha2, double volumenAgua, double volumenGas, double volumenPetroleo, ArrayList<Parcela> parcelas) {
+        if (alpha1 <= 0) {
+            throw new RuntimeException("El valor del alpha 1 debe ser positivo.");
+        }
         this.alpha1 = alpha1;
-        this.alpha2 = alpha2;
-        if (volumenAgua < 0 || volumenGas < 0 || volumenPetroleo < 0)
-            throw new RuntimeException("Los volumenes deben ser no negativos.");
 
+        if (alpha2 <= 0) {
+            throw new RuntimeException("El valor del alpha 2 debe ser positivo.");
+        }
+        this.alpha2 = alpha2;
+
+        if (volumenAgua < 0 || volumenGas < 0 || volumenPetroleo < 0) {
+            throw new RuntimeException("Los volumenes deben ser no negativos.");
+        }
         this.volumenAgua = volumenAgua;
         this.volumenGas = volumenGas;
         this.volumenPetroleo = volumenPetroleo;
+
         this.volumenTotalInicial = volumenAgua + volumenGas + volumenPetroleo;
         this.globalExtraido = 0;
         this.globalReinyectado = 0;
 
-        if (parcelas == null || parcelas.size() == 0)
-            throw new RuntimeException("La cantidad de parcelas debe ser positiva.");
-        else
-            this.parcelas = parcelas;
+        if (parcelas == null || parcelas.size() == 0) {
+            throw new RuntimeException("La cantidad de parcelas del yacimiento debe ser positiva.");
+        }
+        this.parcelas = parcelas;
 
         for (int i = 0; i < parcelas.size(); i ++) {
             for (int j = i + 1; j < parcelas.size(); j++) {

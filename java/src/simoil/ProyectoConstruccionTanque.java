@@ -7,9 +7,21 @@ public class ProyectoConstruccionTanque {
     private EspecificacionTanque especificacionTanque;
 
     public ProyectoConstruccionTanque(String nombreTanqueEnConstruccion, int diaComienzoConstruccion, EspecificacionTanque especificacionTanque) {
+        if (nombreTanqueEnConstruccion == null) {
+            throw new RuntimeException("El proyecto debe conocer el nombre del tanque en construccion.");
+        }
         this.nombreTanqueEnConstruccion = nombreTanqueEnConstruccion;
+
+        if (especificacionTanque == null) {
+            throw new RuntimeException("El proyecto debe conocer la especificacion del tanque en construccion.");
+        }
         this.especificacionTanque = especificacionTanque;
+
         this.diasParaFinalizar = especificacionTanque.cantidadDiasDeConstruccion();
+
+        if (diaComienzoConstruccion < 1) {
+            throw new RuntimeException("El dia de comienzo de la construccion delproyecto debe ser mayor o igual a 1.");
+        }
         this.diaComienzoConstruccion = diaComienzoConstruccion;
     }
 

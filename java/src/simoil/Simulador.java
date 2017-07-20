@@ -34,16 +34,50 @@ public class Simulador {
     private double precioLitroAguaEspecialComprada;
     private EmprendimientoPetrolifero emprendimientoPetrolifero;
 
-    public Simulador(int maximoDiasSimulacion, int maximaCantidadRigsSimultaneos, double volumenMaximoReinyeccionEnUnDia, double porcentajeCriticoPetroleo, int cantidadDePozosDeseados, double precioLitroDeCombustibleRig, double precioLitroGas, double precioLitroPetroleo, double precioLitroAguaEspecialComprada, EmprendimientoPetrolifero emprendimientoPetrolifero) {
+    public Simulador(int maximoDiasSimulacion, int maximaCantidadRigsSimultaneos, double volumenMaximoReinyeccionEnUnDia, int cantidadDePozosDeseados, double precioLitroDeCombustibleRig, double precioLitroGas, double precioLitroPetroleo, double precioLitroAguaEspecialComprada, EmprendimientoPetrolifero emprendimientoPetrolifero) {
+        if (maximoDiasSimulacion < 0) {
+            throw new RuntimeException("La cantidad maxima de dias de simulacion debe ser no negativa.");
+        }
         this.maximoDiasSimulacion = maximoDiasSimulacion;
+
+        if (maximaCantidadRigsSimultaneos < 0) {
+            throw new RuntimeException("La maxima cantidad de rigs simultaneos debe ser no negativa.");
+        }
         this.maximaCantidadRigsSimultaneos = maximaCantidadRigsSimultaneos;
+
+        if (volumenMaximoReinyeccionEnUnDia < 0) {
+            throw new RuntimeException("El volumen de reinyeccion maximo en un dia debe ser no negativo.");
+        }
         this.volumenMaximoReinyeccionEnUnDia = volumenMaximoReinyeccionEnUnDia;
-        this.porcentajeCriticoPetroleo = porcentajeCriticoPetroleo;
+
+        if (cantidadDePozosDeseados < 0) {
+            throw new RuntimeException("La cantidad deseada de pozos debe ser no negativa.");
+        }
         this.cantidadDePozosDeseados = cantidadDePozosDeseados;
+
+        if (precioLitroDeCombustibleRig < 0) {
+            throw new RuntimeException("El precio del litro de combustible de rig debe ser no negativo.");
+        }
         this.precioLitroDeCombustibleRig = precioLitroDeCombustibleRig;
+
+        if (precioLitroGas < 0) {
+            throw new RuntimeException("El precio del litro de gas debe ser no negativo.");
+        }
         this.precioLitroGas = precioLitroGas;
+
+        if (precioLitroPetroleo < 0) {
+            throw new RuntimeException("El precio del litro de petroleo debe ser no negativo.");
+        }
         this.precioLitroPetroleo = precioLitroPetroleo;
+
+        if (precioLitroAguaEspecialComprada < 0) {
+            throw new RuntimeException("El precio del litro de agua especial para reinyectar debe ser no negativo.");
+        }
         this.precioLitroAguaEspecialComprada = precioLitroAguaEspecialComprada;
+
+        if (emprendimientoPetrolifero == null) {
+            throw new RuntimeException("El simulador debe conocer un emprendimiento petrolifero.");
+        }
         this.emprendimientoPetrolifero = emprendimientoPetrolifero;
     }
 
@@ -496,7 +530,6 @@ public class Simulador {
                 1000,
                 3,
                 100000000,
-                35,
                 20,
                 10,
                 0.1,

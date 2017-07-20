@@ -11,6 +11,10 @@ public class Parcela {
 		public Parcela(String nombre, TipoTerreno tipoTerreno, double profundidadDelReservorio, double presionInicial) {
 		this.pozo = null;
 		this.tienePozo = false;
+
+		if (nombre == null) {
+		    throw new RuntimeException("La parcela debe tener un nombre.");
+        }
 		this.nombre = nombre;
 
 		if (tipoTerreno == null)

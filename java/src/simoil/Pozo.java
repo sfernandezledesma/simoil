@@ -11,7 +11,7 @@ public class Pozo {
 
     public Pozo(String nombre, double presionInicial, PlantaProcesadora plantaProcesadoraDondeConectar) {
     	if (presionInicial < 0) {
-    		throw new RuntimeException("Presion debe ser no negativa");
+    		throw new RuntimeException("La presion de un pozo debe ser no negativa");
     	}
     	if (plantaProcesadoraDondeConectar == null) {
             throw new RuntimeException("No puede crearse un pozo sin una planta procesadora conectada.");

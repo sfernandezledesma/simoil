@@ -7,9 +7,21 @@ public class ProyectoConstruccionPlantaProcesadora {
     private EspecificacionPlantaProcesadora especificacionPlantaProcesadora;
 
     public ProyectoConstruccionPlantaProcesadora(String nombrePlanta, int diaComienzoConstruccion, EspecificacionPlantaProcesadora especificacionPlantaProcesadora) {
+        if (nombrePlanta == null) {
+            throw new RuntimeException("El proyecto debe conocer el nombre de la planta en construccion.");
+        }
         this.nombrePlantaEnConstruccion = nombrePlanta;
+
+        if (especificacionPlantaProcesadora == null) {
+            throw new RuntimeException("El proyecto debe conocer la especificacion de la planta en construccion.");
+        }
         this.especificacionPlantaProcesadora = especificacionPlantaProcesadora;
+
         this.diasParaFinalizar = especificacionPlantaProcesadora.cantidadDiasDeConstruccion();
+
+        if (diaComienzoConstruccion < 1) {
+            throw new RuntimeException("El dia de comienzo de la construccion delproyecto debe ser mayor o igual a 1.");
+        }
         this.diaComienzoConstruccion = diaComienzoConstruccion;
     }
 

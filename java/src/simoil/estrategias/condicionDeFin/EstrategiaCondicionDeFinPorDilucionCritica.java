@@ -6,6 +6,9 @@ public class EstrategiaCondicionDeFinPorDilucionCritica extends EstrategiaCondic
     private float porcentajeDilucionCriticaPetroleo;
 
     public EstrategiaCondicionDeFinPorDilucionCritica(float porcentajeDilucionCriticaPetroleo) {
+        if (porcentajeDilucionCriticaPetroleo < 0 || porcentajeDilucionCriticaPetroleo > 100) {
+            throw new RuntimeException("El porcentaje de dilucion critica de petroleo debe estar en el intervalo [0,100].");
+        }
         this.porcentajeDilucionCriticaPetroleo = porcentajeDilucionCriticaPetroleo;
     }
 

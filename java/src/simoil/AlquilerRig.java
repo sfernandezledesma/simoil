@@ -10,6 +10,9 @@ public class AlquilerRig {
     public AlquilerRig(double costoDiario, int minimoDias, Rig rig) {
         this.costoDiario = costoDiario;
         this.minimoDias = minimoDias;
+        if (rig == null) {
+            throw new RuntimeException("El alquiler de rig debe conocer un rig.");
+        }
         this.rig = rig;
         this.diasAlquilado = 0;
     }

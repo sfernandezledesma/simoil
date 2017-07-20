@@ -24,12 +24,37 @@ public class EmprendimientoPetrolifero {
                                      ArrayList<EspecificacionPlantaProcesadora> catalogoPlantasProcesadoras,
                                      ArrayList<EspecificacionTanque> catalogoTanques,
                                      ArrayList<AlquilerRig> catalogoAlquileresRigs) {
+        if (catalogoPlantasProcesadoras == null || catalogoPlantasProcesadoras.size() == 0) {
+            throw new RuntimeException("Debe haber al menos una especificacion de plantas procesadoras en el emprendimiento.");
+        }
         this.catalogoPlantasProcesadoras = catalogoPlantasProcesadoras;
+
+        if (catalogoTanques == null || catalogoTanques.size() == 0) {
+            throw new RuntimeException("Debe haber al menos una especificacion de tanques en el emprendimiento.");
+        }
         this.catalogoTanques = catalogoTanques;
+
+        if (catalogoAlquileresRigs == null || catalogoAlquileresRigs.size() == 0) {
+            throw new RuntimeException("Debe haber inicialmente al menos un alquiler de rig en el emprendimiento.");
+        }
+        for (int i = 0; i < catalogoAlquileresRigs.size(); i++) {
+            for (int j = i + 1; j < catalogoAlquileresRigs.size(); j++) {
+                if (catalogoAlquileresRigs.get(i).rigAlquilado().nombre().equals(catalogoAlquileresRigs.get(j).rigAlquilado().nombre()))
+                    throw new RuntimeException("No puede haber dos rigs a alquilar con el mismo nombre.");
+            }
+        }
         this.catalogoAlquileresRigs = catalogoAlquileresRigs;
-        this.registroContable = new RegistroContable();
+
+        if (yacimiento == null) {
+            throw new RuntimeException("Debe haber un yacimiento en el emprendimiento.");
+        }
         this.yacimiento = yacimiento;
+
+        if (equipoDeIngenieria == null) {
+            throw new RuntimeException("Debe haber un equipo de ingenieria en el emprendimiento.");
+        }
         this.equipoDeIngenieria = equipoDeIngenieria;
+
         this.plantasProcesadorasHabilitadas = new ArrayList<>();
         this.tanquesDeAguaHabilitados = new ArrayList<>();
         this.tanquesDeGasHabilitados = new ArrayList<>();
@@ -39,6 +64,7 @@ public class EmprendimientoPetrolifero {
         this.proyectosDePlantasProcesadoras = new ArrayList<>();
         this.excavacionesActivas = new ArrayList<>();
         this.excavacionesPendientesDeFinalizacion = new ArrayList<>();
+        this.registroContable = new RegistroContable();
     }
 
     public void habilitarPlantaProcesadora(PlantaProcesadora plantaProcesadora) {
