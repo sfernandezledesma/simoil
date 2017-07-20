@@ -21,6 +21,10 @@ public class Excavacion {
         return diaDeComienzoDeExcavacion;
     }
 
+    public double metrosExcavados() {
+        return metrosExcavados;
+    }
+
     public Parcela parcelaEnExcavacion() {
         return parcelaEnExcavacion;
     }
